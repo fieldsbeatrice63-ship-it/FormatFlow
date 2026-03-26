@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocReady™ — Screenshot it. Snap it. Sync it.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blue: #1a4fa0;
+      --blue-mid: #2563c7;
+      --blue-light: #dbeafe;
+      --blue-pale: #f0f6ff;
+      --white: #ffffff;
+      --off-white: #f8faff;
+      --dark: #0f1e3d;
+      --text: #1e2d50;
+      --muted: #5a6f99;
+      --gold: #d4a017;
+      --gold-light: #fdf8e3;
+      --shadow: 0 4px 32px rgba(26,79,160,0.10);
+      --shadow-lg: 0 12px 56px rgba(26,79,160,0.18);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--text);overflow-x:hidden;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:2px solid var(--blue-light);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:68px;}
+    .nav-logo{font-family:'Bitter',serif;font-size:1.6rem;font-weight:900;color:var(--blue);}
+    .nav-logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;align-items:center;}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:0.9rem;font-weight:700;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--blue);}
+    .nav-cta{background:var(--blue);color:white;border:none;border-radius:50px;padding:0.6rem 1.5rem;font-size:0.9rem;font-weight:800;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;text-decoration:none;}
+    .nav-cta:hover{background:var(--blue-mid);transform:translateY(-1px);}
+
+    /* HERO */
+    .hero{min-height:100vh;padding:110px 5% 80px;display:flex;align-items:center;background:linear-gradient(135deg,#f0f6ff 0%,#ffffff 50%,#e8f0ff 100%);position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;top:-150px;right:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(26,79,160,0.07) 0%,transparent 70%);border-radius:50%;}
+    .hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:var(--blue-light);color:var(--blue);border-radius:50px;padding:0.4rem 1.2rem;font-size:0.82rem;font-weight:800;margin-bottom:1.5rem;letter-spacing:0.5px;}
+    .hero-badge::before{content:'●';font-size:0.55rem;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+    h1{font-family:'Bitter',serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;line-height:1.1;color:var(--dark);margin-bottom:1.2rem;}
+    h1 em{color:var(--blue);font-style:normal;}
+    .hero-sub{font-size:1.1rem;color:var(--muted);line-height:1.75;margin-bottom:1rem;font-weight:600;}
+    .hero-trust{font-size:0.92rem;color:var(--blue);font-weight:800;margin-bottom:2rem;padding:0.75rem 1.2rem;background:var(--blue-pale);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+    .btn-primary{background:var(--blue);color:white;border:none;border-radius:50px;padding:1rem 2.2rem;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.25s;font-family:'Nunito',sans-serif;box-shadow:0 4px 20px rgba(26,79,160,0.35);}
+    .btn-primary:hover{background:var(--blue-mid);transform:translateY(-2px);}
+    .btn-secondary{background:transparent;color:var(--blue);border:2.5px solid var(--blue);border-radius:50px;padding:1rem 2.2rem;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.25s;font-family:'Nunito',sans-serif;}
+    .btn-secondary:hover{background:var(--blue-pale);}
+    .input-pills{display:flex;gap:0.6rem;flex-wrap:wrap;}
+    .input-pill{background:white;border:2px solid var(--blue-light);border-radius:50px;padding:0.4rem 1rem;font-size:0.82rem;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:0.4rem;}
+
+    /* HERO DEMO CARD */
+    .hero-card{background:white;border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden;border:2px solid var(--blue-light);animation:float 6s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .card-top{background:var(--blue);padding:1rem 1.5rem;display:flex;align-items:center;gap:0.75rem;}
+    .card-dots{display:flex;gap:6px;}
+    .cd{width:10px;height:10px;border-radius:50%;}
+    .cd1{background:#ff6b6b}.cd2{background:#ffd93d}.cd3{background:#6bcb77}
+    .card-title{color:white;font-weight:800;font-size:0.88rem;margin-left:0.5rem;}
+    .card-body{padding:1.5rem;}
+    .step-indicator{display:flex;gap:0.5rem;margin-bottom:1.2rem;}
+    .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;}
+    .step-dot.active{background:var(--blue);color:white;}
+    .step-dot.done{background:var(--blue-light);color:var(--blue);}
+    .step-dot.pending{background:#f0f0f0;color:#aaa;}
+    .demo-step-title{font-weight:800;color:var(--dark);font-size:0.9rem;margin-bottom:0.75rem;}
+    .demo-options{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;}
+    .demo-option{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:10px;padding:0.6rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--blue);cursor:pointer;transition:all 0.2s;text-align:center;}
+    .demo-option:hover,.demo-option.selected{background:var(--blue);color:white;border-color:var(--blue);}
+    .demo-textarea{width:100%;height:80px;border:2px solid var(--blue-light);border-radius:10px;padding:0.75rem;font-family:'Nunito',sans-serif;font-size:0.82rem;resize:none;outline:none;color:var(--text);}
+    .demo-textarea:focus{border-color:var(--blue);}
+    .demo-format-btn{width:100%;background:var(--blue);color:white;border:none;border-radius:10px;padding:0.75rem;font-weight:800;font-size:0.88rem;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:0.75rem;}
+
+    /* SECTIONS */
+    section{padding:80px 5%;}
+    .section-inner{max-width:1100px;margin:0 auto;}
+    .section-tag{font-size:0.78rem;font-weight:800;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;}
+    h2{font-family:'Bitter',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:var(--dark);line-height:1.15;margin-bottom:1rem;}
+    h2 em{color:var(--blue);font-style:normal;}
+    .section-sub{font-size:1.05rem;color:var(--muted);line-height:1.75;max-width:580px;font-weight:600;}
+
+    /* HOW IT WORKS - STEPS */
+    .steps-section{background:white;}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;margin-top:3rem;}
+    .step-card{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:20px;padding:2rem 1.5rem;position:relative;transition:all 0.3s;}
+    .step-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+    .step-number{width:48px;height:48px;background:var(--blue);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;margin-bottom:1rem;font-family:'Bitter',serif;}
+    .step-icon{font-size:1.8rem;margin-bottom:0.5rem;}
+    .step-title{font-weight:800;font-size:1rem;color:var(--dark);margin-bottom:0.5rem;}
+    .step-desc{font-size:0.88rem;color:var(--muted);line-height:1.6;font-weight:600;}
+    .step-action{font-size:0.82rem;font-weight:800;color:var(--blue);margin-top:0.75rem;}
+
+    /* LIVE FORMATTER */
+    .formatter-section{background:var(--off-white);}
+    .formatter-box{background:white;border-radius:28px;box-shadow:var(--shadow-lg);overflow:hidden;margin-top:3rem;border:2px solid var(--blue-light);}
+    .formatter-header{background:var(--blue);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .formatter-header h3{color:white;font-size:1.1rem;font-weight:800;font-family:'Bitter',serif;}
+    .lang-select{background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.4);color:white;border-radius:8px;padding:0.45rem 0.9rem;font-size:0.85rem;font-family:'Nunito',sans-serif;cursor:pointer;font-weight:700;}
+    .lang-select option{color:var(--dark);background:white;}
+    .formatter-body{padding:2rem;}
+
+    /* STEP WIZARD */
+    .wizard-steps{display:flex;gap:0;margin-bottom:2rem;border-radius:12px;overflow:hidden;border:2px solid var(--blue-light);}
+    .wstep{flex:1;padding:0.75rem 0.5rem;text-align:center;font-size:0.78rem;font-weight:800;color:var(--muted);background:var(--blue-pale);cursor:pointer;transition:all 0.2s;border-right:1px solid var(--blue-light);}
+    .wstep:last-child{border-right:none;}
+    .wstep.active{background:var(--blue);color:white;}
+    .wstep.completed{background:var(--blue-light);color:var(--blue);}
+    .wstep-icon{font-size:1.2rem;display:block;margin-bottom:0.25rem;}
+
+    /* STEP PANELS */
+    .step-panel{display:none;}
+    .step-panel.active{display:block;}
+    .step-panel-title{font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:0.5rem;}
+    .step-panel-desc{font-size:0.9rem;color:var(--muted);margin-bottom:1.5rem;font-weight:600;line-height:1.6;}
+
+    /* STEP 1 - DOC TYPE */
+    .doc-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.75rem;}
+    .doc-type-btn{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:14px;padding:1rem 0.75rem;text-align:center;cursor:pointer;transition:all 0.2s;font-weight:700;font-size:0.85rem;color:var(--text);}
+    .doc-type-btn:hover,.doc-type-btn.selected{background:var(--blue);color:white;border-color:var(--blue);}
+    .doc-type-btn .dt-icon{font-size:1.8rem;display:block;margin-bottom:0.4rem;}
+
+    /* STEP 2 - INPUT */
+    .input-methods-row{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .imethod{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:10px;padding:0.5rem 1rem;font-size:0.82rem;font-weight:800;color:var(--blue);cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+    .imethod.active,.imethod:hover{background:var(--blue);color:white;border-color:var(--blue);}
+    .input-area{width:100%;min-height:160px;border:2px solid var(--blue-light);border-radius:14px;padding:1.2rem;font-family:'Nunito',sans-serif;font-size:0.92rem;color:var(--text);resize:none;outline:none;transition:border-color 0.2s;background:var(--off-white);font-weight:600;}
+    .input-area:focus{border-color:var(--blue);background:white;}
+    .input-hint{font-size:0.82rem;color:var(--muted);margin-top:0.5rem;font-weight:600;font-style:italic;}
+    .voice-bar{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:14px;padding:1.2rem;text-align:center;display:none;}
+    .voice-bar.show{display:block;}
+    .voice-btn-big{background:var(--blue);color:white;border:none;border-radius:50px;padding:1rem 2rem;font-size:1rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem;}
+    .voice-btn-big.listening{background:#e53e3e;animation:glow-red 1s infinite alternate;}
+    @keyframes glow-red{from{box-shadow:0 0 0 rgba(229,62,62,0.3)}to{box-shadow:0 0 20px rgba(229,62,62,0.6)}}
+    .voice-transcript{margin-top:1rem;font-size:0.9rem;color:var(--text);font-weight:600;min-height:40px;}
+
+    /* STEP 3 - OUTPUT */
+    .output-area{background:var(--off-white);border:2px solid var(--blue-light);border-radius:14px;padding:1.5rem;min-height:200px;position:relative;}
+    .output-placeholder-msg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;color:var(--muted);}
+    .output-placeholder-msg span{font-size:2.5rem;margin-bottom:0.75rem;}
+    .output-placeholder-msg p{font-size:0.9rem;font-weight:700;text-align:center;}
+    .output-content{font-size:0.9rem;color:var(--text);line-height:1.8;white-space:pre-wrap;font-weight:600;}
+    .watermark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:1.5rem;font-weight:900;color:rgba(26,79,160,0.07);transform:rotate(-20deg);font-family:'Bitter',serif;letter-spacing:3px;}
+
+    /* ACTION BUTTONS */
+    .action-row{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;align-items:center;}
+    .format-btn{background:var(--blue);color:white;border:none;border-radius:50px;padding:1rem 2.2rem;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.25s;font-family:'Nunito',sans-serif;box-shadow:0 4px 20px rgba(26,79,160,0.3);display:flex;align-items:center;gap:0.5rem;}
+    .format-btn:hover{background:var(--blue-mid);transform:translateY(-2px);}
+    .format-btn:disabled{background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+    .next-btn{background:var(--blue);color:white;border:none;border-radius:50px;padding:0.9rem 2rem;font-size:0.95rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .next-btn:hover{background:var(--blue-mid);}
+    .back-btn{background:transparent;color:var(--blue);border:2px solid var(--blue);border-radius:50px;padding:0.9rem 2rem;font-size:0.95rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .status-msg{font-size:0.85rem;color:var(--muted);font-weight:700;padding:0.5rem 1rem;background:var(--blue-pale);border-radius:8px;display:none;}
+    .status-msg.show{display:block;}
+    .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* DOWNLOAD BOX */
+    .download-box{background:var(--blue-pale);border:2px solid var(--blue-light);border-radius:16px;padding:1.5rem;margin-top:1.5rem;display:none;}
+    .download-box.show{display:block;}
+    .download-box h4{font-weight:800;color:var(--dark);margin-bottom:0.5rem;font-size:1rem;}
+    .download-box p{font-size:0.85rem;color:var(--muted);margin-bottom:1rem;font-weight:600;}
+    .download-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .dl-btn{background:var(--blue);color:white;border:none;border-radius:50px;padding:0.7rem 1.5rem;font-size:0.88rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .dl-btn.outline{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+    .dl-btn:hover{opacity:0.85;}
+    .watermark-note{font-size:0.78rem;color:var(--muted);margin-top:0.75rem;font-style:italic;font-weight:600;}
+
+    /* UPSELL MODAL */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+    .modal-overlay.show{display:flex;}
+    .modal{background:white;border-radius:28px;padding:2.5rem;max-width:460px;width:90%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
+    @keyframes modalIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal-icon{font-size:3rem;margin-bottom:1rem;}
+    .modal h3{font-family:'Bitter',serif;font-size:1.8rem;font-weight:900;color:var(--dark);margin-bottom:0.75rem;}
+    .modal p{color:var(--muted);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;font-weight:600;}
+    .modal-price{font-size:2.8rem;font-weight:900;color:var(--blue);font-family:'Bitter',serif;}
+    .modal-price-label{font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-weight:600;}
+    .modal-btns{display:flex;flex-direction:column;gap:0.75rem;}
+    .modal-btn{background:var(--blue);color:white;border:none;border-radius:50px;padding:0.9rem;font-weight:800;font-size:1rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .modal-btn.gold{background:var(--gold);}
+    .modal-btn-skip{background:transparent;color:var(--muted);border:none;padding:0.5rem;font-size:0.85rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;}
+
+    /* PRICING */
+    .pricing-section{background:white;}
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:3rem;}
+    .pricing-card{background:var(--off-white);border:2px solid var(--blue-light);border-radius:20px;padding:1.8rem 1.4rem;transition:all 0.3s;position:relative;}
+    .pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+    .pricing-card.popular{border-color:var(--blue);background:linear-gradient(135deg,var(--blue-pale),white);}
+    .popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;font-weight:800;white-space:nowrap;}
+    .pricing-tier{font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.5rem;}
+    .pricing-price{font-family:'Bitter',serif;font-size:2.2rem;font-weight:900;color:var(--dark);}
+    .pricing-price span{font-size:0.9rem;font-weight:600;color:var(--muted);font-family:'Nunito',sans-serif;}
+    .pricing-divider{height:1px;background:var(--blue-light);margin:1rem 0;}
+    .pricing-features{list-style:none;}
+    .pricing-features li{font-size:0.83rem;color:var(--text);padding:0.3rem 0;display:flex;gap:0.5rem;align-items:flex-start;font-weight:600;}
+    .pricing-features li::before{content:'✓';color:var(--blue);font-weight:900;flex-shrink:0;}
+    .pricing-btn{width:100%;margin-top:1.2rem;background:var(--blue);color:white;border:none;border-radius:50px;padding:0.75rem;font-weight:800;font-size:0.88rem;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+    .pricing-card:not(.popular) .pricing-btn{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+    .pay-per-use{margin-top:1.5rem;text-align:center;background:var(--gold-light);border:2px solid rgba(212,160,23,0.2);border-radius:16px;padding:1.2rem 2rem;font-size:0.9rem;color:var(--text);font-weight:700;}
+    .pay-per-use strong{color:var(--gold);}
+
+    /* LANGUAGES */
+    .lang-section{background:var(--blue);}
+    .lang-section h2{color:white;}
+    .lang-section .section-tag{color:rgba(255,255,255,0.7);}
+    .lang-section .section-sub{color:rgba(255,255,255,0.8);}
+    .lang-pills{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:2.5rem;}
+    .lang-pill{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:50px;padding:0.5rem 1.2rem;color:white;font-size:0.88rem;font-weight:700;transition:all 0.2s;}
+    .lang-pill.priority{background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.6);}
+    .lang-pill:hover{background:rgba(255,255,255,0.35);}
+
+    /* WHO WE SERVE */
+    .serve-section{background:var(--dark);}
+    .serve-section h2{color:white;}
+    .serve-section .section-tag{color:rgba(255,255,255,0.6);}
+    .serve-section .section-sub{color:rgba(255,255,255,0.6);}
+    .serve-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:3rem;}
+    .serve-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.5rem;transition:all 0.3s;}
+    .serve-card:hover{background:rgba(26,79,160,0.2);border-color:rgba(26,79,160,0.5);transform:translateY(-4px);}
+    .serve-icon{font-size:2rem;margin-bottom:0.75rem;display:block;}
+    .serve-title{font-weight:800;color:white;margin-bottom:0.4rem;font-size:0.95rem;}
+    .serve-desc{font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.5;font-weight:600;}
+
+    /* CTA */
+    .cta-section{background:var(--off-white);text-align:center;}
+    .cta-box{background:linear-gradient(135deg,var(--blue-pale),white);border:2px solid var(--blue-light);border-radius:28px;padding:3rem;max-width:680px;margin:3rem auto 0;}
+    .cta-box h3{font-family:'Bitter',serif;font-size:2rem;font-weight:900;color:var(--dark);margin-bottom:1rem;}
+    .cta-box p{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:1.5rem;font-weight:600;}
+    .cta-features{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+    .cta-feat{font-size:0.88rem;font-weight:800;color:var(--blue);display:flex;align-items:center;gap:0.4rem;}
+    .cta-feat::before{content:'✓';font-weight:900;}
+    .watermark-note{font-size:0.8rem;color:var(--muted);margin-top:1rem;font-style:italic;font-weight:600;}
+
+    /* FOOTER */
+    footer{background:var(--dark);padding:3rem 5%;text-align:center;}
+    .footer-logo{font-family:'Bitter',serif;font-size:1.8rem;font-weight:900;color:white;margin-bottom:0.5rem;}
+    .footer-logo span{color:var(--gold);}
+    .footer-tagline{color:rgba(255,255,255,0.5);font-size:0.9rem;margin-bottom:1.5rem;font-style:italic;font-weight:600;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;font-weight:700;}
+    .footer-links a:hover{color:var(--blue-light);}
+    .footer-copy{color:rgba(255,255,255,0.3);font-size:0.78rem;font-weight:600;}
+
+    /* ANIMATIONS */
+    .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+    .fade-up.visible{opacity:1;transform:translateY(0);}
+    @media(max-width:768px){.hero-inner{grid-template-columns:1fr;}.hero-card{display:none;}.nav-links{display:none;}.doc-types{grid-template-columns:repeat(3,1fr);}.wizard-steps{overflow-x:auto;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Doc<span>Ready</span>™</div>
+  <div class="nav-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#formatter">Format Now</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#languages">Languages</a>
+  </div>
+  <a href="#formatter" class="nav-cta">Start Free — No Card Needed</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">AI Document Formatting — Live Now</div>
+      <h1>Tell us what you need.<br/><em>We format it</em> in seconds.</h1>
+      <p class="hero-sub">Pick your document type. Type, speak, or paste your information. DocReady formats it into a professional document — instantly.</p>
+      <p class="hero-trust">AI handles the formatting. You control the outcome. Every document is verified before it reaches you.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('formatter').scrollIntoView({behavior:'smooth'})">Format My Document — Free</button>
+        <button class="btn-secondary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">See Plans</button>
+      </div>
+      <div class="input-pills">
+        <div class="input-pill">📋 Type or Paste</div>
+        <div class="input-pill">🎤 Speak It</div>
+        <div class="input-pill">📸 Screenshot</div>
+        <div class="input-pill">📷 Snap a Photo</div>
+        <div class="input-pill">🔄 Sync Device</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="card-top">
+        <div class="card-dots"><div class="cd cd1"></div><div class="cd cd2"></div><div class="cd cd3"></div></div>
+        <div class="card-title">DocReady™ — Step by Step</div>
+      </div>
+      <div class="card-body">
+        <div class="step-indicator">
+          <div class="step-dot active">1</div>
+          <div class="step-dot pending">2</div>
+          <div class="step-dot pending">3</div>
+        </div>
+        <div class="demo-step-title">Step 1 — What do you need formatted?</div>
+        <div class="demo-options">
+          <div class="demo-option selected">📄 Resume</div>
+          <div class="demo-option">✉️ Letter</div>
+          <div class="demo-option">📋 Contract</div>
+          <div class="demo-option">🏠 Lease</div>
+        </div>
+        <div class="demo-step-title" style="margin-top:0.75rem;">Step 2 — Tell us about yourself</div>
+        <textarea class="demo-textarea" placeholder="Type or speak your info here... Name, experience, anything you have. DocReady does the rest."></textarea>
+        <button class="demo-format-btn">✨ Format My Document Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps-section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-tag fade-up">How DocReady Works</div>
+    <h2 class="fade-up">3 simple steps to a <em>professional document</em></h2>
+    <p class="section-sub fade-up">No skills needed. No confusing forms. Just tell DocReady what you need and we do the rest.</p>
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-number">1</div>
+        <div class="step-icon">📄</div>
+        <div class="step-title">Pick Your Document</div>
+        <div class="step-desc">Choose what you need — resume, letter, contract, lease, legal document, business plan, and more.</div>
+        <div class="step-action">→ Click the document type</div>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">2</div>
+        <div class="step-icon">🎤</div>
+        <div class="step-title">Share Your Information</div>
+        <div class="step-desc">Type it, speak it, paste it, or upload a screenshot. Even rough notes and bullet points work — give us what you have.</div>
+        <div class="step-action">→ Type, speak, or paste</div>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">3</div>
+        <div class="step-icon">✨</div>
+        <div class="step-title">Get Your Formatted Document</div>
+        <div class="step-desc">DocReady formats everything into a clean professional document. Download as PDF, Word, or Google Docs.</div>
+        <div class="step-action">→ Download your document</div>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">4</div>
+        <div class="step-icon">🌎</div>
+        <div class="step-title">Works in Your Language</div>
+        <div class="step-desc">Select your language from the dropdown. DocReady responds and formats in Spanish, French, Haitian Creole, Arabic, and 100+ more.</div>
+        <div class="step-action">→ Pick your language</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE FORMATTER -->
+<section class="formatter-section" id="formatter">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Try It Right Now — Free</div>
+    <h2 class="fade-up">Your first document is <em>on us</em></h2>
+    <p class="section-sub fade-up">Follow the steps below. Pick your document, share your information, and DocReady formats it instantly. No credit card needed.</p>
+
+    <div class="formatter-box fade-up">
+      <div class="formatter-header">
+        <h3>DocReady™ Document Formatter</h3>
+        <select class="lang-select" id="langSelect">
+          <option value="English">🇺🇸 English</option>
+          <option value="Spanish">🇪🇸 Español</option>
+          <option value="French">🇫🇷 Français</option>
+          <option value="Haitian Creole">🇭🇹 Kreyòl Ayisyen</option>
+          <option value="Portuguese">🇧🇷 Português</option>
+          <option value="Arabic">🇸🇦 العربية</option>
+          <option value="Mandarin">🇨🇳 普通话</option>
+        </select>
+      </div>
+      <div class="formatter-body">
+
+        <!-- WIZARD STEPS -->
+        <div class="wizard-steps">
+          <div class="wstep active" id="wtab1" onclick="goToStep(1)"><span class="wstep-icon">📄</span>Step 1: Document Type</div>
+          <div class="wstep" id="wtab2" onclick="goToStep(2)"><span class="wstep-icon">✏️</span>Step 2: Your Information</div>
+          <div class="wstep" id="wtab3" onclick="goToStep(3)"><span class="wstep-icon">✨</span>Step 3: Your Document</div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step-panel active" id="panel1">
+          <div class="step-panel-title">What type of document do you need?</div>
+          <div class="step-panel-desc">Click the document that matches what you need. Not sure? Pick the closest one — DocReady will ask questions to fill in any gaps.</div>
+          <div class="doc-types">
+            <div class="doc-type-btn" onclick="selectDoc(this,'Resume')"><span class="dt-icon">📄</span>Resume / CV</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Cover Letter')"><span class="dt-icon">✉️</span>Cover Letter</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Business Letter')"><span class="dt-icon">📮</span>Business Letter</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Contract')"><span class="dt-icon">🤝</span>Contract</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Lease Agreement')"><span class="dt-icon">🏠</span>Lease Agreement</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Invoice')"><span class="dt-icon">💳</span>Invoice</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Business Plan')"><span class="dt-icon">📊</span>Business Plan</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Legal Document')"><span class="dt-icon">⚖️</span>Legal Document</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Personal Statement')"><span class="dt-icon">🗣️</span>Personal Statement</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'VA Document')"><span class="dt-icon">🎖️</span>VA / Benefit Letter</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Book or Script')"><span class="dt-icon">📚</span>Book / Script</div>
+            <div class="doc-type-btn" onclick="selectDoc(this,'Other Document')"><span class="dt-icon">📝</span>Other Document</div>
+          </div>
+          <div class="action-row" style="margin-top:1.5rem;">
+            <button class="next-btn" onclick="goToStep(2)">Next — Add Your Information →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step-panel" id="panel2">
+          <div class="step-panel-title" id="step2title">Tell DocReady about your Resume</div>
+          <div class="step-panel-desc">Share whatever information you have. You can type rough notes, speak directly into the mic, or paste text from anywhere. DocReady will structure it all professionally.</div>
+          <div class="input-methods-row">
+            <button class="imethod active" onclick="switchInput(this,'type')">✏️ Type or Paste</button>
+            <button class="imethod" onclick="switchInput(this,'voice')">🎤 Speak It</button>
+          </div>
+          <div id="typePanel">
+            <textarea class="input-area" id="userInput" placeholder="Start typing here... Even rough notes work! For example:
+
+• My name is John Smith
+• I worked at ABC Company for 5 years as a manager
+• I have a degree in Business from State University
+• Skills: leadership, communication, Microsoft Office
+
+DocReady will turn this into a professional formatted document."></textarea>
+            <div class="input-hint">💡 Tip: Give us whatever you have — bullet points, rough sentences, or full paragraphs. The more you share, the better your document.</div>
+          </div>
+          <div class="voice-bar" id="voicePanel">
+            <p style="font-weight:700;color:var(--dark);margin-bottom:1rem;">🎤 Click the button and speak your information. DocReady will listen and type it for you.</p>
+            <button class="voice-btn-big" id="voiceBtn" onclick="toggleVoice()">🎤 Tap to Speak</button>
+            <div class="voice-transcript" id="voiceTranscript">Your words will appear here as you speak...</div>
+          </div>
+          <div class="action-row">
+            <button class="back-btn" onclick="goToStep(1)">← Back</button>
+            <button class="format-btn" id="formatBtn" onclick="formatDocument()"><span id="formatBtnText">✨ Format My Document</span></button>
+            <div class="status-msg" id="statusMsg"></div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step-panel" id="panel3">
+          <div class="step-panel-title">Your Formatted Document</div>
+          <div class="step-panel-desc">DocReady has formatted your document below. Download the clean copy or upgrade to remove the watermark.</div>
+          <div class="output-area">
+            <div class="output-placeholder-msg" id="outputPlaceholder"><span>✨</span><p>Your formatted document will appear here after you click Format in Step 2</p></div>
+            <div class="output-content" id="outputContent" style="display:none;"></div>
+            <div class="watermark" id="watermarkEl" style="display:none;">DOCREADY TRIAL</div>
+          </div>
+          <div class="download-box" id="downloadBox">
+            <h4>✅ Your document is ready!</h4>
+            <p>This is your trial version with a watermark. Download the clean professional copy for $2.99 — or upgrade to Pro for unlimited documents.</p>
+            <div class="download-btns">
+              <button class="dl-btn" onclick="showUpsell()">⬇ Download Clean PDF — $2.99</button>
+              <button class="dl-btn outline" onclick="showUpsell()">📄 Word Format</button>
+              <button class="dl-btn outline" onclick="showUpsell()">📊 Google Docs</button>
+            </div>
+            <div class="watermark-note">Trial version includes watermark. Upgrade to Pro at $19.99/month for 15 documents per month.</div>
+          </div>
+          <div class="action-row">
+            <button class="back-btn" onclick="goToStep(2)">← Edit My Information</button>
+            <button class="next-btn" onclick="goToStep(1)" style="background:transparent;color:var(--blue);border:2px solid var(--blue);">Format Another Document</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Simple Pricing</div>
+    <h2 class="fade-up">Start free. Pay only when <em>you're ready</em></h2>
+    <p class="section-sub fade-up">No credit card needed for your free trial. Cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <div class="pricing-tier">Free Trial</div>
+        <div class="pricing-price">$0 <span>/ 3 days</span></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>1 document total</li>
+          <li>Up to 3 pages</li>
+          <li>All document types</li>
+          <li>No credit card needed</li>
+          <li>Watermarked PDF</li>
+        </ul>
+        <button class="pricing-btn" onclick="document.getElementById('formatter').scrollIntoView({behavior:'smooth'})">Start Free</button>
+      </div>
+      <div class="pricing-card fade-up">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price">$9.99 <span>/ month</span></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>5 documents/month</li>
+          <li>Up to 10 pages each</li>
+          <li>Basic templates</li>
+          <li>Clean PDF download</li>
+        </ul>
+        <button class="pricing-btn">Get Started</button>
+      </div>
+      <div class="pricing-card popular fade-up">
+        <div class="popular-badge">⭐ Most Popular</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price">$19.99 <span>/ month</span></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>15 documents/month</li>
+          <li>Up to 25 pages</li>
+          <li>All templates</li>
+          <li>PDF + Word + Google Docs</li>
+          <li>Voice input</li>
+          <li>Saved history</li>
+          <li>1 FREE notarization/month</li>
+        </ul>
+        <button class="pricing-btn">Go Pro</button>
+      </div>
+      <div class="pricing-card fade-up">
+        <div class="pricing-tier">Unlimited</div>
+        <div class="pricing-price">$29.99 <span>/ month</span></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Unlimited documents</li>
+          <li>Unlimited pages</li>
+          <li>Book formatting</li>
+          <li>ePub & Kindle export</li>
+          <li>Canva template upload</li>
+          <li>2 notarizations/month</li>
+        </ul>
+        <button class="pricing-btn">Go Unlimited</button>
+      </div>
+      <div class="pricing-card fade-up">
+        <div class="pricing-tier">Business</div>
+        <div class="pricing-price">$59.99 <span>/ month</span></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Unlimited everything</li>
+          <li>3 team members</li>
+          <li>Custom branding</li>
+          <li>Priority support</li>
+          <li>API access</li>
+          <li>$75/month notary credits</li>
+          <li>Full legal library 50+ templates</li>
+        </ul>
+        <button class="pricing-btn">Go Business</button>
+      </div>
+    </div>
+    <div class="pay-per-use fade-up">Not ready for a subscription? <strong>Pay Per Use — $2.99/document</strong> — up to 15 pages — no commitment — shown after your free trial ends.</div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="lang-section" id="languages">
+  <div class="section-inner">
+    <div class="section-tag fade-up">100+ Languages</div>
+    <h2 class="fade-up">DocReady speaks <em>your language</em></h2>
+    <p class="section-sub fade-up">Select your language from the dropdown at the top of the formatter. DocReady responds and formats your document in that language automatically.</p>
+    <div class="lang-pills">
+      <div class="lang-pill priority fade-up">🇺🇸 English</div>
+      <div class="lang-pill priority fade-up">🇪🇸 Español</div>
+      <div class="lang-pill priority fade-up">🇭🇹 Kreyòl Ayisyen</div>
+      <div class="lang-pill priority fade-up">🇫🇷 Français</div>
+      <div class="lang-pill priority fade-up">🇧🇷 Português</div>
+      <div class="lang-pill priority fade-up">🇸🇦 العربية</div>
+      <div class="lang-pill priority fade-up">🇨🇳 普通话</div>
+      <div class="lang-pill fade-up">🇩🇪 Deutsch</div>
+      <div class="lang-pill fade-up">🇮🇹 Italiano</div>
+      <div class="lang-pill fade-up">🇯🇵 日本語</div>
+      <div class="lang-pill fade-up">🇰🇷 한국어</div>
+      <div class="lang-pill fade-up">🇷🇺 Русский</div>
+      <div class="lang-pill fade-up">🇮🇳 हिन्दी</div>
+      <div class="lang-pill fade-up">+ 90 more languages</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section class="serve-section" id="who-we-serve">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Who DocReady Serves</div>
+    <h2 class="fade-up">We meet you <em>where you are</em></h2>
+    <p class="section-sub fade-up">No formatting skills needed. No computer experience required. Just tell us what you need.</p>
+    <div class="serve-grid">
+      <div class="serve-card fade-up"><span class="serve-icon">👤</span><div class="serve-title">Everyday People</div><div class="serve-desc">Resumes, letters, documents — professional results without knowing how.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">🌎</span><div class="serve-title">Non-English Speakers</div><div class="serve-desc">Spanish, Haitian Creole, French, Arabic — DocReady works in your language.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">💼</span><div class="serve-title">Job Seekers</div><div class="serve-desc">Handwritten notes to professional resume in 60 seconds.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">🏢</span><div class="serve-title">Small Business Owners</div><div class="serve-desc">Contracts, invoices, business plans — all in one place.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">🏠</span><div class="serve-title">Landlords</div><div class="serve-desc">Lease agreements, notices, legal documents — formatted and notarized.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">✍️</span><div class="serve-title">Writers & Creators</div><div class="serve-desc">Scripts, books, content — format entire books in one step.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">👴</span><div class="serve-title">Seniors & Less Tech-Savvy</div><div class="serve-desc">Speak it or snap it — no computer skills needed.</div></div>
+      <div class="serve-card fade-up"><span class="serve-icon">🎖️</span><div class="serve-title">Veterans & Families</div><div class="serve-desc">VA documents, benefit letters, legal paperwork — all supported.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Get Started Today</div>
+    <div class="cta-box fade-up">
+      <h3>Try DocReady Free — Right Now</h3>
+      <p>No credit card. No commitment. Pick your document type, share your information, and DocReady formats it into a professional document in seconds.</p>
+      <div class="cta-features">
+        <div class="cta-feat">3-Day Free Trial</div>
+        <div class="cta-feat">No Credit Card</div>
+        <div class="cta-feat">All Document Types</div>
+        <div class="cta-feat">100+ Languages</div>
+      </div>
+      <button class="btn-primary" style="font-size:1.1rem;padding:1.1rem 2.8rem;" onclick="document.getElementById('formatter').scrollIntoView({behavior:'smooth'})">Format My First Document — Free</button>
+      <div class="watermark-note">Trial documents include a watermark. Upgrade to download your clean professional copy.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Doc<span>Ready</span>™</div>
+  <div class="footer-tagline">Screenshot it. Snap it. Sync it. However you capture it — we format it.</div>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#languages">Languages</a>
+    <a href="https://tiktok.com/@missyitsshejojofi" target="_blank">TikTok</a>
+    <a href="https://instagram.com/highlyfavoredbygod333" target="_blank">Instagram</a>
+  </div>
+  <div class="footer-copy">© 2026 DocReady™ — A Perception Legacy Group Product — getformatflow.com</div>
+</footer>
+
+<!-- UPSELL MODAL -->
+<div class="modal-overlay" id="upsellModal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h3>Your document is ready!</h3>
+    <p>Download your clean watermark-free professional document — or upgrade to Pro for 15 documents every month.</p>
+    <div class="modal-price">$2.99</div>
+    <div class="modal-price-label">one-time download — no subscription needed</div>
+    <div class="modal-btns">
+      <button class="modal-btn" onclick="closeModal()">⬇ Download Clean Copy — $2.99</button>
+      <button class="modal-btn gold" onclick="closeModal()">⭐ Upgrade to Pro — $19.99/month</button>
+      <button class="modal-btn-skip" onclick="closeModal()">No thanks, keep the watermarked version</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // CLOUDFLARE WORKER URL
+  const WORKER_URL = 'https://red-forest-6e23.fieldsbeatrice63.workers.dev/';
+
+  let selectedDocType = '';
+  let recognition = null;
+  let isListening = false;
+  let currentStep = 1;
+
+  function goToStep(n) {
+    currentStep = n;
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.wstep').forEach((t,i) => {
+      t.classList.remove('active','completed');
+      if(i+1 < n) t.classList.add('completed');
+      else if(i+1 === n) t.classList.add('active');
+    });
+    document.getElementById('panel'+n).classList.add('active');
+  }
+
+  function selectDoc(el, docType) {
+    document.querySelectorAll('.doc-type-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedDocType = docType;
+    document.getElementById('step2title').textContent = 'Tell DocReady about your ' + docType;
+    document.getElementById('userInput').placeholder = 'Tell us about your ' + docType + '...\n\nShare whatever you have — rough notes, bullet points, or full sentences.\n\nFor example, for a Resume:\n• Your name and contact info\n• Jobs you have had and for how long\n• Your education\n• Your skills\n\nDocReady will format everything professionally.';
+  }
+
+  function switchInput(el, type) {
+    document.querySelectorAll('.imethod').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    if(type === 'voice') {
+      document.getElementById('typePanel').style.display = 'none';
+      document.getElementById('voicePanel').classList.add('show');
+    } else {
+      document.getElementById('typePanel').style.display = 'block';
+      document.getElementById('voicePanel').classList.remove('show');
+      if(isListening && recognition) recognition.stop();
+    }
+  }
+
+  function toggleVoice() {
+    const btn = document.getElementById('voiceBtn');
+    const transcript = document.getElementById('voiceTranscript');
+    if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      transcript.textContent = 'Voice input works best in Chrome browser. Please open Chrome and try again.';
+      return;
+    }
+    if(isListening) {
+      recognition.stop(); isListening = false;
+      btn.classList.remove('listening');
+      btn.textContent = '🎤 Tap to Speak';
+      return;
+    }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    const lang = document.getElementById('langSelect').value;
+    const langMap = {'English':'en-US','Spanish':'es-ES','French':'fr-FR','Haitian Creole':'fr-HT','Portuguese':'pt-BR','Arabic':'ar-SA','Mandarin':'zh-CN'};
+    recognition.lang = langMap[lang] || 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.onstart = () => {
+      isListening = true;
+      btn.classList.add('listening');
+      btn.textContent = '🛑 Tap to Stop';
+      transcript.textContent = 'Listening... speak now. DocReady is typing your words.';
+    };
+    recognition.onresult = (e) => {
+      let text = '';
+      for(let i = e.resultIndex; i < e.results.length; i++) text += e.results[i][0].transcript;
+      document.getElementById('userInput').value += text;
+      transcript.textContent = 'Got it! Your words: "' + document.getElementById('userInput').value.slice(-100) + '"';
+    };
+    recognition.onend = () => {
+      isListening = false;
+      btn.classList.remove('listening');
+      btn.textContent = '🎤 Tap to Speak';
+      transcript.textContent = 'Done listening! Click Format My Document to continue.';
+    };
+    recognition.start();
+  }
+
+  function showStatus(msg) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 5000);
+  }
+
+  async function formatDocument() {
+    const input = document.getElementById('userInput').value.trim();
+    const lang = document.getElementById('langSelect').value;
+    const docType = selectedDocType || 'professional document';
+
+    if(!input) {
+      showStatus('Please add your information first — type, paste, or use the voice button!');
+      return;
+    }
+
+    const btn = document.getElementById('formatBtn');
+    const btnText = document.getElementById('formatBtnText');
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span> DocReady is formatting...';
+    showStatus('Please wait — formatting your ' + docType + '...');
+
+    goToStep(3);
+
+    document.getElementById('outputPlaceholder').style.display = 'none';
+    document.getElementById('outputContent').style.display = 'none';
+    document.getElementById('watermarkEl').style.display = 'none';
+    document.getElementById('downloadBox').classList.remove('show');
+
+    const systemPrompt = `You are DocReady, an expert professional document formatter. The user needs a ${docType} formatted in ${lang}. 
+
+Take whatever information they provide — even rough notes or bullet points — and format it into a complete, polished, professional ${docType}. 
+
+Add appropriate structure, headings, and professional language. If information is missing, make reasonable professional suggestions in brackets like [Add your phone number here].
+
+Return ONLY the formatted document content — no explanations or commentary.`;
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1500,
+          system: systemPrompt,
+          messages: [{role: 'user', content: input}]
+        })
+      });
+
+      if(!response.ok) throw new Error('Server error: ' + response.status);
+
+      const data = await response.json();
+
+      if(data.content && data.content[0] && data.content[0].text) {
+        document.getElementById('outputContent').textContent = data.content[0].text;
+        document.getElementById('outputContent').style.display = 'block';
+        document.getElementById('watermarkEl').style.display = 'flex';
+        document.getElementById('downloadBox').classList.add('show');
+        showStatus('✅ Your document is ready!');
+      } else if(data.error) {
+        document.getElementById('outputPlaceholder').style.display = 'flex';
+        document.getElementById('outputPlaceholder').innerHTML = '<span>⚠️</span><p>Error: ' + (data.error.message || 'Something went wrong') + '<br/>Please go back and try again.</p>';
+        showStatus('Something went wrong. Please try again.');
+      }
+    } catch(err) {
+      document.getElementById('outputPlaceholder').style.display = 'flex';
+      document.getElementById('outputPlaceholder').innerHTML = '<span>⚠️</span><p>Connection error. Please check your internet and try again.<br/>' + err.message + '</p>';
+      showStatus('Connection error. Please try again.');
+    }
+
+    btn.disabled = false;
+    btnText.innerHTML = '✨ Format My Document';
+  }
+
+  function showUpsell() { document.getElementById('upsellModal').classList.add('show'); }
+  function closeModal() { document.getElementById('upsellModal').classList.remove('show'); }
+  document.getElementById('upsellModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
