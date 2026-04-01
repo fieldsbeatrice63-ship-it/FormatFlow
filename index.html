@@ -659,6 +659,37 @@ body: JSON.stringify({
   document.getElementById('upsellModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
   const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  function startWithPaste() {
+  const pasteTab = Array.from(document.querySelectorAll(".input-tab"))
+    .find(btn => btn.textContent.includes("Paste"));
+  if (pasteTab) pasteTab.click();
+
+  const tryIt = document.getElementById("try-it");
+  if (tryIt) {
+    tryIt.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  setTimeout(() => {
+    const userInput = document.getElementById("userInput");
+    if (userInput) userInput.focus();
+  }, 250);
+}
+
+function startWithVoice() {
+  const voiceTab = Array.from(document.querySelectorAll(".input-tab"))
+    .find(btn => btn.textContent.includes("Voice"));
+  if (voiceTab) voiceTab.click();
+
+  const tryIt = document.getElementById("try-it");
+  if (tryIt) {
+    tryIt.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  setTimeout(() => {
+    const voiceBtn = document.getElementById("voiceBtn");
+    if (voiceBtn) voiceBtn.click();
+  }, 250);
+}
 </script>
 </body>
 </html>
