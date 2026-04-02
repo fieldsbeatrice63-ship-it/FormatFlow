@@ -655,7 +655,9 @@ body: JSON.stringify({
     } catch(err) { showStatus('Connection error. Please try again.'); }
     btn.disabled = false; btnText.innerHTML = '✨ Format My Document';
   }
-  function showUpsell() { document.getElementById('upsellModal').classList.add('show'); }
+  function showUpsell() {
+  return;
+}
   function closeModal() { document.getElementById('upsellModal').classList.remove('show'); }
   document.getElementById('upsellModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
   const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
