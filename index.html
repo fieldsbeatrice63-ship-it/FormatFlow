@@ -659,6 +659,9 @@ body: JSON.stringify({
   return;
 }
   function closeModal() { document.getElementById('upsellModal').classList.remove('show'); }
+  function openGoogleDocs() {
+  window.open('https://docs.google.com/', '_blank');
+}
   document.getElementById('upsellModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
   const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
