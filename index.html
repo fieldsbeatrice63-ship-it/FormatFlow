@@ -676,10 +676,13 @@ body: JSON.stringify({
   }, 250);
 }
 
-function startWithVoice() {
-  const voiceTab = Array.from(document.querySelectorAll(".input-tab"))
-    .find(btn => btn.textContent.includes("Voice"));
-  if (voiceTab) voiceTab.click();
+function handleHeroUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const pasteTab = Array.from(document.querySelectorAll(".input-tab"))
+    .find(btn => btn.textContent.includes("Paste"));
+  if (pasteTab) pasteTab.click();
 
   const tryIt = document.getElementById("try-it");
   if (tryIt) {
@@ -687,8 +690,27 @@ function startWithVoice() {
   }
 
   setTimeout(() => {
-    const voiceBtn = document.getElementById("voiceBtn");
-    if (voiceBtn) voiceBtn.click();
+    const userInput = document.getElementById("userInput");
+    if (userInput) {
+      userInput.value = "Uploaded file: " + file.name;
+      userInput.focus();
+    }
+  }, 250);
+}
+
+function startWithPaste() {
+  const pasteTab = Array.from(document.querySelectorAll(".input-tab"))
+    .find(btn => btn.textContent.includes("Paste"));
+  if (pasteTab) pasteTab.click();
+
+  const tryIt = document.getElementById("try-it");
+  if (tryIt) {
+    tryIt.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  setTimeout(() => {
+    const userInput = document.getElementById("userInput");
+    if (userInput) userInput.focus();
   }, 250);
 }
 </script>
