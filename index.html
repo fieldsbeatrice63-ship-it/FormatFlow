@@ -741,6 +741,46 @@ function startWithPaste() {
   link.click();
   document.body.removeChild(link);
 }
+function formatDocumentSafe() {
+  const inputEl = document.getElementById('userInput');
+  const docTypeEl = document.getElementById('docType');
+  const outputText = document.getElementById('outputText');
+  const outputPlaceholder = document.getElementById('outputPlaceholder');
+  const statusMsg = document.getElementById('statusMsg');
+  const downloadBar = document.getElementById('downloadBar');
+  const formatBtnText = document.getElementById('formatBtnText');
+
+  const input = inputEl ? inputEl.value.trim() : '';
+  const docType = docTypeEl ? docTypeEl.value : 'Document';
+
+  if (!input) {
+    if (statusMsg) statusMsg.textContent = 'Please enter or upload content first.';
+    return;
+  }
+
+  if (formatBtnText) {
+    formatBtnText.innerHTML = '<span class="spinner"></span> Formatting...';
+  }
+
+  if (outputPlaceholder) outputPlaceholder.style.display = 'none';
+
+  setTimeout(() => {
+    if (outputText) {
+      outputText.textContent = docType + '\n\n' + input;
+      outputText.style.display = 'block';
+    }
+
+    if (downloadBar) downloadBar.style.display = 'block';
+
+    if (statusMsg) {
+      statusMsg.textContent = 'Safe mode preview ready. Live formatting is off.';
+    }
+
+    if (formatBtnText) {
+      formatBtnText.innerHTML = '✨ Format My Document';
+    }
+  }, 500);
+}  
 </script>
 </body>
 </html>
