@@ -713,6 +713,34 @@ function startWithPaste() {
     if (userInput) userInput.focus();
   }, 250);
 }
+  function downloadFormattedFile(type) {
+  const userInput = document.getElementById("userInput");
+  if (!userInput || !userInput.value.trim()) {
+    alert("No content to download.");
+    return;
+  }
+
+  const content = userInput.value;
+  let blob, fileName;
+
+  if (type === "pdf") {
+    blob = new Blob([content], { type: "application/pdf" });
+    fileName = "formatflow-output.pdf";
+  } else if (type === "word") {
+    blob = new Blob([content], { type: "application/msword" });
+    fileName = "formatflow-output.doc";
+  } else {
+    blob = new Blob([content], { type: "text/plain" });
+    fileName = "formatflow-output.txt";
+  }
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 </script>
 </body>
 </html>
