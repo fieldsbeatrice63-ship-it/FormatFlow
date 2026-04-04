@@ -769,7 +769,15 @@ Go Business
     document.getElementById('userInput').value += finalText;
   }
 }; 
-    recognition.onend = () => { isListening = false; btn.classList.remove('listening'); btn.textContent = '🎤 Voice'; showStatus('Voice captured! Click Format to continue.'); };
+    recognition.onend = () => {
+  if (isListening) {
+    recognition.start();
+    return;
+  }
+  btn.classList.remove('listening');
+  btn.textContent = '🎤 Voice';
+  showStatus('Voice captured! Click Format to continue.');
+};
     recognition.start();
   }
   function showStatus(msg) { const el = document.getElementById('statusMsg'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 4000); }
