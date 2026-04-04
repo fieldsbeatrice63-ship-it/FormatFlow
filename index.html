@@ -1,187 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FormatFlow™</title>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormatFlow™</title>
 
-  <style>
-    body {
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#07110a;
-      color:white;
-    }
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
-    .container {
-      display:flex;
-      height:100vh;
-    }
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  background:#07110a;
+  color:white;
+}
 
-    .left, .right {
-      padding:20px;
-      overflow:auto;
-    }
+.container {
+  display:flex;
+  height:100vh;
+}
 
-    .left {
-      width:45%;
-      border-right:1px solid rgba(255,255,255,0.1);
-    }
+.left, .middle, .right {
+  padding:20px;
+  overflow:auto;
+}
 
-    .right {
-      width:55%;
-      background:#0d1810;
-    }
+.left { width:30%; border-right:1px solid #333; }
+.middle { width:35%; border-right:1px solid #333; }
+.right { width:35%; }
 
-    h1 {margin-top:0;}
+.upload {
+  border:2px dashed #2fc66d;
+  padding:20px;
+  border-radius:12px;
+  cursor:pointer;
+}
 
-    .upload {
-      border:2px dashed #2fc66d;
-      padding:20px;
-      border-radius:12px;
-      cursor:pointer;
-    }
+.viewer {
+  background:white;
+  color:black;
+  height:500px;
+  overflow:auto;
+  border-radius:10px;
+  padding:10px;
+}
 
-    .preview-box {
-      background:white;
-      color:black;
-      padding:20px;
-      border-radius:12px;
-      min-height:300px;
-    }
+.template {
+  padding:10px;
+  border:1px solid #444;
+  margin:5px 0;
+  cursor:pointer;
+}
 
-    .templates {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:15px;
-    }
-
-    .template-card {
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.1);
-      padding:12px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-
-    .template-card:hover {
-      border-color:#d7b45a;
-    }
-
-    .btn {
-      margin-top:10px;
-      padding:10px;
-      border:none;
-      border-radius:8px;
-      background:#2fc66d;
-      color:black;
-      cursor:pointer;
-    }
-
-    select, textarea {
-      width:100%;
-      margin-top:10px;
-      padding:10px;
-      border-radius:8px;
-      border:none;
-    }
-  </style>
+.template.active {
+  border-color:gold;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <!-- LEFT SIDE -->
-  <div class="left">
+<!-- LEFT -->
+<div class="left">
 
-    <h1>FormatFlow™</h1>
+<h2>Upload</h2>
 
-    <!-- Upload -->
-    <div class="upload" onclick="document.getElementById('file').click()">
-      Click or Drop File
-      <input id="file" type="file" style="display:none" onchange="handleUpload(event)">
-    </div>
+<div class="upload" onclick="document.getElementById('file').click()">
+Click or Upload File
+<input id="file" type="file" style="display:none" onchange="handleUpload(event)">
+</div>
 
-    <div id="fileName"></div>
+<input id="fileName" style="width:100%;margin-top:10px" readonly>
 
-    <!-- AI Decision -->
-    <h3>What do you want to do?</h3>
-    <select id="action">
-      <option>Turn into professional document</option>
-      <option>Use info to update document</option>
-      <option>Extract text only</option>
-    </select>
+<h3>Action</h3>
+<select id="action">
+<option>Turn into professional document</option>
+<option>Use info to update document</option>
+<option>Extract text only</option>
+</select>
 
-    <!-- Templates -->
-    <h3>Choose Template</h3>
-    <div class="templates">
-      <div class="template-card" onclick="setTemplate('resume1')">Resume Style 1</div>
-      <div class="template-card" onclick="setTemplate('resume2')">Resume Style 2</div>
-      <div class="template-card" onclick="setTemplate('resume3')">Resume Style 3</div>
-      <div class="template-card" onclick="setTemplate('lease')">Lease Agreement</div>
-    </div>
+<textarea id="text" placeholder="Text will appear here"></textarea>
 
-    <!-- Input -->
-    <textarea id="input" placeholder="Paste or auto-fill content here"></textarea>
+</div>
 
-    <button class="btn" onclick="generate()">Generate</button>
+<!-- MIDDLE (FILE VIEWER) -->
+<div class="middle">
 
-    <!-- Pricing -->
-    <h3>Pricing</h3>
-    <button class="btn">$2.99 Download</button>
+<h2>Your File</h2>
+<div class="viewer" id="viewer">
+Upload file to see it
+</div>
 
-  </div>
+</div>
 
-  <!-- RIGHT SIDE -->
-  <div class="right">
+<!-- RIGHT -->
+<div class="right">
 
-    <h2>Preview</h2>
+<h2>Templates</h2>
 
-    <div class="preview-box" id="preview">
-      Your document will appear here
-    </div>
+<div class="template" onclick="selectTemplate('resume',this)">Resume</div>
+<div class="template" onclick="selectTemplate('lease',this)">Lease</div>
 
-  </div>
+<button onclick="generate()">Generate</button>
+
+<div class="viewer" id="output">
+Preview here
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-let currentTemplate = '';
+let selectedTemplate = '';
+let extractedText = '';
 
-function handleUpload(e) {
+function handleUpload(e){
   const file = e.target.files[0];
-  document.getElementById('fileName').innerText = file.name;
+  document.getElementById('fileName').value = file.name;
 
   if(file.type.startsWith('image/')){
-    Tesseract.recognize(file, 'eng').then(({data:{text}})=>{
-      document.getElementById('input').value = text;
+    const url = URL.createObjectURL(file);
+    document.getElementById('viewer').innerHTML = `<img src="${url}" style="width:100%">`;
+
+    Tesseract.recognize(file,'eng').then(({data:{text}})=>{
+      extractedText = text;
+      document.getElementById('text').value = text;
     });
   }
+
+  else if(file.type === 'application/pdf'){
+    const url = URL.createObjectURL(file);
+    document.getElementById('viewer').innerHTML = `<iframe src="${url}" width="100%" height="100%"></iframe>`;
+  }
+
+  else if(file.name.endsWith('.txt')){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      extractedText = e.target.result;
+      document.getElementById('text').value = extractedText;
+      document.getElementById('viewer').innerHTML = `<pre>${extractedText}</pre>`;
+    }
+    reader.readAsText(file);
+  }
+
+  else if(file.name.endsWith('.docx')){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      mammoth.convertToHtml({arrayBuffer:e.target.result}).then(function(result){
+        document.getElementById('viewer').innerHTML = result.value;
+        extractedText = result.value.replace(/<[^>]*>/g,'');
+        document.getElementById('text').value = extractedText;
+      });
+    }
+    reader.readAsArrayBuffer(file);
+  }
+
 }
 
-function setTemplate(type){
-  currentTemplate = type;
+function selectTemplate(type,el){
+  selectedTemplate = type;
+  document.querySelectorAll('.template').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
 }
 
 function generate(){
-  let text = document.getElementById('input').value;
+  const text = document.getElementById('text').value || extractedText;
 
-  if(currentTemplate.includes('resume')){
-    document.getElementById('preview').innerHTML = `
-      <h2>Resume</h2>
-      <p>${text}</p>
-    `;
+  if(selectedTemplate === 'resume'){
+    document.getElementById('output').innerHTML =
+    `<h2>Resume</h2><p>${text}</p>`;
   }
 
-  if(currentTemplate==='lease'){
-    document.getElementById('preview').innerHTML = `
-      <h2>Lease Agreement</h2>
-      <p>${text}</p>
-    `;
+  if(selectedTemplate === 'lease'){
+    document.getElementById('output').innerHTML =
+    `<h2>Lease</h2><p>${text}</p>`;
   }
 }
 
