@@ -2,1086 +2,1245 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <title>FormatFlow™ — Screenshot. Snap. Sync.</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FormatFlow™ | Professional Document Formatting</title>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     :root {
-      --green: #1a7a4a;
-      --green-mid: #25a163;
-      --green-light: #d4f0e2;
-      --green-pale: #f0faf5;
-      --white: #ffffff;
-      --off-white: #f8fdf9;
-      --dark: #0d1f15;
-      --text: #1c2e22;
-      --muted: #5a7a65;
-      --gold: #c9913a;
-      --gold-light: #fdf3e3;
-      --radius: 16px;
-      --shadow: 0 4px 32px rgba(26,122,74,0.10);
-      --shadow-lg: 0 12px 56px rgba(26,122,74,0.16);
+      --bg: #07110a;
+      --panel: #0d1810;
+      --panel-2: #122016;
+      --card: rgba(255,255,255,0.05);
+      --card-2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.12);
+      --text: #f5f7f3;
+      --muted: rgba(245,247,243,0.72);
+      --green: #2fc66d;
+      --green-2: #1f8f4b;
+      --gold: #d7b45a;
+      --danger: #ff7d7d;
+      --shadow: 0 18px 60px rgba(0,0,0,0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --max: 1400px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(248,253,249,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(26,122,74,0.10); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; }
-    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--green); }
-    .nav-cta { background: var(--green); color: white; border: none; border-radius: 50px; padding: 0.55rem 1.4rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; text-decoration: none; }
-    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
-    .hero { min-height: 100vh; padding: 120px 5% 80px; display: flex; align-items: center; position: relative; overflow: hidden; background: linear-gradient(135deg, #f0faf5 0%, #ffffff 60%, #e8f7ef 100%); }
-    .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(26,122,74,0.08) 0%, transparent 70%); border-radius: 50%; }
-    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--green-light); color: var(--green); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
-    .hero-badge::before { content: '●'; font-size: 0.6rem; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1; color: var(--dark); margin-bottom: 1.2rem; }
-    h1 em { color: var(--green); font-style: normal; }
-    .hero-sub { font-size: 1.15rem; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
-    .hero-trust { font-size: 0.9rem; color: var(--green); font-weight: 600; margin-bottom: 2rem; padding: 0.6rem 1rem; background: var(--green-pale); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    .btn-primary { background: var(--green); color: white; border: none; border-radius: 50px; padding: 0.9rem 2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 20px rgba(26,122,74,0.30); }
-    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); }
-    .btn-secondary { background: transparent; color: var(--green); border: 2px solid var(--green); border-radius: 50px; padding: 0.9rem 2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.25s; font-family: 'DM Sans', sans-serif; }
-    .method-pill { background: white; border: 1px solid rgba(26,122,74,0.2); border-radius: 50px; padding: 0.35rem 0.9rem; font-size: 0.8rem; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 0.4rem; }
-    .hero-methods { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-    .hero-card { background: white; border-radius: 24px; box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid rgba(26,122,74,0.08); animation: floatCard 6s ease-in-out infinite; }
-    @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .card-header { background: var(--green); padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-    .card-header-dots { display: flex; gap: 6px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-r{background:#ff6b6b}.dot-y{background:#ffd93d}.dot-g{background:#6bcb77}
-    .card-header-title { color: white; font-weight: 600; font-size: 0.9rem; margin-left: 0.5rem; }
-    .card-body { padding: 1.5rem; }
-    .upload-zone { border: 2px dashed rgba(26,122,74,0.3); border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1.2rem; cursor: pointer; background: var(--green-pale); }
-    .upload-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .upload-text { font-size: 0.9rem; color: var(--muted); font-weight: 500; }
-    .upload-text strong { color: var(--green); }
-    .input-methods { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
-    .input-method { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: 10px; padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; font-size: 0.75rem; font-weight: 600; color: var(--green); }
-    .im-icon { font-size: 1.3rem; display: block; margin-bottom: 0.25rem; }
-    .demo-output { background: var(--off-white); border-radius: 12px; padding: 1rem; border: 1px solid rgba(26,122,74,0.1); }
-    .demo-line { height: 10px; background: var(--green-light); border-radius: 4px; margin-bottom: 6px; }
-    .demo-line.short{width:60%}.demo-line.med{width:80%}.demo-line.full{width:100%}.demo-line.title{height:14px;background:var(--green);width:45%;margin-bottom:10px}
-    .demo-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .download-bar { display: flex; gap: 0.5rem; margin-top: 1rem; }
-    .dl-btn { flex: 1; background: var(--green); color: white; border: none; border-radius: 8px; padding: 0.6rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-    .dl-btn.outline { background: white; color: var(--green); border: 1.5px solid var(--green); }
-    section { padding: 80px 5%; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-label { font-size: 0.8rem; font-weight: 700; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.75rem; }
-    h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--dark); line-height: 1.15; margin-bottom: 1rem; }
-    h2 em { color: var(--green); font-style: normal; }
-    .section-sub { font-size: 1.1rem; color: var(--muted); line-height: 1.7; max-width: 600px; }
-    .serve-section { background: var(--dark); }
-    .serve-section h2 { color: white; }
-    .serve-section .section-label { color: var(--green-mid); }
-    .serve-section .section-sub { color: rgba(255,255,255,0.6); }
-    .serve-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 3rem; }
-    .serve-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; transition: all 0.3s; }
-    .serve-card:hover { background: rgba(26,122,74,0.15); border-color: rgba(26,122,74,0.4); transform: translateY(-4px); }
-    .serve-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
-    .serve-title { font-weight: 700; color: white; margin-bottom: 0.4rem; font-size: 0.95rem; }
-    .serve-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
-    .problems-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem; margin-top: 3rem; }
-    .problem-card { background: white; border-radius: 20px; padding: 2rem; border: 1px solid rgba(26,122,74,0.08); box-shadow: var(--shadow); transition: all 0.3s; }
-    .problem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .problem-num { width: 40px; height: 40px; background: var(--green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; margin-bottom: 1rem; }
-    .problem-title { font-weight: 700; font-size: 1.05rem; color: var(--dark); margin-bottom: 0.5rem; }
-    .problem-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
-    .pricing-section { background: var(--off-white); }
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
-    .pricing-card { background: white; border-radius: 20px; padding: 1.8rem 1.4rem; border: 2px solid rgba(26,122,74,0.10); transition: all 0.3s; position: relative; }
-    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .pricing-card.popular { border-color: var(--green); background: linear-gradient(135deg, #f0faf5, white); }
-    .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--green); color: white; border-radius: 50px; padding: 0.3rem 1rem; font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
-    .pricing-tier { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-    .pricing-price { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--dark); }
-    .pricing-price span { font-size: 0.9rem; font-weight: 400; color: var(--muted); font-family: 'DM Sans', sans-serif; }
-    .pricing-divider { height: 1px; background: rgba(26,122,74,0.1); margin: 1rem 0; }
-    .pricing-features { list-style: none; }
-    .pricing-features li { font-size: 0.83rem; color: var(--text); padding: 0.3rem 0; display: flex; gap: 0.5rem; align-items: flex-start; }
-    .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-    .pricing-btn { width: 100%; margin-top: 1.2rem; background: var(--green); color: white; border: none; border-radius: 50px; padding: 0.7rem; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-    .pricing-card:not(.popular) .pricing-btn { background: transparent; color: var(--green); border: 2px solid var(--green); }
-    .pay-per-use { margin-top: 1.5rem; text-align: center; background: var(--gold-light); border: 1px solid rgba(201,145,58,0.2); border-radius: 16px; padding: 1.2rem 2rem; font-size: 0.9rem; color: var(--text); }
-    .pay-per-use strong { color: var(--gold); }
-    .lang-section { background: var(--green); }
-    .lang-section h2 { color: white; }
-    .lang-section .section-label { color: rgba(255,255,255,0.7); }
-    .lang-section .section-sub { color: rgba(255,255,255,0.75); }
-    .lang-pills { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; }
-    .lang-pill { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 50px; padding: 0.5rem 1.2rem; color: white; font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
-    .lang-pill.priority { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); font-weight: 700; }
-    .trial-section { background: white; }
-    .trial-box { background: linear-gradient(135deg, var(--green-pale), white); border: 2px solid var(--green-light); border-radius: 28px; padding: 3rem; text-align: center; max-width: 700px; margin: 3rem auto 0; }
-    .trial-box h3 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--dark); margin-bottom: 1rem; }
-    .trial-box p { color: var(--muted); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; }
-    .trial-features { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    .trial-feat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 600; color: var(--green); }
-    .trial-feat::before { content: '✓'; font-weight: 900; }
-    .watermark-note { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; font-style: italic; }
-    .tool-section { background: var(--off-white); }
-    .tool-box { background: white; border-radius: 28px; box-shadow: var(--shadow-lg); overflow: hidden; margin-top: 3rem; border: 1px solid rgba(26,122,74,0.08); }
-    .tool-header { background: var(--green); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-    .tool-header h3 { color: white; font-size: 1.1rem; font-weight: 700; }
-    .tool-lang-select { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer; }
-    .tool-lang-select option { color: var(--dark); background: white; }
-    .tool-body { padding: 2rem; }
-    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .tool-col-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem; }
-    textarea { width: 100%; height: 180px; border: 2px solid rgba(26,122,74,0.15); border-radius: 12px; padding: 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text); resize: none; outline: none; transition: border-color 0.2s; background: var(--off-white); }
-    textarea:focus { border-color: var(--green); background: white; }
-    .input-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-    .input-tab { background: var(--green-pale); color: var(--green); border: 1px solid var(--green-light); border-radius: 8px; padding: 0.35rem 0.8rem; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-    .input-tab.active, .input-tab:hover { background: var(--green); color: white; border-color: var(--green); }
-    .doc-type-select { width: 100%; border: 2px solid rgba(26,122,74,0.15); border-radius: 12px; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text); outline: none; margin-bottom: 0.75rem; background: var(--off-white); cursor: pointer; }
-    .output-preview { height: 180px; background: var(--off-white); border: 2px solid rgba(26,122,74,0.1); border-radius: 12px; padding: 1rem; overflow-y: auto; position: relative; }
-    .output-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--muted); font-size: 0.88rem; text-align: center; }
-    .output-placeholder span { font-size: 2rem; margin-bottom: 0.5rem; }
-    .output-text { font-size: 0.88rem; color: var(--text); line-height: 1.7; white-space: pre-wrap; }
-    .watermark-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; font-size: 1.2rem; font-weight: 900; color: rgba(26,122,74,0.10); transform: rotate(-20deg); font-family: 'Playfair Display', serif; letter-spacing: 2px; }
-    .tool-actions { margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-    .format-btn { background: var(--green); color: white; border: none; border-radius: 50px; padding: 0.9rem 2rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 20px rgba(26,122,74,0.3); display: flex; align-items: center; gap: 0.5rem; }
-    .format-btn:hover { background: var(--green-mid); transform: translateY(-2px); }
-    .format-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
-    .voice-btn { background: var(--gold-light); color: var(--gold); border: 2px solid rgba(201,145,58,0.3); border-radius: 50px; padding: 0.9rem 1.5rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 0.5rem; }
-    .voice-btn.listening { background: rgba(201,145,58,0.2); animation: glow 1s infinite alternate; }
-    @keyframes glow { from{box-shadow:0 0 0 rgba(201,145,58,0.3)} to{box-shadow:0 0 16px rgba(201,145,58,0.5)} }
-    .status-msg { font-size: 0.82rem; color: var(--muted); font-weight: 500; padding: 0.5rem 1rem; background: var(--green-pale); border-radius: 8px; display: none; }
-    .status-msg.show { display: block; }
-    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
-    .modal-overlay.show { display: flex; }
-    .modal { background: white; border-radius: 28px; padding: 2.5rem; max-width: 480px; width: 90%; text-align: center; box-shadow: 0 24px 80px rgba(0,0,0,0.2); animation: modalIn 0.3s ease; }
-    @keyframes modalIn { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
-    .modal-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .modal h3 { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--dark); margin-bottom:0.75rem; }
-    .modal p { color:var(--muted); font-size:0.95rem; line-height:1.7; margin-bottom:1.5rem; }
-    .modal-price { font-size:2.5rem; font-weight:900; color:var(--green); font-family:'Playfair Display',serif; margin-bottom:0.25rem; }
-    .modal-price-label { font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem; }
-    .modal-btns { display:flex; flex-direction:column; gap:0.75rem; }
-    .modal-btn-primary { background:var(--green); color:white; border:none; border-radius:50px; padding:0.9rem; font-weight:700; font-size:1rem; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .modal-btn-secondary { background:transparent; color:var(--muted); border:none; padding:0.5rem; font-size:0.85rem; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    footer { background: var(--dark); padding: 3rem 5%; text-align: center; }
-    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 0.5rem; }
-    .footer-logo span { color: var(--gold); }
-    .footer-tagline { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic; }
-    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; }
-    .footer-copy { color: rgba(255,255,255,0.3); font-size: 0.78rem; }
-    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    @media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; } }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(47,198,109,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(215,180,90,0.16), transparent 24%),
+        linear-gradient(180deg, #061009 0%, #09120b 50%, #061009 100%);
+      color: var(--text);
+    }
 
-.start-actions {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin: 1rem 0 1.25rem 0;
-}
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
 
-.start-action-btn {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #d7e3e0;
-  border-radius: 999px;
-  padding: 0.7rem 1.1rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+    .shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-.start-action-btn:hover {
-  background: #0f766e;
-  color: #ffffff;
-  border-color: #0f766e;
-}
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(6, 13, 8, 0.84);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
 
-  /* SAFE MOBILE LAYOUT FIX */
-@media (max-width: 768px) {
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-  body {
-    overflow-x: hidden;
-  }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
 
-  nav {
-    padding: 12px 16px !important;
-  }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(47,198,109,0.22), rgba(215,180,90,0.22));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+    }
 
-  .nav-links {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px 14px !important;
-    justify-content: flex-start !important;
-  }
+    .brand span small {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-  .nav-links a {
-    font-size: 0.95rem !important;
-    line-height: 1.2 !important;
-  }
+    .hero {
+      padding: 34px 0 18px;
+    }
 
-  #try-it {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
+    .hero-card {
+      background: linear-gradient(180deg, rgba(18,32,22,0.92), rgba(10,18,12,0.96));
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
 
-  #userInput,
-  #outputPreview {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 240px !important;
-    box-sizing: border-box !important;
-  }
+    .hero-head {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-  .tool-actions {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-  }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(47,198,109,0.10);
+      color: #baf2d0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid rgba(47,198,109,0.2);
+      font-weight: 700;
+    }
 
-  .tool-actions button,
-  .tool-actions .btn,
-  #downloadBar a,
-  #downloadBar button {
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      max-width: 820px;
+    }
 
-  select,
-input,
-textarea {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}
+    .hero-sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 880px;
+    }
 
-.hero-inner,
-.formatter,
-.tool-grid,
-.tool-row {
-  display: flex !important;
-  flex-direction: column !important;
-}
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
+    }
 
-.tool-col,
-.output-preview,
-textarea,
-select {
-    width: 100% !important;
-}
-.tool-col {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
-}
-.formatter-container,
-.formatter-row,
-.input-section,
-.output-section {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-}
+    .hero-badge {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-weight: 600;
+      min-width: 170px;
+    }
 
-.input-section,
-.output-section,
-textarea,
-.select-doc,
-.output-box {
-    width: 100% !important;
-    max-width: 100% !important;
-}
-}
+    .hero-badge strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 4px;
+    }
 
-}
+    .workspace {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      min-height: 780px;
+    }
 
+    .left-panel,
+    .right-panel {
+      padding: 24px;
+    }
 
+    .left-panel {
+      border-right: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7,14,9,0.45);
+    }
 
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
 
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 800;
+    }
 
-  }
-}
-  
-}
+    .section-sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .upload-zone {
+      margin-top: 18px;
+      border: 1.5px dashed rgba(47,198,109,0.36);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(47,198,109,0.08), rgba(255,255,255,0.02));
+      padding: 24px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .upload-zone:hover {
+      transform: translateY(-1px);
+      border-color: rgba(215,180,90,0.46);
+      background: linear-gradient(180deg, rgba(47,198,109,0.10), rgba(215,180,90,0.04));
+    }
+
+    .upload-zone.dragging {
+      border-color: var(--gold);
+      background: rgba(215,180,90,0.12);
+    }
+
+    .upload-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .upload-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+
+    .upload-copy strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .upload-copy span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .input-methods {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .input-method {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border-radius: 18px;
+      padding: 14px 14px;
+      text-align: left;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 60px;
+    }
+
+    .input-method:hover {
+      border-color: rgba(215,180,90,0.28);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .input-method .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+
+    .text-entry {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(5,10,7,0.78);
+      color: #fff;
+      outline: none;
+      line-height: 1.6;
+    }
+
+    textarea:focus,
+    select:focus,
+    input:focus {
+      border-color: rgba(47,198,109,0.45);
+      box-shadow: 0 0 0 4px rgba(47,198,109,0.08);
+    }
+
     .upload-preview {
-  margin-top: 16px;
-  width: 100%;
-  text-align: left;
-}
+      margin-top: 16px;
+      display: none;
+      gap: 12px;
+      display: grid;
+    }
 
-.upload-preview-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .upload-preview-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 12px;
+    }
 
-.upload-preview-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.04);
-}
+    .upload-preview-thumb {
+      width: 62px;
+      height: 62px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.06);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-size: 24px;
+    }
 
-.upload-preview-thumb {
-  width: 56px;
-  height: 56px;
-  border-radius: 10px;
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.08);
-}
+    .upload-preview-file {
+      min-width: 0;
+    }
 
-.upload-preview-file {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
+    .upload-preview-name {
+      font-weight: 700;
+      word-break: break-word;
+    }
 
-.upload-preview-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  word-break: break-word;
-}
+    .upload-preview-meta {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 13px;
+    }
 
-.upload-preview-meta {
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-}
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
 
-.upload-preview-empty {
-  padding: 12px;
-  border: 1px dashed rgba(255,255,255,0.18);
-  border-radius: 12px;
-  color: rgba(255,255,255,0.75);
-  font-size: 14px;
-}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script> 
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+      font-weight: 700;
+    }
+
+    select,
+    input[type="text"],
+    input[type="date"],
+    input[type="number"] {
+      width: 100%;
+      border-radius: 14px;
+      padding: 13px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(5,10,7,0.78);
+      color: #fff;
+      outline: none;
+    }
+
+    .questions {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .question-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .question-title {
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .toggle-btn.active {
+      background: linear-gradient(135deg, var(--green), var(--gold));
+      color: #07110a;
+      border-color: transparent;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(47,198,109,0.12);
+      color: #c5f7d6;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid rgba(47,198,109,0.2);
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), var(--gold));
+      color: #07110a;
+      box-shadow: 0 10px 28px rgba(47,198,109,0.24);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: rgba(255,125,125,0.12);
+      border: 1px solid rgba(255,125,125,0.24);
+      color: #ffd7d7;
+    }
+
+    .preview-shell {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 18px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 720px;
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .preview-top h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .preview-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .doc-preview {
+      flex: 1;
+      background: #ffffff;
+      color: #111;
+      border-radius: 24px;
+      padding: 34px;
+      overflow: auto;
+      min-height: 540px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    .doc-paper {
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .doc-paper h3 {
+      text-align: center;
+      margin: 0 0 22px;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+    }
+
+    .doc-paper p { margin: 0 0 14px; }
+    .doc-paper .line {
+      border-bottom: 1px solid #111;
+      display: inline-block;
+      min-width: 160px;
+      padding: 0 4px 2px;
+      font-weight: 700;
+    }
+
+    .doc-paper .muted-doc {
+      color: #555;
+      font-style: italic;
+    }
+
+    .download-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .foot-note {
+      text-align: center;
+      color: var(--muted);
+      padding: 18px 0 28px;
+      font-size: 14px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1180px) {
+      .workspace { grid-template-columns: 1fr; }
+      .left-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .preview-shell { min-height: auto; }
+      .mini-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .shell, .nav { padding-left: 14px; padding-right: 14px; }
+      .hero-head, .left-panel, .right-panel { padding: 16px; }
+      .input-methods, .grid-2, .download-row, .mini-grid { grid-template-columns: 1fr; }
+      .doc-preview { padding: 22px 18px; }
+      .upload-main { align-items: flex-start; }
+      h1 { font-size: 34px; }
+    }
+  </style>
 </head>
 <body>
-<nav>
- <div class="nav-logo">FormatFlow™</div>
-  <div class="nav-links">
-    <a href="#how-it-works">How It Works</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#languages">Languages</a>
-    <a href="#try-it">Try It</a>
-  </div>
-
-</nav>
-<section class="hero" id="home">
-  <div class="hero-inner">
-    <div class="hero-text">
-     <div class="hero-badge">Document Formatting — Live Now</div>
-      <h1>
-  From <em>raw notes</em><br>
-  to professional documents.<br>
-  Ready to use.
-</h1>
-     <p class="hero-sub">From everyday resumes to business contracts and legal documents — if it needs to be professional, FormatFlow™ refines and structures your document.</p>
-     <p class="hero-trust">AI handles the formatting. You control the outcome. Every document is verified before it reaches you.</p>
-      <div class="hero-btns">
-       <button class="btn-primary" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">Start Formatting</button>
-        <button class="btn-secondary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">See Pricing</button>
-      </div>
-      <div class="hero-methods">
-      <button class="method-pill" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">📄 Enter Text</button>
-<button class="method-pill" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">📸 Screenshot</button>
-<button class="method-pill" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">📷 Snap a Photo</button>
-<button class="method-pill" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">💻 Sync Across Devices</button>
-<button class="method-pill" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">🎤 Voice Input</button>
-      </div>
-    </div>
-    <div class="hero-card">
-      <div class="card-header">
-        <div class="card-header-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-        <div class="card-header-title">FormatFlow™ — Document Formatter</div>
-      </div>
-     <div class="card-body">
-  <div class="upload-zone" onclick="document.getElementById('heroUpload').click()">
-    <div id="uploadPreview" class="upload-preview" style="display:none;"></div>
-    <input id="heroUpload" type="file" multiple accept=".pdf,.doc,.docx,.txt,image/*" multiple style="display:none;" onchange="handleHeroUpload(event)">
-
-    <div class="upload-icon">📄</div>
-    <div class="upload-text">
-      <strong>Drop your document here or click to upload</strong>
-      <span>PDF, DOC, DOCX, TXT, JPG, PNG</span>
-    </div>
-
-    <div class="input-methods">
-      <button type="button" class="input-method" onclick="event.stopPropagation(); startWithPaste()"><span class="im-icon">📝</span>Enter Content</button>
-      <button type="button" class="input-method" onclick="event.stopPropagation(); document.getElementById('heroUpload').click()"><span class="im-icon">🖼️</span>Screenshot</button>
-      <button type="button" class="input-method" onclick="event.stopPropagation(); startWithVoice()"><span class="im-icon">🎤</span>Voice Input</button>
-    </div>
-
-    <div id="uploadPreview" class="upload-preview" style="display:none;"></div>
-
-    <div class="demo-output">
-      <div class="demo-label">✨ Formatted Output Ready</div>
-      <div class="demo-line title"></div>
-      <div class="demo-line full"></div><div class="demo-line med"></div><div class="demo-line short"></div>
-    </div>
-
-    <div class="download-bar">
-      ...
-    </div>
-  </div>
-</div>
-  <button type="button" class="dl-btn" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">↓ Go to Formatter</button>
-  <button type="button" class="dl-btn outline" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Pricing</button>
-  <button type="button" class="dl-btn outline" onclick="document.getElementById('try-it').scrollIntoView({behavior:'smooth'})">Preview First</button>
-</div>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <span>
+          FormatFlow™
+          <small>Professional Document Formatting</small>
+        </span>
       </div>
     </div>
   </div>
-</section>
 
- <section class="how-section" id="how-it-works" style="background:#ffffff; color:#173f35; padding:4.5rem 0;">
-  <div class="section-inner">
-
-    <div class="section-label fade-up" style="color:#173f35; font-size:0.95rem; letter-spacing:0.12em; font-weight:700;">How It Works</div>
-  <h2 class="fade-up" style="color:#173f35; font-size:3.2rem; line-height:1.1; font-weight:800; margin-bottom:1rem;">Simple. Fast. Easy.</h2>
-    <p class="section-sub fade-up" style="color:#173f35; font-size:1.2rem; line-height:1.7; max-width:760px; margin-bottom:2.2rem;">
-      Turn anything into a clean, professional document in just a few seconds.
-    </p>
-
-    <div class="serve-grid">
-
-  <div class="serve-card fade-up" style="background:#ffffff; border:2px solid #173F35; border-radius:18px; padding:1.6rem;">
-    <span class="serve-icon">1</span>
-    <div class="serve-title" style="color:#173F35 !important; font-weight:700; font-size:1.05rem;">Enter or Upload Content</div>
-    <div class="serve-desc" style="color:#173F35 !important; font-size:0.95rem;">Type, paste, upload, screenshot, or use voice — whatever you have.</div>
-  </div>
-
-  <div class="serve-card fade-up" style="background:#ffffff; border:2px solid #173F35; border-radius:18px; padding:1.6rem;">
-    <span class="serve-icon">2</span>
-    <div class="serve-title" style="color:#173F35 !important; font-weight:700; font-size:1.05rem;">Click "Format My Document"</div>
-    <div class="serve-desc" style="color:#173F35 !important; font-size:0.95rem;">FormatFlow instantly cleans and structures your content into a professional document.</div>
-  </div>
-
-  <div class="serve-card fade-up" style="background:#ffffff; border:2px solid #173F35; border-radius:18px; padding:1.6rem;">
-    <span class="serve-icon">3</span>
-    <div class="serve-title" style="color:#173F35 !important; font-weight:700; font-size:1.05rem;">Review Your Document</div>
-    <div class="serve-desc" style="color:#173F35 !important; font-size:0.95rem;">See a clean, organized version of your document generated in seconds.</div>
-  </div>
-
-  <div class="serve-card fade-up" style="background:#ffffff; border:2px solid #173F35; border-radius:18px; padding:1.6rem;">
-    <span class="serve-icon">4</span>
-    <div class="serve-title" style="color:#173F35 !important; font-weight:700; font-size:1.05rem;">Download or Edit</div>
-    <div class="serve-desc" style="color:#173F35 !important; font-size:0.95rem;">Download your document or open it in Google Docs to make final edits.</div>
-  </div>
-
-</div>
-
-
-    </div>
-  </div>
-</section>
-<section class="serve-section" id="who-it-supports">
-  <div class="section-inner">
-    <div class="section-label fade-up">Who FormatFlow™ Supports</div>
-    <h2 class="fade-up">Built for real-world use.</h2>
-   <p class="section-sub fade-up">Bring your content — notes, ideas, or rough drafts — FormatFlow™ refines and structures it into a clear, readable, professionally formatted document.</p>
-    <div class="serve-grid">
-      <div class="serve-card fade-up"><span class="serve-icon">👤</span><div class="serve-title">Everyday People</div><div class="serve-desc">Resumes, letters, documents — formatted professionally without needing to know how.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">🌎</span><div class="serve-title">Non-English Speakers</div><div class="serve-desc">Spanish, Haitian Creole, French, Arabic —FormatFlow works in your language.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">💼</span><div class="serve-title">Job Seekers</div><div class="serve-desc">Handwritten notes to professional PDF resume.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">🏢</span><div class="serve-title">Small Business Owners</div><div class="serve-desc">Contracts, business plans, invoices, legal agreements — all in one place.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">🏠</span><div class="serve-title">Landlords</div><div class="serve-desc">Lease agreements, notices, legal documents — formatted and notarized.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">✍️</span><div class="serve-title">Writers & Creators</div><div class="serve-desc">Scripts, books, content plans — upload multiple pages and format in one step.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">👴</span><div class="serve-title">Seniors & Less Tech-Savvy</div><div class="serve-desc">Screenshot it, speak it, or snap it — no computer skills needed.</div></div>
-      <div class="serve-card fade-up"><span class="serve-icon">🎖️</span><div class="serve-title">Veterans & Families</div><div class="serve-desc">VA documents, benefit letters, legal paperwork — all supported.</div></div>
-    </div>
-  </div>
-</section>
-<section style="background:white;" id="problems">
-  <div class="section-inner">
-    <div class="section-label fade-up">The Problems We Solve</div>
-    <h2 class="fade-up">5 reasons people struggle with <em>documents</em></h2>
-    <div class="problems-grid">
-      <div class="problem-card fade-up"><div class="problem-num">1</div><div class="problem-title">The Copy-Paste Trap</div><div class="problem-desc">People get great AI output but spend hours reformatting manually. FormatFlow does it in 60 seconds automatically.</div></div>
-      <div class="problem-card fade-up"><div class="problem-num">2</div><div class="problem-title">The Phone-to-Computer Gap</div><div class="problem-desc">Notes on your phone can't easily become formatted documents. FormatFlow syncs across every device.</div></div>
-      <div class="problem-card fade-up"><div class="problem-num">3</div><div class="problem-title">The Long Document Problem</div><div class="problem-desc">Books and multi-page documents take hours to format. FormatFlow handles any length including ePub format.</div></div>
-      <div class="problem-card fade-up"><div class="problem-num">4</div><div class="problem-title">The Legal Document Hassle</div><div class="problem-desc">Finding, filling, and notarizing legal documents requires 5 different websites. FormatFlow is one place for all of it.</div></div>
-      <div class="problem-card fade-up"><div class="problem-num">5</div><div class="problem-title">The Language Barrier</div><div class="problem-desc">Most formatting platforms only serve English speakers. FormatFlow works in 100+ languages.</div></div>
-    </div>
-  </div>
-</section>
-<section class="tool-section" id="try-it">
-  <div class="section-inner">
-    <div class="section-label fade-up">FORMAT YOUR DOCUMENT</div>
-    <h2 class="fade-up">Format your document instantly.</h2>
-   <p class="section-sub fade-up">
-Choose how you want to start — type your content, upload a file, or add a screenshot
-</p>
-
-<div class="start-actions fade-up">
- 
-</div>
-
-<div class="tool-box fade-up">
-      <div class="tool-header">
-        <h3>FormatFlow™ Document Formatter</h3>
-        <select class="tool-lang-select" id="langSelect">
-          <option value="English">🇺🇸 English</option>
-          <option value="Spanish">🇪🇸 Español</option>
-          <option value="French">🇫🇷 Français</option>
-          <option value="Haitian Creole">🇭🇹 Kreyòl Ayisyen</option>
-          <option value="Portuguese">🇧🇷 Português</option>
-          <option value="Arabic">🇸🇦 العربية</option>
-          <option value="Mandarin">🇨🇳 普通话</option>
-        </select>
-      </div>
-      <div class="tool-body">
-        <div class="tool-grid">
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-head">
           <div>
-            <div class="tool-col-label">Your Content</div>
-            <div class="input-tabs">
-              <button class="input-tab active" onclick="switchTab(this,'paste')">📋 Paste / Type</button>
-              <button class="input-tab" id="voiceBtn" onclick="switchTab(this,'voice')">🎤 Voice</button>
+            <div class="eyebrow">One Workspace • One Flow • No Jumping Around</div>
+            <h1>Upload, choose, answer, preview, and download — all in one place.</h1>
+            <p class="hero-sub">
+              FormatFlow™ gives customers a cleaner experience. Instead of uploading at the top and formatting somewhere else down the page, everything stays together in one professional workspace.
+            </p>
+          </div>
+          <div class="hero-badges">
+            <div class="hero-badge"><strong>Upload Files</strong> Images, text files, and document placeholders</div>
+            <div class="hero-badge"><strong>Guided Questions</strong> Lease, resume, and business document prompts</div>
+            <div class="hero-badge"><strong>Live Preview</strong> See the formatted document before download</div>
+          </div>
+        </div>
+
+        <div class="workspace">
+          <section class="left-panel">
+            <div class="section-card">
+              <h2 class="section-title">Start Here</h2>
+              <p class="section-sub">Upload a file, paste text, or use voice input. Everything starts and stays right here in one workspace.</p>
+
+              <div class="upload-zone" id="uploadZone" onclick="document.getElementById('heroUpload').click()">
+                <input id="heroUpload" type="file" accept=".pdf,.doc,.docx,.txt,image/*" multiple style="display:none;" onchange="handleHeroUpload(event)">
+                <div class="upload-main">
+                  <div class="upload-icon">📄</div>
+                  <div class="upload-copy">
+                    <strong>Drop your document here or click to upload</strong>
+                    <span>Upload screenshots, notes, text files, or draft documents. Customers should be able to see what they uploaded right away.</span>
+                  </div>
+                </div>
+
+                <div class="input-methods">
+                  <button type="button" class="input-method" onclick="event.stopPropagation(); startWithPaste()">
+                    <span class="icon">📝</span>
+                    <span>Enter Content</span>
+                  </button>
+                  <button type="button" class="input-method" onclick="event.stopPropagation(); document.getElementById('heroUpload').click()">
+                    <span class="icon">🖼️</span>
+                    <span>Upload Screenshot</span>
+                  </button>
+                  <button type="button" class="input-method" onclick="event.stopPropagation(); startWithVoice()">
+                    <span class="icon">🎤</span>
+                    <span>Voice Input</span>
+                  </button>
+                </div>
+              </div>
+
+              <div id="uploadPreview" class="upload-preview"></div>
+
+              <div class="text-entry">
+                <textarea id="userInput" placeholder="Paste notes, type rough content, or let uploaded text appear here."></textarea>
+              </div>
+
+              <div class="status-bar">
+                <span id="statusText">Ready. Upload a file, paste content, or use voice input.</span>
+                <span class="status-pill" id="statusPill">Workspace Ready</span>
+              </div>
             </div>
-            <select class="doc-type-select" id="docType">
-              <option value="">Select document type...</option>
-              <option value="Resume">Resume / CV</option>
-              <option value="Cover Letter">Cover Letter</option>
-              <option value="Business Letter">Business Letter</option>
-              <option value="Contract">Contract</option>
-              <option value="Lease Agreement">Lease Agreement</option>
-              <option value="Invoice">Invoice</option>
-              <option value="Business Plan">Business Plan</option>
-              <option value="Legal Document">Legal Document</option>
-              <option value="Personal Statement">Personal Statement</option>
-              <option value="Other">Other Document</option>
-            </select>
-           <textarea id="userInput" spellcheck="true" autocorrect="on" placeholder="Paste your text here, type your notes, or click Voice to speak..."></textarea>
-          </div>
-          <div>
-            <div class="tool-col-label">Formatted Output</div>
-            <div style="height:82px;"></div>
-            <div class="output-preview" id="outputPreview" oncopy="return false" oncut="return false" oncontextmenu="return false">
-              <div class="output-placeholder" id="outputPlaceholder"><span>✨</span>Your formatted document will appear here</div>
-              <div class="output-text" id="outputText" style="display:none;"></div>
-              
+
+            <div class="section-card">
+              <h2 class="section-title">Choose Document Type</h2>
+              <p class="section-sub">Pick the output type and let FormatFlow™ guide the next steps.</p>
+
+              <div class="grid-2" style="margin-top:14px;">
+                <div class="field">
+                  <label for="docType">Document Type</label>
+                  <select id="docType" onchange="handleDocTypeChange()">
+                    <option value="lease">Lease Agreement</option>
+                    <option value="resume">Resume</option>
+                    <option value="business">Business Letter</option>
+                    <option value="invoice">Invoice</option>
+                    <option value="general">General Professional Document</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="docTone">Output Style</label>
+                  <select id="docTone" onchange="generatePreview()">
+                    <option value="professional">Professional</option>
+                    <option value="formal">Formal</option>
+                    <option value="clear">Clear and Simple</option>
+                    <option value="premium">Premium</option>
+                  </select>
+                </div>
+              </div>
             </div>
+
+            <div class="section-card">
+              <h2 class="section-title">Guided Questions</h2>
+              <p class="section-sub">This is where the system asks only what is missing instead of making people start over.</p>
+              <div id="guidedQuestions" class="questions"></div>
+
+              <div class="action-row">
+                <button class="btn btn-primary" onclick="generatePreview()">Format Document</button>
+                <button class="btn btn-secondary" onclick="clearWorkspace()">Clear Workspace</button>
+                <button class="btn btn-danger" onclick="stopVoice()">Stop Voice</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="right-panel">
+            <div class="preview-shell">
+              <div class="preview-top">
+                <div>
+                  <h2>Live Document Preview</h2>
+                  <div class="preview-note">The preview updates from your uploaded content, guided answers, and selected document type.</div>
+                </div>
+                <button class="btn btn-primary" onclick="generatePreview()">Refresh Preview</button>
+              </div>
+
+              <div class="doc-preview">
+                <div class="doc-paper" id="formattedOutput">
+                  <h3>FORMATFLOW™ DOCUMENT PREVIEW</h3>
+                  <p class="muted-doc">Your formatted document will appear here once you upload or enter content and choose a document type.</p>
+                </div>
+              </div>
+
+              <div class="download-row">
+                <button class="btn btn-primary" onclick="downloadFormattedFile('txt')">Download TXT</button>
+                <button class="btn btn-secondary" onclick="downloadFormattedFile('doc')">Download DOC</button>
+                <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini-card"><strong>1. Upload or Start</strong><span>Customers can upload a file, paste rough text, or use voice in one place.</span></div>
+        <div class="mini-card"><strong>2. Choose the Type</strong><span>Resume, lease, business letter, invoice, and more can start from the same workspace.</span></div>
+        <div class="mini-card"><strong>3. Answer Questions</strong><span>The system gathers missing details like tenant, landlord, address, job title, or invoice amount.</span></div>
+        <div class="mini-card"><strong>4. Review and Download</strong><span>The result appears on the same screen for review before download or print.</span></div>
+      </div>
+    </section>
+
+    <div class="foot-note">FormatFlow™ single-workspace concept — cleaner experience, easier flow, and better customer convenience.</div>
+  </main>
+
+  <script>
+    let latestUploadToken = 0;
+    let voiceRecognition = null;
+    let selectedRole = 'tenant';
+
+    const questionTemplates = {
+      lease: () => `
+        <div class="question-card">
+          <div class="question-title">Are you the tenant or the landlord?</div>
+          <div class="toggle-row">
+            <button type="button" class="toggle-btn ${selectedRole === 'tenant' ? 'active' : ''}" onclick="setRole('tenant')">Tenant</button>
+            <button type="button" class="toggle-btn ${selectedRole === 'landlord' ? 'active' : ''}" onclick="setRole('landlord')">Landlord</button>
           </div>
         </div>
-        <div class="tool-actions">
-         <button class="format-btn" id="formatBtn" onclick="formatDocument()"><span id="formatBtnText">✨ Format My Document</span></button>
-          <div class="status-msg" id="statusMsg"></div>
-        </div>
-        <div id="downloadBar" style="display:none; margin-top:1.2rem; padding:1.2rem; background:var(--green-pale); border-radius:16px; border:1px solid var(--green-light);">
-          <div style="font-weight:700; color:var(--dark); margin-bottom:0.75rem;">✅ Your document is ready!</div>
-          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-          <a class="format-btn" style="padding:0.7rem 1.5rem; font-size:0.88rem; display:inline-block; text-decoration:none;" href="https://buy.stripe.com/aFa9AS4Rlg7f3kMdNf3ks00" target="_blank" rel="noopener noreferrer">Download PDF - $2.99</a>
-           <button class="voice-btn" style="font-size:0.85rem;" onclick="showStatus('Google Docs access available after download.')">📊 Google Docs</button>
+        <div class="grid-2">
+          <div class="field">
+            <label for="partyName">Your Full Name</label>
+            <input type="text" id="partyName" placeholder="Enter full name" oninput="generatePreview()" />
           </div>
-          
+          <div class="field">
+            <label for="otherPartyName">Other Party Name</label>
+            <input type="text" id="otherPartyName" placeholder="Enter other party name" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="propertyAddress">Property Address</label>
+            <input type="text" id="propertyAddress" placeholder="Enter property address" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="rentAmount">Monthly Rent</label>
+            <input type="text" id="rentAmount" placeholder="$0.00" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="leaseStart">Lease Start Date</label>
+            <input type="date" id="leaseStart" onchange="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="leaseEnd">Lease End Date</label>
+            <input type="date" id="leaseEnd" onchange="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="depositAmount">Security Deposit</label>
+            <input type="text" id="depositAmount" placeholder="$0.00" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="utilities">Utilities</label>
+            <input type="text" id="utilities" placeholder="Who pays which utilities?" oninput="generatePreview()" />
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="pricing-section" id="pricing">
-  <div class="section-inner">
-    <div class="section-label fade-up">Simple Pricing</div>
-<h2 class="fade-up">Create professional documents in seconds.</h2>
-<p class="section-sub fade-up">Pay per use or upgrade for ongoing access anytime.</p>
-    <div class="pricing-grid">
-    <div class="pricing-card fade-up">
-  <div class="pricing-tier">Basic</div>
-  <div class="pricing-price">$2.99</div>
-  <div style="font-size:0.95rem; color:#6b7280; margin-top:4px;">/ document</div>
-
-  <hr style="border:none; border-top:1px solid #e5e7eb; margin:18px 0;">
-
-  <ul>
-    <li>✔ 1 document per purchase</li>
-    <li>✔ Up to 15 pages</li>
-    <li>✔ Clean, watermark-free</li>
-    <li>✔ Instant download</li>
-    <li>✔ No subscription required</li>
-  </ul>
-
-  <a href="https://buy.stripe.com/aFa9AS4Rlg7f3kMdNf3ks00" class="btn">
-    Generate & Download
-  </a>
-</div>
-  <div class="pricing-card fade-up">
-  <div class="pricing-tier">Starter</div>
-  <div class="pricing-price">$9.99 <span>/ month</span></div>
-  <hr style="border:none; border-top:1px solid #e5e7eb; margin:18px 0;">
-  <ul>
-    <li>✔ 5 documents per month</li>
-    <li>✔ Up to 10 pages each</li>
-    <li>✔ Basic templates</li>
-    <li>✔ PDF download</li>
-    <li>✔ Faster access than pay-per-use</li>
-    <li>✔ Monthly plan</li>
-  </ul>
-  <a href="https://buy.stripe.com/4gM9ASgA3dZ78F68sV3ks01" class="btn" target="_blank" rel="noopener">
-    Get Started
-  </a>
-</div>
-  
-
-  
-   
-   
-   
-    
- 
-
- 
-      <div class="pricing-card popular fade-up">
-  <div class="popular-badge">⭐ Most Popular</div>
-
-  <div class="pricing-tier">Pro</div>
-  <div class="pricing-price">$29.99 <span>/ month</span></div>
-
-  <hr style="border:none; border-top:1px solid #e5e7eb; margin:18px 0;">
-
-  <ul>
-    <li>✔ 15 documents per month</li>
-    <li>✔ Up to 25 pages</li>
-    <li>✔ All templates</li>
-    <li>✔ PDF + Word + Google Docs</li>
-    <li>✔ Voice input</li>
-    <li>✔ Saved history</li>
-    <li>✔ 1 FREE notarization/month</li>
-  </ul>
-
-  <a href="https://buy.stripe.com/aFa9AS2Jdf3baNe38B3ks02" class="btn" target="_blank" rel="noopener">
-    Go Pro
-  </a>
-</div>
-    <div class="pricing-card fade-up">
-  <div class="pricing-tier">Unlimited</div>
-  <div class="pricing-price">$49.99 <span>/ month</span></div>
-
-  <hr style="border:none; border-top:1px solid #e5e7eb; margin:18px 0;">
-
-  <ul>
-    <li>✔ Unlimited documents</li>
-    <li>✔ Unlimited pages</li>
-    <li>✔ All templates</li>
-    <li>✔ Voice input</li>
-    <li>✔ Book formatting</li>
-    <li>✔ ePub & Kindle export</li>
-    <li>✔ Canva template upload</li>
-    <li>✔ 2 notarizations/month</li>
-  </ul>
-
-  <a href="https://buy.stripe.com/4gM9AS1F98EN2gI7oR3ks03" class="btn" target="_blank" rel="noopener">
-Go Unlimited
-</a> 
-    
-  
-</div>
-     <div class="pricing-card fade-up">
-  <div class="pricing-tier">Business</div>
-  <div class="pricing-price">$129.99</div>
-  <div style="font-size:0.95rem; color:#6b7280; margin-top:4px;">/ month</div>
-
-  <hr style="border:none; border-top:1px solid #e5e7eb; margin:18px 0;">
-
-  <ul>
-    <li>✔ Unlimited documents & pages</li>
-    <li>✔ All templates + full legal library</li>
-    <li>✔ Voice input</li>
-    <li>✔ PDF, Word & Google Docs export</li>
-    <li>✔ Book formatting & publishing tools</li>
-    <li>✔ 3 team members included</li>
-    <li>✔ Custom branding</li>
-    <li>✔ Priority support</li>
-    <li>✔ API access</li>
-    <li>✔ 3 notarizations/month</li>
-  </ul>
-
-  <a href="https://buy.stripe.com/3cIfZgdnR6wF5sU24x3ks04" class="btn" target="_blank" rel="noopener">
-Go Business
-</a> >
-    
- 
-</div>
-    </div>
-    <div class="pay-per-use fade-up">Not ready for a subscription? <strong>Pay per use — $2.99/document</strong> — up to 15 pages — no commitment.</div>
-  </div>
-</section>
-<section class="lang-section" id="languages">
-  <div class="section-inner">
-    <div class="section-label fade-up">100+ Languages</div>
-   <h2 class="fade-up">FormatFlow™ speaks</h2>
-   <p class="section-sub fade-up">
-  Select your language. FormatFlow™ responds and formats your content accordingly. Built in. No extra cost.
-</p>
-    <div class="lang-pills">
-      <div class="lang-pill priority fade-up">🇺🇸 English</div>
-      <div class="lang-pill priority fade-up">🇪🇸 Español</div>
-      <div class="lang-pill priority fade-up">🇭🇹 Kreyòl Ayisyen</div>
-      <div class="lang-pill priority fade-up">🇫🇷 Français</div>
-      <div class="lang-pill priority fade-up">🇧🇷 Português</div>
-      <div class="lang-pill priority fade-up">🇸🇦 العربية</div>
-      <div class="lang-pill priority fade-up">🇨🇳 普通话</div>
-      <div class="lang-pill fade-up">🇩🇪 Deutsch</div>
-      <div class="lang-pill fade-up">🇮🇹 Italiano</div>
-      <div class="lang-pill fade-up">🇯🇵 日本語</div>
-      <div class="lang-pill fade-up">🇰🇷 한국어</div>
-      <div class="lang-pill fade-up">🇷🇺 Русский</div>
-      <div class="lang-pill fade-up">🇮🇳 हिन्दी</div>
-      <div class="lang-pill fade-up">+ 90 more languages →</div>
-    </div>
-  </div>
-</section>
-<section class="cta-section">
-  <div class="section-inner">
-
-    <div class="trial-box fade-up" style="max-width:700px; margin:0 auto; text-align:center;">
-
-      <div class="section-label">GET STARTED TODAY</div>
-
-      <h2>Start formatting your document now.</h2>
-
-      <p>
-        Capture, upload, or speak your content and turn it into a clean, professional document in seconds.
-      </p>
-
-      <div class="cta-features">
-        <span>✔ All document types</span>
-        <span>✔ Voice input</span>
-        <span>✔ 100+ languages</span>
-      </div>
-
-      <a href="#" class="btn">
-        Start Formatting
-      </a>
-
-    </div>
-
-  </div>
-</section>
-<footer>
-<div style="text-align:center; padding:40px 20px;">
-
-  <h3 style="margin-bottom:10px; font-size:1.6rem; font-weight:800; color:#ffffff;">
-    FormatFlow™
-  </h3>
-
-  <p style="margin:0 0 16px 0; color:#e5e7eb;">
-    Screenshot. Snap. Sync. You capture it — we format it.
-  </p>
-
-  <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-bottom:16px;">
-  <a href="#" style="color:#ffffff; text-decoration:none;">Home</a>
-  <a href="#pricing" style="color:#ffffff; text-decoration:none;">Pricing</a>
-  <a href="#languages" style="color:#ffffff; text-decoration:none;">Languages</a>
-</div>
-
-  <p style="margin:0; color:#d1d5db; line-height:1.6;">
-    © 2026 FormatFlow™<br>
-    A Perception Legacy Group LLC product<br>
-    GetFormatFlow.com
-  </p>
-
-</div>
-
-
-
-
-</footer>
-<div class="modal-overlay" id="upsellModal">
-  <div class="modal">
-    <div class="modal-icon">🎉</div>
-    <h3>Your document is ready!</h3>
-    <p>Download your clean professional document for a one-time payment.</p>
-    <div class="modal-price">$2.99</div>
-    <div class="modal-price-label">One-time payment. No subscription needed.</div>
-    <div class="modal-btns">
-    <button class="modal-btn-primary" onclick="closeModal()">Use the main Download PDF - $2.99 button below</button>
-     <button class="voice-btn" style="font-size:0.85rem;" onclick="openGoogleDocs()">📊 Google Docs</button>
-     
-    </div>
-  </div>
-</div>
-<script>
-  const ANTHROPIC_API_KEY = 'PASTE_YOUR_API_KEY_HERE';
-  let recognition = null;
-  let isListening = false;
-  let latestUploadToken = 0;
-  function switchTab(el, type) {
-    document.querySelectorAll('.input-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    if (type === 'voice') toggleVoice();
-  }
-  function toggleVoice() {
-    const btn = document.getElementById('voiceBtn');
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { showStatus('Voice input requires Chrome browser.'); return; }
-    if (isListening) { recognition.stop(); isListening = false; btn.classList.remove('listening'); btn.textContent = '🎤 Voice'; return; }
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SR();
-    const lang = document.getElementById('langSelect').value;
-    const langMap = {'English':'en-US','Spanish':'es-ES','French':'fr-FR','Haitian Creole':'fr-HT','Portuguese':'pt-BR','Arabic':'ar-SA','Mandarin':'zh-CN'};
-    recognition.lang = langMap[lang] || 'en-US';
-    recognition.continuous = true; recognition.interimResults = false;
-    recognition.onstart = () => { isListening = true; btn.classList.add('listening'); btn.textContent = '🛑 Stop Listening'; showStatus('Listening... speak now'); };
-  recognition.onresult = (e) => {
-  let finalText = '';
-  for (let i = e.resultIndex; i < e.results.length; i++) {
-    if (e.results[i].isFinal) {
-      finalText += e.results[i][0].transcript + ' ';
-    }
-  }
-  if (finalText) {
-    document.getElementById('userInput').value += finalText;
-  }
-}; 
-    recognition.onend = () => {
-  if (isListening) {
-    recognition.start();
-    return;
-  }
-  btn.classList.remove('listening');
-  btn.textContent = '🎤 Voice';
-  showStatus('Voice captured! Click Format to continue.');
-};
-    recognition.start();
-  }
-  function showStatus(msg) { const el = document.getElementById('statusMsg'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 4000); }
-  async function formatDocument() {
-
-    if (recognition && isListening) {
-  recognition.stop();
-  isListening = false;
-}
-    const input = document.getElementById('userInput').value.trim();
-    const docType = document.getElementById('docType').value;
-    const lang = document.getElementById('langSelect').value;
-    if (!input) { showStatus('Please enter some text first.'); return; }
-    const btn = document.getElementById('formatBtn');
-    const btnText = document.getElementById('formatBtnText');
-    btn.disabled = true; btnText.innerHTML = '<span class="spinner"></span> Formatting...';
-    document.getElementById('outputPlaceholder').style.display = 'none';
-    document.getElementById('outputText').style.display = 'none';
-   
-    document.getElementById('downloadBar').style.display = 'none';
-    showStatus('FormatFlow is formatting your document...');
-    try {
-      const res = await fetch('/.netlify/functions/format', {
-        method: 'POST',
-    headers: {
-  'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-  input: input,
-  docType: docType,
-  lang: lang
-})
-  
-       
-      });
-      const data = await res.json();
-      if (data.content && data.content[0]) {
-       const fullText = data.content[0].text;
-const previewText = fullText.substring(0, 500) + "\n\n--- Preview Limited ---\nUnlock full document after download.";
-document.getElementById('outputText').textContent = previewText;
-        document.getElementById('outputText').style.display = 'block';
-       
-        document.getElementById('downloadBar').style.display = 'block';
-        showStatus('Preview ready. Download full document for $2.99 below.');
-      } else { showStatus('Something went wrong. Please try again.'); }
-   } catch(err) {
-  showStatus('Connection error. Please try again.');
-}
-    btn.disabled = false; btnText.innerHTML = '✨ Format My Document';
-  }
-  function showUpsell() {
-  return;
-}
-  function closeModal() { document.getElementById('upsellModal').classList.remove('show'); }
-  function openGoogleDocs() {
-  window.open('https://docs.google.com/', '_blank');
-}
-  document.getElementById('upsellModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
-  const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, {threshold:0.1});
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  function startWithPaste() {
-  const pasteTab = Array.from(document.querySelectorAll(".input-tab"))
-    .find(btn => btn.textContent.includes("Paste"));
-  if (pasteTab) pasteTab.click();
-
-  const tryIt = document.getElementById("try-it");
-  if (tryIt) {
-    tryIt.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  setTimeout(() => {
-    const userInput = document.getElementById("userInput");
-    if (userInput) userInput.focus();
-  }, 250);
-}
-929 }
-
-function renderUploadPreview(files) {
-  const preview = document.getElementById('uploadPreview');
-  if (!preview) return;
-
-  if (!files || !files.length) {
-    preview.style.display = 'none';
-    preview.innerHTML = '';
-    return;
-  }
-
-  preview.style.display = 'block';
-
-  const items = Array.from(files).map((file, index) => {
-    const isImage = file.type && file.type.startsWith('image/');
-    const sizeKB = Math.max(1, Math.round(file.size / 1024));
-
-    const thumb = isImage
-      ? `<img class="upload-preview-thumb" src="${URL.createObjectURL(file)}" />`
-      : `<div class="upload-preview-thumb" style="display:flex;align-items:center;justify-content:center;font-size:18px;">📄</div>`;
-
-    return `
-      <div class="upload-preview-item">
-        ${thumb}
-        <div class="upload-preview-file">
-          <div class="upload-preview-name">${file.name}</div>
-          <div class="upload-preview-meta">File ${index + 1} • ${sizeKB} KB</div>
+      `,
+      resume: () => `
+        <div class="grid-2">
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Your full name" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="jobTitle">Target Job Title</label>
+            <input type="text" id="jobTitle" placeholder="Example: Operations Manager" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" placeholder="(555) 555-5555" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="emailAddress">Email Address</label>
+            <input type="text" id="emailAddress" placeholder="name@email.com" oninput="generatePreview()" />
+          </div>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="summaryText">Professional Summary</label>
+            <textarea id="summaryText" placeholder="Write a short professional summary" oninput="generatePreview()"></textarea>
+          </div>
         </div>
-      </div>
-    `;
-  }).join('');
-
-  preview.innerHTML = `<div class="upload-preview-list">${items}</div>`;
-}
-function handleHeroUpload(event) {
-const currentToken = ++latestUploadToken;
-  
-  const file = event.target.files && event.target.files[0];
-  renderUploadPreview(event.target.files);
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    const img = new Image();
-    img.src = e.target.result;
-
-    img.onload = function() {
-      showStatus("Reading image...");
-
-      Tesseract.recognize(
-        img,
-        'eng'
-     ).then(({ data: { text } }) => {
-
-  if (currentToken !== latestUploadToken) return;
-
-  const userInput = document.getElementById('userInput');
-  userInput.value = text;
-  showStatus("Text extracted from screenshot. Click Format.");
-
-}).catch(() => {
-  showStatus("Could not read screenshot. Try a clearer image.");
-});
+      `,
+      business: () => `
+        <div class="grid-2">
+          <div class="field">
+            <label for="senderName">Sender Name</label>
+            <input type="text" id="senderName" placeholder="Your name or business" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="recipientName">Recipient Name</label>
+            <input type="text" id="recipientName" placeholder="Recipient" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="letterSubject">Subject</label>
+            <input type="text" id="letterSubject" placeholder="Letter subject" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="letterDate">Date</label>
+            <input type="date" id="letterDate" onchange="generatePreview()" />
+          </div>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="businessBody">Letter Body</label>
+            <textarea id="businessBody" placeholder="Enter the message or let uploaded content fill this in" oninput="generatePreview()"></textarea>
+          </div>
+        </div>
+      `,
+      invoice: () => `
+        <div class="grid-2">
+          <div class="field">
+            <label for="invoiceFrom">From</label>
+            <input type="text" id="invoiceFrom" placeholder="Business name" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="invoiceTo">To</label>
+            <input type="text" id="invoiceTo" placeholder="Client name" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="invoiceNumber">Invoice Number</label>
+            <input type="text" id="invoiceNumber" placeholder="INV-001" oninput="generatePreview()" />
+          </div>
+          <div class="field">
+            <label for="invoiceAmount">Amount</label>
+            <input type="text" id="invoiceAmount" placeholder="$0.00" oninput="generatePreview()" />
+          </div>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="invoiceDescription">Description</label>
+            <textarea id="invoiceDescription" placeholder="Services or items" oninput="generatePreview()"></textarea>
+          </div>
+        </div>
+      `,
+      general: () => `
+        <div class="question-card">
+          <div class="question-title">General Formatting</div>
+          <div class="field">
+            <label for="generalTitle">Document Title</label>
+            <input type="text" id="generalTitle" placeholder="Enter a title" oninput="generatePreview()" />
+          </div>
+        </div>
+      `
     };
-  };
 
-  reader.readAsDataURL(file);
-}
-
-function startWithPaste() {
-  const pasteTab = Array.from(document.querySelectorAll(".input-tab"))
-    .find(btn => btn.textContent.includes("Paste"));
-  if (pasteTab) pasteTab.click();
-
-  const tryIt = document.getElementById("try-it");
-  if (tryIt) {
-    tryIt.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  setTimeout(() => {
-    const userInput = document.getElementById("userInput");
-    if (userInput) userInput.focus();
-  }, 250);
-}
-  function downloadFormattedFile(type) {
-  const userInput = document.getElementById("userInput");
-  if (!userInput || !userInput.value.trim()) {
-    alert("No content to download.");
-    return;
-  }
-
-  const content = userInput.value;
-  let blob, fileName;
-
-  if (type === "pdf") {
-    blob = new Blob([content], { type: "application/pdf" });
-    fileName = "formatflow-output.pdf";
-  } else if (type === "word") {
-    blob = new Blob([content], { type: "application/msword" });
-    fileName = "formatflow-output.doc";
-  } else {
-    blob = new Blob([content], { type: "text/plain" });
-    fileName = "formatflow-output.txt";
-  }
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-function formatDocumentSafe() {
-  const inputEl = document.getElementById('userInput');
-  const docTypeEl = document.getElementById('docType');
-  const outputText = document.getElementById('outputText');
-  const outputPlaceholder = document.getElementById('outputPlaceholder');
-  const statusMsg = document.getElementById('statusMsg');
-  const downloadBar = document.getElementById('downloadBar');
-  const formatBtnText = document.getElementById('formatBtnText');
-
-  const input = inputEl ? inputEl.value.trim() : '';
-  const docType = docTypeEl ? docTypeEl.value : 'Document';
-
-  if (!input) {
-    if (statusMsg) statusMsg.textContent = 'Please enter or upload content first.';
-    return;
-  }
-
-  if (formatBtnText) {
-    formatBtnText.innerHTML = '<span class="spinner"></span> Formatting...';
-  }
-
-  if (outputPlaceholder) outputPlaceholder.style.display = 'none';
-
-  setTimeout(() => {
-    if (outputText) {
-      outputText.textContent = docType + '\n\n' + input;
-      outputText.style.display = 'block';
+    function showStatus(message, pillText = 'Working') {
+      const statusText = document.getElementById('statusText');
+      const statusPill = document.getElementById('statusPill');
+      if (statusText) statusText.textContent = message;
+      if (statusPill) statusPill.textContent = pillText;
     }
 
-    if (downloadBar) downloadBar.style.display = 'block';
-
-    if (statusMsg) {
-      statusMsg.textContent = 'Safe mode preview ready. Live formatting is off.';
+    function startWithPaste() {
+      const input = document.getElementById('userInput');
+      if (input) input.focus();
+      showStatus('Paste or type your content in the text area.', 'Paste Mode');
     }
 
-    if (formatBtnText) {
-      formatBtnText.innerHTML = '✨ Format My Document';
+    function startWithVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showStatus('Voice input is not supported in this browser.', 'Voice Unavailable');
+        return;
+      }
+
+      if (voiceRecognition) {
+        try { voiceRecognition.stop(); } catch (e) {}
+      }
+
+      voiceRecognition = new SpeechRecognition();
+      voiceRecognition.continuous = true;
+      voiceRecognition.interimResults = true;
+      voiceRecognition.lang = 'en-US';
+
+      const input = document.getElementById('userInput');
+      let finalTranscript = input.value ? input.value + '\n' : '';
+
+      voiceRecognition.onstart = function() {
+        showStatus('Voice input started. Speak naturally.', 'Listening');
+      };
+
+      voiceRecognition.onresult = function(event) {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript + ' ';
+          } else {
+            interim += transcript;
+          }
+        }
+        input.value = (finalTranscript + interim).trim();
+      };
+
+      voiceRecognition.onerror = function() {
+        showStatus('Voice input had an issue. Please try again.', 'Voice Error');
+      };
+
+      voiceRecognition.onend = function() {
+        showStatus('Voice input stopped.', 'Voice Stopped');
+      };
+
+      voiceRecognition.start();
     }
-  }, 500);
-}  
-</script>
+
+    function stopVoice() {
+      if (voiceRecognition) {
+        try { voiceRecognition.stop(); } catch (e) {}
+      }
+      showStatus('Voice input stopped.', 'Voice Stopped');
+    }
+
+    function renderUploadPreview(files) {
+      const preview = document.getElementById('uploadPreview');
+      if (!preview) return;
+
+      if (!files || !files.length) {
+        preview.style.display = 'none';
+        preview.innerHTML = '';
+        return;
+      }
+
+      preview.style.display = 'grid';
+
+      const items = Array.from(files).map((file, index) => {
+        const isImage = file.type && file.type.startsWith('image/');
+        const sizeKB = Math.max(1, Math.round(file.size / 1024));
+        const thumb = isImage
+          ? `<img class="upload-preview-thumb" src="${URL.createObjectURL(file)}" alt="${file.name}" />`
+          : `<div class="upload-preview-thumb">📄</div>`;
+
+        return `
+          <div class="upload-preview-item">
+            ${thumb}
+            <div class="upload-preview-file">
+              <div class="upload-preview-name">${file.name}</div>
+              <div class="upload-preview-meta">File ${index + 1} • ${sizeKB} KB</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      preview.innerHTML = items;
+    }
+
+    function handleHeroUpload(event) {
+      const currentToken = ++latestUploadToken;
+      const files = event.target.files;
+      const file = files && files[0];
+      if (!file) return;
+
+      renderUploadPreview(files);
+      showStatus(`Loaded ${files.length} file${files.length > 1 ? 's' : ''}.`, 'Files Loaded');
+
+      if (file.type === 'text/plain' || file.name.toLowerCase().endsWith('.txt')) {
+        const textReader = new FileReader();
+        textReader.onload = function(e) {
+          if (currentToken !== latestUploadToken) return;
+          const userInput = document.getElementById('userInput');
+          userInput.value = e.target.result || '';
+          showStatus('Text file loaded into the workspace. Click Format Document.', 'Text Loaded');
+          generatePreview();
+        };
+        textReader.onerror = function() {
+          showStatus('Could not read text file.', 'Read Error');
+        };
+        textReader.readAsText(file);
+        return;
+      }
+
+      if (!(file.type && file.type.startsWith('image/'))) {
+        showStatus('File uploaded and previewed. Parsing for this file type can be expanded next.', 'Preview Ready');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = function() {
+          showStatus('Reading screenshot text...', 'OCR Running');
+          Tesseract.recognize(img, 'eng').then(({ data: { text } }) => {
+            if (currentToken !== latestUploadToken) return;
+            const userInput = document.getElementById('userInput');
+            userInput.value = text;
+            showStatus('Text extracted from screenshot. Click Format Document.', 'OCR Complete');
+            generatePreview();
+          }).catch(() => {
+            showStatus('Could not read screenshot. Try a clearer image.', 'OCR Error');
+          });
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleDocTypeChange() {
+      const docType = document.getElementById('docType').value;
+      const guided = document.getElementById('guidedQuestions');
+      guided.innerHTML = questionTemplates[docType] ? questionTemplates[docType]() : '';
+      generatePreview();
+    }
+
+    function setRole(role) {
+      selectedRole = role;
+      handleDocTypeChange();
+    }
+
+    function getValue(id, fallback = '________________') {
+      const el = document.getElementById(id);
+      if (!el) return fallback;
+      const value = (el.value || '').trim();
+      return value || fallback;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function buildLeasePreview(rawText) {
+      const roleName = selectedRole === 'tenant' ? 'Tenant' : 'Landlord';
+      const otherRole = selectedRole === 'tenant' ? 'Landlord' : 'Tenant';
+      const partyName = getValue('partyName');
+      const otherPartyName = getValue('otherPartyName');
+      const propertyAddress = getValue('propertyAddress');
+      const rentAmount = getValue('rentAmount');
+      const leaseStart = getValue('leaseStart');
+      const leaseEnd = getValue('leaseEnd');
+      const depositAmount = getValue('depositAmount');
+      const utilities = getValue('utilities');
+
+      return `
+        <h3>RESIDENTIAL LEASE AGREEMENT</h3>
+        <p>This Lease Agreement is entered into between <span class="line">${escapeHtml(partyName)}</span> (the ${roleName}) and <span class="line">${escapeHtml(otherPartyName)}</span> (the ${otherRole}).</p>
+        <p>The property located at <span class="line">${escapeHtml(propertyAddress)}</span> shall be leased under the terms set forth in this agreement.</p>
+        <p>Monthly Rent: <span class="line">${escapeHtml(rentAmount)}</span></p>
+        <p>Lease Start Date: <span class="line">${escapeHtml(leaseStart)}</span></p>
+        <p>Lease End Date: <span class="line">${escapeHtml(leaseEnd)}</span></p>
+        <p>Security Deposit: <span class="line">${escapeHtml(depositAmount)}</span></p>
+        <p>Utilities Responsibility: <span class="line">${escapeHtml(utilities)}</span></p>
+        <p>Source Notes:</p>
+        <p class="muted-doc">${escapeHtml(rawText || 'No uploaded or typed notes yet. Enter or upload content to enrich this preview.')}</p>
+      `;
+    }
+
+    function buildResumePreview(rawText) {
+      return `
+        <h3>${escapeHtml(getValue('fullName', 'YOUR NAME'))}</h3>
+        <p><strong>Target Role:</strong> ${escapeHtml(getValue('jobTitle', 'Target Job Title'))}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(getValue('phoneNumber', '(555) 555-5555'))} &nbsp; | &nbsp; <strong>Email:</strong> ${escapeHtml(getValue('emailAddress', 'your@email.com'))}</p>
+        <p><strong>Professional Summary</strong></p>
+        <p>${escapeHtml(getValue('summaryText', rawText || 'Enter or upload your experience details to create a professional resume summary.'))}</p>
+        <p><strong>Experience Notes</strong></p>
+        <p class="muted-doc">${escapeHtml(rawText || 'Add job history, accomplishments, leadership, operations, or support experience here.')}</p>
+      `;
+    }
+
+    function buildBusinessPreview(rawText) {
+      return `
+        <h3>BUSINESS LETTER</h3>
+        <p><strong>From:</strong> ${escapeHtml(getValue('senderName', 'Sender Name'))}</p>
+        <p><strong>To:</strong> ${escapeHtml(getValue('recipientName', 'Recipient Name'))}</p>
+        <p><strong>Date:</strong> ${escapeHtml(getValue('letterDate', 'Date'))}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(getValue('letterSubject', 'Subject Line'))}</p>
+        <p>${escapeHtml(getValue('businessBody', rawText || 'Enter or upload the body of your business letter.'))}</p>
+      `;
+    }
+
+    function buildInvoicePreview(rawText) {
+      return `
+        <h3>INVOICE</h3>
+        <p><strong>From:</strong> ${escapeHtml(getValue('invoiceFrom', 'Business Name'))}</p>
+        <p><strong>To:</strong> ${escapeHtml(getValue('invoiceTo', 'Client Name'))}</p>
+        <p><strong>Invoice Number:</strong> ${escapeHtml(getValue('invoiceNumber', 'INV-001'))}</p>
+        <p><strong>Amount Due:</strong> ${escapeHtml(getValue('invoiceAmount', '$0.00'))}</p>
+        <p><strong>Description</strong></p>
+        <p>${escapeHtml(getValue('invoiceDescription', rawText || 'Enter services or item details.'))}</p>
+      `;
+    }
+
+    function buildGeneralPreview(rawText) {
+      return `
+        <h3>${escapeHtml(getValue('generalTitle', 'PROFESSIONAL DOCUMENT'))}</h3>
+        <p>${escapeHtml(rawText || 'Enter or upload content to create a general formatted document preview.')}</p>
+      `;
+    }
+
+    function generatePreview() {
+      const rawText = (document.getElementById('userInput').value || '').trim();
+      const docType = document.getElementById('docType').value;
+      const output = document.getElementById('formattedOutput');
+
+      let html = '';
+      if (docType === 'lease') html = buildLeasePreview(rawText);
+      else if (docType === 'resume') html = buildResumePreview(rawText);
+      else if (docType === 'business') html = buildBusinessPreview(rawText);
+      else if (docType === 'invoice') html = buildInvoicePreview(rawText);
+      else html = buildGeneralPreview(rawText);
+
+      output.innerHTML = html;
+      showStatus('Preview updated.', 'Preview Ready');
+    }
+
+    function clearWorkspace() {
+      const fileInput = document.getElementById('heroUpload');
+      const textArea = document.getElementById('userInput');
+      const preview = document.getElementById('uploadPreview');
+
+      if (fileInput) fileInput.value = '';
+      if (textArea) textArea.value = '';
+      if (preview) {
+        preview.innerHTML = '';
+        preview.style.display = 'none';
+      }
+
+      handleDocTypeChange();
+      showStatus('Workspace cleared.', 'Cleared');
+    }
+
+    function downloadFormattedFile(type) {
+      const content = document.getElementById('formattedOutput').innerText;
+      const extension = type === 'doc' ? 'doc' : 'txt';
+      const mime = type === 'doc' ? 'application/msword' : 'text/plain';
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `formatflow-document.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showStatus(`Downloaded formatflow-document.${extension}`, 'Downloaded');
+    }
+
+    function setupDragAndDrop() {
+      const zone = document.getElementById('uploadZone');
+      const fileInput = document.getElementById('heroUpload');
+      if (!zone || !fileInput) return;
+
+      ['dragenter', 'dragover'].forEach(evt => {
+        zone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          zone.classList.add('dragging');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(evt => {
+        zone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          zone.classList.remove('dragging');
+        });
+      });
+
+      zone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (!files || !files.length) return;
+        fileInput.files = files;
+        handleHeroUpload({ target: { files } });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      handleDocTypeChange();
+      setupDragAndDrop();
+      generatePreview();
+    });
+  </script>
 </body>
 </html>
