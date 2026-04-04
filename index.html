@@ -782,6 +782,11 @@ Go Business
   }
   function showStatus(msg) { const el = document.getElementById('statusMsg'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 4000); }
   async function formatDocument() {
+
+    if (recognition && isListening) {
+  recognition.stop();
+  isListening = false;
+}
     const input = document.getElementById('userInput').value.trim();
     const docType = document.getElementById('docType').value;
     const lang = document.getElementById('langSelect').value;
