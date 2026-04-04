@@ -3,1244 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FormatFlow™ | Professional Document Formatting</title>
+  <title>FormatFlow™</title>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
   <style>
-    :root {
-      --bg: #07110a;
-      --panel: #0d1810;
-      --panel-2: #122016;
-      --card: rgba(255,255,255,0.05);
-      --card-2: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.12);
-      --text: #f5f7f3;
-      --muted: rgba(245,247,243,0.72);
-      --green: #2fc66d;
-      --green-2: #1f8f4b;
-      --gold: #d7b45a;
-      --danger: #ff7d7d;
-      --shadow: 0 18px 60px rgba(0,0,0,0.35);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
-      --max: 1400px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(47,198,109,0.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(215,180,90,0.16), transparent 24%),
-        linear-gradient(180deg, #061009 0%, #09120b 50%, #061009 100%);
-      color: var(--text);
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#07110a;
+      color:white;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea, select { font: inherit; }
-
-    .shell {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 20px;
+    .container {
+      display:flex;
+      height:100vh;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(16px);
-      background: rgba(6, 13, 8, 0.84);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    .left, .right {
+      padding:20px;
+      overflow:auto;
     }
 
-    .nav {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+    .left {
+      width:45%;
+      border-right:1px solid rgba(255,255,255,0.1);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
+    .right {
+      width:55%;
+      background:#0d1810;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(47,198,109,0.22), rgba(215,180,90,0.22));
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: var(--shadow);
+    h1 {margin-top:0;}
+
+    .upload {
+      border:2px dashed #2fc66d;
+      padding:20px;
+      border-radius:12px;
+      cursor:pointer;
     }
 
-    .brand span small {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .preview-box {
+      background:white;
+      color:black;
+      padding:20px;
+      border-radius:12px;
+      min-height:300px;
     }
 
-    .hero {
-      padding: 34px 0 18px;
+    .templates {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:15px;
     }
 
-    .hero-card {
-      background: linear-gradient(180deg, rgba(18,32,22,0.92), rgba(10,18,12,0.96));
-      border: 1px solid var(--border);
-      border-radius: 34px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .template-card {
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
     }
 
-    .hero-head {
-      padding: 28px 28px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(47,198,109,0.10);
-      color: #baf2d0;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border: 1px solid rgba(47,198,109,0.2);
-      font-weight: 700;
-    }
-
-    h1 {
-      margin: 14px 0 10px;
-      font-size: clamp(34px, 5vw, 58px);
-      line-height: 1.02;
-      max-width: 820px;
-    }
-
-    .hero-sub {
-      margin: 0;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 880px;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-content: flex-start;
-    }
-
-    .hero-badge {
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-      font-weight: 600;
-      min-width: 170px;
-    }
-
-    .hero-badge strong {
-      display: block;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .workspace {
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      min-height: 780px;
-    }
-
-    .left-panel,
-    .right-panel {
-      padding: 24px;
-    }
-
-    .left-panel {
-      border-right: 1px solid rgba(255,255,255,0.08);
-      background: rgba(7,14,9,0.45);
-    }
-
-    .section-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 20px;
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      margin: 0 0 8px;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .section-sub {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .upload-zone {
-      margin-top: 18px;
-      border: 1.5px dashed rgba(47,198,109,0.36);
-      border-radius: 24px;
-      background: linear-gradient(180deg, rgba(47,198,109,0.08), rgba(255,255,255,0.02));
-      padding: 24px;
-      cursor: pointer;
-      transition: 0.25s ease;
-    }
-
-    .upload-zone:hover {
-      transform: translateY(-1px);
-      border-color: rgba(215,180,90,0.46);
-      background: linear-gradient(180deg, rgba(47,198,109,0.10), rgba(215,180,90,0.04));
-    }
-
-    .upload-zone.dragging {
-      border-color: var(--gold);
-      background: rgba(215,180,90,0.12);
-    }
-
-    .upload-main {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .upload-icon {
-      width: 62px;
-      height: 62px;
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      font-size: 28px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      flex-shrink: 0;
-    }
-
-    .upload-copy strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 6px;
-    }
-
-    .upload-copy span {
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .input-methods {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .input-method {
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      border-radius: 18px;
-      padding: 14px 14px;
-      text-align: left;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 60px;
-    }
-
-    .input-method:hover {
-      border-color: rgba(215,180,90,0.28);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .input-method .icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.08);
-      flex-shrink: 0;
-    }
-
-    .text-entry {
-      margin-top: 16px;
-      display: grid;
-      gap: 12px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 180px;
-      resize: vertical;
-      border-radius: 18px;
-      padding: 16px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(5,10,7,0.78);
-      color: #fff;
-      outline: none;
-      line-height: 1.6;
-    }
-
-    textarea:focus,
-    select:focus,
-    input:focus {
-      border-color: rgba(47,198,109,0.45);
-      box-shadow: 0 0 0 4px rgba(47,198,109,0.08);
-    }
-
-    .upload-preview {
-      margin-top: 16px;
-      display: none;
-      gap: 12px;
-      display: grid;
-    }
-
-    .upload-preview-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-      border-radius: 16px;
-      padding: 12px;
-    }
-
-    .upload-preview-thumb {
-      width: 62px;
-      height: 62px;
-      border-radius: 14px;
-      object-fit: cover;
-      flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.06);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      font-size: 24px;
-    }
-
-    .upload-preview-file {
-      min-width: 0;
-    }
-
-    .upload-preview-name {
-      font-weight: 700;
-      word-break: break-word;
-    }
-
-    .upload-preview-meta {
-      color: var(--muted);
-      margin-top: 4px;
-      font-size: 13px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.7);
-      font-weight: 700;
-    }
-
-    select,
-    input[type="text"],
-    input[type="date"],
-    input[type="number"] {
-      width: 100%;
-      border-radius: 14px;
-      padding: 13px 14px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(5,10,7,0.78);
-      color: #fff;
-      outline: none;
-    }
-
-    .questions {
-      display: grid;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .question-card {
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.04);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .question-title {
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .toggle-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .toggle-btn {
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .toggle-btn.active {
-      background: linear-gradient(135deg, var(--green), var(--gold));
-      color: #07110a;
-      border-color: transparent;
-    }
-
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(47,198,109,0.12);
-      color: #c5f7d6;
-      font-size: 13px;
-      font-weight: 800;
-      border: 1px solid rgba(47,198,109,0.2);
-    }
-
-    .action-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
+    .template-card:hover {
+      border-color:#d7b45a;
     }
 
     .btn {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 18px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
+      margin-top:10px;
+      padding:10px;
+      border:none;
+      border-radius:8px;
+      background:#2fc66d;
+      color:black;
+      cursor:pointer;
     }
 
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--green), var(--gold));
-      color: #07110a;
-      box-shadow: 0 10px 28px rgba(47,198,109,0.24);
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-    }
-
-    .btn-danger {
-      background: rgba(255,125,125,0.12);
-      border: 1px solid rgba(255,125,125,0.24);
-      color: #ffd7d7;
-    }
-
-    .preview-shell {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 28px;
-      padding: 18px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      min-height: 720px;
-    }
-
-    .preview-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .preview-top h2 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .preview-note {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 6px;
-    }
-
-    .doc-preview {
-      flex: 1;
-      background: #ffffff;
-      color: #111;
-      border-radius: 24px;
-      padding: 34px;
-      overflow: auto;
-      min-height: 540px;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
-    }
-
-    .doc-paper {
-      max-width: 720px;
-      margin: 0 auto;
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    .doc-paper h3 {
-      text-align: center;
-      margin: 0 0 22px;
-      font-size: 24px;
-      letter-spacing: 0.04em;
-    }
-
-    .doc-paper p { margin: 0 0 14px; }
-    .doc-paper .line {
-      border-bottom: 1px solid #111;
-      display: inline-block;
-      min-width: 160px;
-      padding: 0 4px 2px;
-      font-weight: 700;
-    }
-
-    .doc-paper .muted-doc {
-      color: #555;
-      font-style: italic;
-    }
-
-    .download-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .foot-note {
-      text-align: center;
-      color: var(--muted);
-      padding: 18px 0 28px;
-      font-size: 14px;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .mini-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 16px;
-    }
-
-    .mini-card strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 17px;
-    }
-
-    .mini-card span {
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
-    @media (max-width: 1180px) {
-      .workspace { grid-template-columns: 1fr; }
-      .left-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
-      .preview-shell { min-height: auto; }
-      .mini-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 760px) {
-      .shell, .nav { padding-left: 14px; padding-right: 14px; }
-      .hero-head, .left-panel, .right-panel { padding: 16px; }
-      .input-methods, .grid-2, .download-row, .mini-grid { grid-template-columns: 1fr; }
-      .doc-preview { padding: 22px 18px; }
-      .upload-main { align-items: flex-start; }
-      h1 { font-size: 34px; }
+    select, textarea {
+      width:100%;
+      margin-top:10px;
+      padding:10px;
+      border-radius:8px;
+      border:none;
     }
   </style>
 </head>
+
 <body>
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <div class="brand-mark">✦</div>
-        <span>
-          FormatFlow™
-          <small>Professional Document Formatting</small>
-        </span>
-      </div>
+
+<div class="container">
+
+  <!-- LEFT SIDE -->
+  <div class="left">
+
+    <h1>FormatFlow™</h1>
+
+    <!-- Upload -->
+    <div class="upload" onclick="document.getElementById('file').click()">
+      Click or Drop File
+      <input id="file" type="file" style="display:none" onchange="handleUpload(event)">
     </div>
+
+    <div id="fileName"></div>
+
+    <!-- AI Decision -->
+    <h3>What do you want to do?</h3>
+    <select id="action">
+      <option>Turn into professional document</option>
+      <option>Use info to update document</option>
+      <option>Extract text only</option>
+    </select>
+
+    <!-- Templates -->
+    <h3>Choose Template</h3>
+    <div class="templates">
+      <div class="template-card" onclick="setTemplate('resume1')">Resume Style 1</div>
+      <div class="template-card" onclick="setTemplate('resume2')">Resume Style 2</div>
+      <div class="template-card" onclick="setTemplate('resume3')">Resume Style 3</div>
+      <div class="template-card" onclick="setTemplate('lease')">Lease Agreement</div>
+    </div>
+
+    <!-- Input -->
+    <textarea id="input" placeholder="Paste or auto-fill content here"></textarea>
+
+    <button class="btn" onclick="generate()">Generate</button>
+
+    <!-- Pricing -->
+    <h3>Pricing</h3>
+    <button class="btn">$2.99 Download</button>
+
   </div>
 
-  <main class="shell">
-    <section class="hero">
-      <div class="hero-card">
-        <div class="hero-head">
-          <div>
-            <div class="eyebrow">One Workspace • One Flow • No Jumping Around</div>
-            <h1>Upload, choose, answer, preview, and download — all in one place.</h1>
-            <p class="hero-sub">
-              FormatFlow™ gives customers a cleaner experience. Instead of uploading at the top and formatting somewhere else down the page, everything stays together in one professional workspace.
-            </p>
-          </div>
-          <div class="hero-badges">
-            <div class="hero-badge"><strong>Upload Files</strong> Images, text files, and document placeholders</div>
-            <div class="hero-badge"><strong>Guided Questions</strong> Lease, resume, and business document prompts</div>
-            <div class="hero-badge"><strong>Live Preview</strong> See the formatted document before download</div>
-          </div>
-        </div>
+  <!-- RIGHT SIDE -->
+  <div class="right">
 
-        <div class="workspace">
-          <section class="left-panel">
-            <div class="section-card">
-              <h2 class="section-title">Start Here</h2>
-              <p class="section-sub">Upload a file, paste text, or use voice input. Everything starts and stays right here in one workspace.</p>
+    <h2>Preview</h2>
 
-              <div class="upload-zone" id="uploadZone" onclick="document.getElementById('heroUpload').click()">
-                <input id="heroUpload" type="file" accept=".pdf,.doc,.docx,.txt,image/*" multiple style="display:none;" onchange="handleHeroUpload(event)">
-                <div class="upload-main">
-                  <div class="upload-icon">📄</div>
-                  <div class="upload-copy">
-                    <strong>Drop your document here or click to upload</strong>
-                    <span>Upload screenshots, notes, text files, or draft documents. Customers should be able to see what they uploaded right away.</span>
-                  </div>
-                </div>
+    <div class="preview-box" id="preview">
+      Your document will appear here
+    </div>
 
-                <div class="input-methods">
-                  <button type="button" class="input-method" onclick="event.stopPropagation(); startWithPaste()">
-                    <span class="icon">📝</span>
-                    <span>Enter Content</span>
-                  </button>
-                  <button type="button" class="input-method" onclick="event.stopPropagation(); document.getElementById('heroUpload').click()">
-                    <span class="icon">🖼️</span>
-                    <span>Upload Screenshot</span>
-                  </button>
-                  <button type="button" class="input-method" onclick="event.stopPropagation(); startWithVoice()">
-                    <span class="icon">🎤</span>
-                    <span>Voice Input</span>
-                  </button>
-                </div>
-              </div>
+  </div>
 
-              <div id="uploadPreview" class="upload-preview"></div>
+</div>
 
-              <div class="text-entry">
-                <textarea id="userInput" placeholder="Paste notes, type rough content, or let uploaded text appear here."></textarea>
-              </div>
+<script>
 
-              <div class="status-bar">
-                <span id="statusText">Ready. Upload a file, paste content, or use voice input.</span>
-                <span class="status-pill" id="statusPill">Workspace Ready</span>
-              </div>
-            </div>
+let currentTemplate = '';
 
-            <div class="section-card">
-              <h2 class="section-title">Choose Document Type</h2>
-              <p class="section-sub">Pick the output type and let FormatFlow™ guide the next steps.</p>
+function handleUpload(e) {
+  const file = e.target.files[0];
+  document.getElementById('fileName').innerText = file.name;
 
-              <div class="grid-2" style="margin-top:14px;">
-                <div class="field">
-                  <label for="docType">Document Type</label>
-                  <select id="docType" onchange="handleDocTypeChange()">
-                    <option value="lease">Lease Agreement</option>
-                    <option value="resume">Resume</option>
-                    <option value="business">Business Letter</option>
-                    <option value="invoice">Invoice</option>
-                    <option value="general">General Professional Document</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="docTone">Output Style</label>
-                  <select id="docTone" onchange="generatePreview()">
-                    <option value="professional">Professional</option>
-                    <option value="formal">Formal</option>
-                    <option value="clear">Clear and Simple</option>
-                    <option value="premium">Premium</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="section-card">
-              <h2 class="section-title">Guided Questions</h2>
-              <p class="section-sub">This is where the system asks only what is missing instead of making people start over.</p>
-              <div id="guidedQuestions" class="questions"></div>
-
-              <div class="action-row">
-                <button class="btn btn-primary" onclick="generatePreview()">Format Document</button>
-                <button class="btn btn-secondary" onclick="clearWorkspace()">Clear Workspace</button>
-                <button class="btn btn-danger" onclick="stopVoice()">Stop Voice</button>
-              </div>
-            </div>
-          </section>
-
-          <section class="right-panel">
-            <div class="preview-shell">
-              <div class="preview-top">
-                <div>
-                  <h2>Live Document Preview</h2>
-                  <div class="preview-note">The preview updates from your uploaded content, guided answers, and selected document type.</div>
-                </div>
-                <button class="btn btn-primary" onclick="generatePreview()">Refresh Preview</button>
-              </div>
-
-              <div class="doc-preview">
-                <div class="doc-paper" id="formattedOutput">
-                  <h3>FORMATFLOW™ DOCUMENT PREVIEW</h3>
-                  <p class="muted-doc">Your formatted document will appear here once you upload or enter content and choose a document type.</p>
-                </div>
-              </div>
-
-              <div class="download-row">
-                <button class="btn btn-primary" onclick="downloadFormattedFile('txt')">Download TXT</button>
-                <button class="btn btn-secondary" onclick="downloadFormattedFile('doc')">Download DOC</button>
-                <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <div class="mini-grid">
-        <div class="mini-card"><strong>1. Upload or Start</strong><span>Customers can upload a file, paste rough text, or use voice in one place.</span></div>
-        <div class="mini-card"><strong>2. Choose the Type</strong><span>Resume, lease, business letter, invoice, and more can start from the same workspace.</span></div>
-        <div class="mini-card"><strong>3. Answer Questions</strong><span>The system gathers missing details like tenant, landlord, address, job title, or invoice amount.</span></div>
-        <div class="mini-card"><strong>4. Review and Download</strong><span>The result appears on the same screen for review before download or print.</span></div>
-      </div>
-    </section>
-
-    <div class="foot-note">FormatFlow™ single-workspace concept — cleaner experience, easier flow, and better customer convenience.</div>
-  </main>
-
-  <script>
-    let latestUploadToken = 0;
-    let voiceRecognition = null;
-    let selectedRole = 'tenant';
-
-    const questionTemplates = {
-      lease: () => `
-        <div class="question-card">
-          <div class="question-title">Are you the tenant or the landlord?</div>
-          <div class="toggle-row">
-            <button type="button" class="toggle-btn ${selectedRole === 'tenant' ? 'active' : ''}" onclick="setRole('tenant')">Tenant</button>
-            <button type="button" class="toggle-btn ${selectedRole === 'landlord' ? 'active' : ''}" onclick="setRole('landlord')">Landlord</button>
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="field">
-            <label for="partyName">Your Full Name</label>
-            <input type="text" id="partyName" placeholder="Enter full name" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="otherPartyName">Other Party Name</label>
-            <input type="text" id="otherPartyName" placeholder="Enter other party name" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="propertyAddress">Property Address</label>
-            <input type="text" id="propertyAddress" placeholder="Enter property address" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="rentAmount">Monthly Rent</label>
-            <input type="text" id="rentAmount" placeholder="$0.00" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="leaseStart">Lease Start Date</label>
-            <input type="date" id="leaseStart" onchange="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="leaseEnd">Lease End Date</label>
-            <input type="date" id="leaseEnd" onchange="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="depositAmount">Security Deposit</label>
-            <input type="text" id="depositAmount" placeholder="$0.00" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="utilities">Utilities</label>
-            <input type="text" id="utilities" placeholder="Who pays which utilities?" oninput="generatePreview()" />
-          </div>
-        </div>
-      `,
-      resume: () => `
-        <div class="grid-2">
-          <div class="field">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="Your full name" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="jobTitle">Target Job Title</label>
-            <input type="text" id="jobTitle" placeholder="Example: Operations Manager" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="phoneNumber">Phone Number</label>
-            <input type="text" id="phoneNumber" placeholder="(555) 555-5555" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="emailAddress">Email Address</label>
-            <input type="text" id="emailAddress" placeholder="name@email.com" oninput="generatePreview()" />
-          </div>
-          <div class="field" style="grid-column: 1 / -1;">
-            <label for="summaryText">Professional Summary</label>
-            <textarea id="summaryText" placeholder="Write a short professional summary" oninput="generatePreview()"></textarea>
-          </div>
-        </div>
-      `,
-      business: () => `
-        <div class="grid-2">
-          <div class="field">
-            <label for="senderName">Sender Name</label>
-            <input type="text" id="senderName" placeholder="Your name or business" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="recipientName">Recipient Name</label>
-            <input type="text" id="recipientName" placeholder="Recipient" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="letterSubject">Subject</label>
-            <input type="text" id="letterSubject" placeholder="Letter subject" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="letterDate">Date</label>
-            <input type="date" id="letterDate" onchange="generatePreview()" />
-          </div>
-          <div class="field" style="grid-column: 1 / -1;">
-            <label for="businessBody">Letter Body</label>
-            <textarea id="businessBody" placeholder="Enter the message or let uploaded content fill this in" oninput="generatePreview()"></textarea>
-          </div>
-        </div>
-      `,
-      invoice: () => `
-        <div class="grid-2">
-          <div class="field">
-            <label for="invoiceFrom">From</label>
-            <input type="text" id="invoiceFrom" placeholder="Business name" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="invoiceTo">To</label>
-            <input type="text" id="invoiceTo" placeholder="Client name" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="invoiceNumber">Invoice Number</label>
-            <input type="text" id="invoiceNumber" placeholder="INV-001" oninput="generatePreview()" />
-          </div>
-          <div class="field">
-            <label for="invoiceAmount">Amount</label>
-            <input type="text" id="invoiceAmount" placeholder="$0.00" oninput="generatePreview()" />
-          </div>
-          <div class="field" style="grid-column: 1 / -1;">
-            <label for="invoiceDescription">Description</label>
-            <textarea id="invoiceDescription" placeholder="Services or items" oninput="generatePreview()"></textarea>
-          </div>
-        </div>
-      `,
-      general: () => `
-        <div class="question-card">
-          <div class="question-title">General Formatting</div>
-          <div class="field">
-            <label for="generalTitle">Document Title</label>
-            <input type="text" id="generalTitle" placeholder="Enter a title" oninput="generatePreview()" />
-          </div>
-        </div>
-      `
-    };
-
-    function showStatus(message, pillText = 'Working') {
-      const statusText = document.getElementById('statusText');
-      const statusPill = document.getElementById('statusPill');
-      if (statusText) statusText.textContent = message;
-      if (statusPill) statusPill.textContent = pillText;
-    }
-
-    function startWithPaste() {
-      const input = document.getElementById('userInput');
-      if (input) input.focus();
-      showStatus('Paste or type your content in the text area.', 'Paste Mode');
-    }
-
-    function startWithVoice() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        showStatus('Voice input is not supported in this browser.', 'Voice Unavailable');
-        return;
-      }
-
-      if (voiceRecognition) {
-        try { voiceRecognition.stop(); } catch (e) {}
-      }
-
-      voiceRecognition = new SpeechRecognition();
-      voiceRecognition.continuous = true;
-      voiceRecognition.interimResults = true;
-      voiceRecognition.lang = 'en-US';
-
-      const input = document.getElementById('userInput');
-      let finalTranscript = input.value ? input.value + '\n' : '';
-
-      voiceRecognition.onstart = function() {
-        showStatus('Voice input started. Speak naturally.', 'Listening');
-      };
-
-      voiceRecognition.onresult = function(event) {
-        let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript + ' ';
-          } else {
-            interim += transcript;
-          }
-        }
-        input.value = (finalTranscript + interim).trim();
-      };
-
-      voiceRecognition.onerror = function() {
-        showStatus('Voice input had an issue. Please try again.', 'Voice Error');
-      };
-
-      voiceRecognition.onend = function() {
-        showStatus('Voice input stopped.', 'Voice Stopped');
-      };
-
-      voiceRecognition.start();
-    }
-
-    function stopVoice() {
-      if (voiceRecognition) {
-        try { voiceRecognition.stop(); } catch (e) {}
-      }
-      showStatus('Voice input stopped.', 'Voice Stopped');
-    }
-
-    function renderUploadPreview(files) {
-      const preview = document.getElementById('uploadPreview');
-      if (!preview) return;
-
-      if (!files || !files.length) {
-        preview.style.display = 'none';
-        preview.innerHTML = '';
-        return;
-      }
-
-      preview.style.display = 'grid';
-
-      const items = Array.from(files).map((file, index) => {
-        const isImage = file.type && file.type.startsWith('image/');
-        const sizeKB = Math.max(1, Math.round(file.size / 1024));
-        const thumb = isImage
-          ? `<img class="upload-preview-thumb" src="${URL.createObjectURL(file)}" alt="${file.name}" />`
-          : `<div class="upload-preview-thumb">📄</div>`;
-
-        return `
-          <div class="upload-preview-item">
-            ${thumb}
-            <div class="upload-preview-file">
-              <div class="upload-preview-name">${file.name}</div>
-              <div class="upload-preview-meta">File ${index + 1} • ${sizeKB} KB</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      preview.innerHTML = items;
-    }
-
-    function handleHeroUpload(event) {
-      const currentToken = ++latestUploadToken;
-      const files = event.target.files;
-      const file = files && files[0];
-      if (!file) return;
-
-      renderUploadPreview(files);
-      showStatus(`Loaded ${files.length} file${files.length > 1 ? 's' : ''}.`, 'Files Loaded');
-
-      if (file.type === 'text/plain' || file.name.toLowerCase().endsWith('.txt')) {
-        const textReader = new FileReader();
-        textReader.onload = function(e) {
-          if (currentToken !== latestUploadToken) return;
-          const userInput = document.getElementById('userInput');
-          userInput.value = e.target.result || '';
-          showStatus('Text file loaded into the workspace. Click Format Document.', 'Text Loaded');
-          generatePreview();
-        };
-        textReader.onerror = function() {
-          showStatus('Could not read text file.', 'Read Error');
-        };
-        textReader.readAsText(file);
-        return;
-      }
-
-      if (!(file.type && file.type.startsWith('image/'))) {
-        showStatus('File uploaded and previewed. Parsing for this file type can be expanded next.', 'Preview Ready');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.src = e.target.result;
-
-        img.onload = function() {
-          showStatus('Reading screenshot text...', 'OCR Running');
-          Tesseract.recognize(img, 'eng').then(({ data: { text } }) => {
-            if (currentToken !== latestUploadToken) return;
-            const userInput = document.getElementById('userInput');
-            userInput.value = text;
-            showStatus('Text extracted from screenshot. Click Format Document.', 'OCR Complete');
-            generatePreview();
-          }).catch(() => {
-            showStatus('Could not read screenshot. Try a clearer image.', 'OCR Error');
-          });
-        };
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function handleDocTypeChange() {
-      const docType = document.getElementById('docType').value;
-      const guided = document.getElementById('guidedQuestions');
-      guided.innerHTML = questionTemplates[docType] ? questionTemplates[docType]() : '';
-      generatePreview();
-    }
-
-    function setRole(role) {
-      selectedRole = role;
-      handleDocTypeChange();
-    }
-
-    function getValue(id, fallback = '________________') {
-      const el = document.getElementById(id);
-      if (!el) return fallback;
-      const value = (el.value || '').trim();
-      return value || fallback;
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    function buildLeasePreview(rawText) {
-      const roleName = selectedRole === 'tenant' ? 'Tenant' : 'Landlord';
-      const otherRole = selectedRole === 'tenant' ? 'Landlord' : 'Tenant';
-      const partyName = getValue('partyName');
-      const otherPartyName = getValue('otherPartyName');
-      const propertyAddress = getValue('propertyAddress');
-      const rentAmount = getValue('rentAmount');
-      const leaseStart = getValue('leaseStart');
-      const leaseEnd = getValue('leaseEnd');
-      const depositAmount = getValue('depositAmount');
-      const utilities = getValue('utilities');
-
-      return `
-        <h3>RESIDENTIAL LEASE AGREEMENT</h3>
-        <p>This Lease Agreement is entered into between <span class="line">${escapeHtml(partyName)}</span> (the ${roleName}) and <span class="line">${escapeHtml(otherPartyName)}</span> (the ${otherRole}).</p>
-        <p>The property located at <span class="line">${escapeHtml(propertyAddress)}</span> shall be leased under the terms set forth in this agreement.</p>
-        <p>Monthly Rent: <span class="line">${escapeHtml(rentAmount)}</span></p>
-        <p>Lease Start Date: <span class="line">${escapeHtml(leaseStart)}</span></p>
-        <p>Lease End Date: <span class="line">${escapeHtml(leaseEnd)}</span></p>
-        <p>Security Deposit: <span class="line">${escapeHtml(depositAmount)}</span></p>
-        <p>Utilities Responsibility: <span class="line">${escapeHtml(utilities)}</span></p>
-        <p>Source Notes:</p>
-        <p class="muted-doc">${escapeHtml(rawText || 'No uploaded or typed notes yet. Enter or upload content to enrich this preview.')}</p>
-      `;
-    }
-
-    function buildResumePreview(rawText) {
-      return `
-        <h3>${escapeHtml(getValue('fullName', 'YOUR NAME'))}</h3>
-        <p><strong>Target Role:</strong> ${escapeHtml(getValue('jobTitle', 'Target Job Title'))}</p>
-        <p><strong>Phone:</strong> ${escapeHtml(getValue('phoneNumber', '(555) 555-5555'))} &nbsp; | &nbsp; <strong>Email:</strong> ${escapeHtml(getValue('emailAddress', 'your@email.com'))}</p>
-        <p><strong>Professional Summary</strong></p>
-        <p>${escapeHtml(getValue('summaryText', rawText || 'Enter or upload your experience details to create a professional resume summary.'))}</p>
-        <p><strong>Experience Notes</strong></p>
-        <p class="muted-doc">${escapeHtml(rawText || 'Add job history, accomplishments, leadership, operations, or support experience here.')}</p>
-      `;
-    }
-
-    function buildBusinessPreview(rawText) {
-      return `
-        <h3>BUSINESS LETTER</h3>
-        <p><strong>From:</strong> ${escapeHtml(getValue('senderName', 'Sender Name'))}</p>
-        <p><strong>To:</strong> ${escapeHtml(getValue('recipientName', 'Recipient Name'))}</p>
-        <p><strong>Date:</strong> ${escapeHtml(getValue('letterDate', 'Date'))}</p>
-        <p><strong>Subject:</strong> ${escapeHtml(getValue('letterSubject', 'Subject Line'))}</p>
-        <p>${escapeHtml(getValue('businessBody', rawText || 'Enter or upload the body of your business letter.'))}</p>
-      `;
-    }
-
-    function buildInvoicePreview(rawText) {
-      return `
-        <h3>INVOICE</h3>
-        <p><strong>From:</strong> ${escapeHtml(getValue('invoiceFrom', 'Business Name'))}</p>
-        <p><strong>To:</strong> ${escapeHtml(getValue('invoiceTo', 'Client Name'))}</p>
-        <p><strong>Invoice Number:</strong> ${escapeHtml(getValue('invoiceNumber', 'INV-001'))}</p>
-        <p><strong>Amount Due:</strong> ${escapeHtml(getValue('invoiceAmount', '$0.00'))}</p>
-        <p><strong>Description</strong></p>
-        <p>${escapeHtml(getValue('invoiceDescription', rawText || 'Enter services or item details.'))}</p>
-      `;
-    }
-
-    function buildGeneralPreview(rawText) {
-      return `
-        <h3>${escapeHtml(getValue('generalTitle', 'PROFESSIONAL DOCUMENT'))}</h3>
-        <p>${escapeHtml(rawText || 'Enter or upload content to create a general formatted document preview.')}</p>
-      `;
-    }
-
-    function generatePreview() {
-      const rawText = (document.getElementById('userInput').value || '').trim();
-      const docType = document.getElementById('docType').value;
-      const output = document.getElementById('formattedOutput');
-
-      let html = '';
-      if (docType === 'lease') html = buildLeasePreview(rawText);
-      else if (docType === 'resume') html = buildResumePreview(rawText);
-      else if (docType === 'business') html = buildBusinessPreview(rawText);
-      else if (docType === 'invoice') html = buildInvoicePreview(rawText);
-      else html = buildGeneralPreview(rawText);
-
-      output.innerHTML = html;
-      showStatus('Preview updated.', 'Preview Ready');
-    }
-
-    function clearWorkspace() {
-      const fileInput = document.getElementById('heroUpload');
-      const textArea = document.getElementById('userInput');
-      const preview = document.getElementById('uploadPreview');
-
-      if (fileInput) fileInput.value = '';
-      if (textArea) textArea.value = '';
-      if (preview) {
-        preview.innerHTML = '';
-        preview.style.display = 'none';
-      }
-
-      handleDocTypeChange();
-      showStatus('Workspace cleared.', 'Cleared');
-    }
-
-    function downloadFormattedFile(type) {
-      const content = document.getElementById('formattedOutput').innerText;
-      const extension = type === 'doc' ? 'doc' : 'txt';
-      const mime = type === 'doc' ? 'application/msword' : 'text/plain';
-      const blob = new Blob([content], { type: mime });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `formatflow-document.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      showStatus(`Downloaded formatflow-document.${extension}`, 'Downloaded');
-    }
-
-    function setupDragAndDrop() {
-      const zone = document.getElementById('uploadZone');
-      const fileInput = document.getElementById('heroUpload');
-      if (!zone || !fileInput) return;
-
-      ['dragenter', 'dragover'].forEach(evt => {
-        zone.addEventListener(evt, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          zone.classList.add('dragging');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach(evt => {
-        zone.addEventListener(evt, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          zone.classList.remove('dragging');
-        });
-      });
-
-      zone.addEventListener('drop', (e) => {
-        const files = e.dataTransfer.files;
-        if (!files || !files.length) return;
-        fileInput.files = files;
-        handleHeroUpload({ target: { files } });
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      handleDocTypeChange();
-      setupDragAndDrop();
-      generatePreview();
+  if(file.type.startsWith('image/')){
+    Tesseract.recognize(file, 'eng').then(({data:{text}})=>{
+      document.getElementById('input').value = text;
     });
-  </script>
+  }
+}
+
+function setTemplate(type){
+  currentTemplate = type;
+}
+
+function generate(){
+  let text = document.getElementById('input').value;
+
+  if(currentTemplate.includes('resume')){
+    document.getElementById('preview').innerHTML = `
+      <h2>Resume</h2>
+      <p>${text}</p>
+    `;
+  }
+
+  if(currentTemplate==='lease'){
+    document.getElementById('preview').innerHTML = `
+      <h2>Lease Agreement</h2>
+      <p>${text}</p>
+    `;
+  }
+}
+
+</script>
+
 </body>
 </html>
