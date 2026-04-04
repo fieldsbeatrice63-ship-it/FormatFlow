@@ -756,7 +756,7 @@ Go Business
     const lang = document.getElementById('langSelect').value;
     const langMap = {'English':'en-US','Spanish':'es-ES','French':'fr-FR','Haitian Creole':'fr-HT','Portuguese':'pt-BR','Arabic':'ar-SA','Mandarin':'zh-CN'};
     recognition.lang = langMap[lang] || 'en-US';
-    recognition.continuous = true; recognition.interimResults = true;
+    recognition.continuous = true; recognition.interimResults = false;
     recognition.onstart = () => { isListening = true; btn.classList.add('listening'); btn.textContent = '🛑 Stop Listening'; showStatus('Listening... speak now'); };
     recognition.onresult = (e) => { let t = ''; for (let i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript; document.getElementById('userInput').value += t; };
     recognition.onend = () => { isListening = false; btn.classList.remove('listening'); btn.textContent = '🎤 Voice'; showStatus('Voice captured! Click Format to continue.'); };
