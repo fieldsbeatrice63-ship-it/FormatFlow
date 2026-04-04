@@ -875,6 +875,7 @@ function handleHeroUpload(event) {
         img,
         'eng'
       ).then(({ data: { text } }) => {
+        if (currentToken !== latestUploadToken) return;
         const userInput = document.getElementById('userInput');
         userInput.value = text;
         showStatus("Text extracted from screenshot. Click Format.");
