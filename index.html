@@ -305,7 +305,66 @@ textarea,
 
 
   }
-}  
+}
+  
+}
+    .upload-preview {
+  margin-top: 16px;
+  width: 100%;
+  text-align: left;
+}
+
+.upload-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+}
+
+.upload-preview-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.upload-preview-file {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.upload-preview-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  word-break: break-word;
+}
+
+.upload-preview-meta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+.upload-preview-empty {
+  padding: 12px;
+  border: 1px dashed rgba(255,255,255,0.18);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script> 
 </head>
