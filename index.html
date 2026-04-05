@@ -223,8 +223,7 @@
           body: formData
         });
 
-        const data = await response.json();
-
+        const data = await res.json();
         if (!response.ok) {
           throw new Error(data.error || "Could not process file.");
         }
