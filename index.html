@@ -362,643 +362,7 @@
     width: 100%;
   }
 }
-  </style>
-<div class="site-shell">
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-mark">F</div>
-        <div class="brand-text">FormatFlow</div>
-      </div>
-
-      <nav class="top-nav">
-        <a href="#" class="nav-link">Home</a>
-        <a href="#" class="nav-link">About</a>
-        <a href="#" class="nav-link">FAQ</a>
-        <a href="#" class="nav-link">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="workspace-shell">
-    <div class="workspace-grid">
-      <section class="builder-column">
-        <div class="panel builder-panel">
-          <div class="panel-title-row">
-            <h2 class="panel-title">Build Your Document</h2>
-          </div>
-
-          <div class="template-gallery-slot">
-            <section class="template-gallery-section">
-              <div class="template-gallery-wrap">
-                <div class="template-gallery-heading">
-                  <span class="template-eyebrow">Choose a Format</span>
-                  <h2>Select Your Document Style</h2>
-                  <p>
-                    Choose the visual structure you want before generating or rewriting your document.
-                    Each template keeps your content professional while changing the presentation style.
-                  </p>
-                </div>
-
-                <div class="template-gallery-grid">
-                  <button class="template-card active" data-template="classic" type="button">
-                    <div class="template-thumb template-thumb-classic">
-                      <div class="mini-doc">
-                        <div class="mini-line w-60"></div>
-                        <div class="mini-line w-90"></div>
-                        <div class="mini-line w-85"></div>
-                        <div class="mini-line w-70"></div>
-                        <div class="mini-line w-80"></div>
-                      </div>
-                    </div>
-                    <div class="template-card-body">
-                      <h3>Classic</h3>
-                      <p>Traditional professional formatting with formal spacing and clean structure.</p>
-                    </div>
-                  </button>
-
-                  <button class="template-card" data-template="modern" type="button">
-                    <div class="template-thumb template-thumb-modern">
-                      <div class="mini-doc">
-                        <div class="mini-bar"></div>
-                        <div class="mini-line w-55"></div>
-                        <div class="mini-line w-92"></div>
-                        <div class="mini-line w-88"></div>
-                        <div class="mini-line w-76"></div>
-                      </div>
-                    </div>
-                    <div class="template-card-body">
-                      <h3>Modern</h3>
-                      <p>Polished visual presentation with stronger spacing and a refined premium look.</p>
-                    </div>
-                  </button>
-
-                  <button class="template-card" data-template="ats" type="button">
-                    <div class="template-thumb template-thumb-ats">
-                      <div class="mini-doc">
-                        <div class="mini-line w-50"></div>
-                        <div class="mini-line w-95"></div>
-                        <div class="mini-line w-95"></div>
-                        <div class="mini-line w-95"></div>
-                        <div class="mini-line w-75"></div>
-                      </div>
-                    </div>
-                    <div class="template-card-body">
-                      <h3>ATS</h3>
-                      <p>Minimal, clean, scan-friendly formatting ideal for hiring systems and structured review.</p>
-                    </div>
-                  </button>
-
-                  <button class="template-card" data-template="executive" type="button">
-                    <div class="template-thumb template-thumb-executive">
-                      <div class="mini-doc">
-                        <div class="mini-line w-40"></div>
-                        <div class="mini-line w-82"></div>
-                        <div class="mini-line w-86"></div>
-                        <div class="mini-line w-78"></div>
-                        <div class="mini-line w-66"></div>
-                      </div>
-                    </div>
-                    <div class="template-card-body">
-                      <h3>Executive</h3>
-                      <p>Elevated authority-based formatting with a more premium and leadership-style feel.</p>
-                    </div>
-                  </button>
-
-                  <button class="template-card" data-template="simple" type="button">
-                    <div class="template-thumb template-thumb-simple">
-                      <div class="mini-doc">
-                        <div class="mini-line w-58"></div>
-                        <div class="mini-line w-84"></div>
-                        <div class="mini-line w-79"></div>
-                        <div class="mini-line w-72"></div>
-                        <div class="mini-line w-68"></div>
-                      </div>
-                    </div>
-                    <div class="template-card-body">
-                      <h3>Simple</h3>
-                      <p>Clean everyday format for straightforward, easy-to-read business and personal documents.</p>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <label class="label" for="userInput">Enter or upload your content</label>
-
-          <textarea
-            id="userInput"
-            class="textarea"
-            placeholder="Type, paste, upload, or speak what you need created..."
-          ></textarea>
-
-          <div class="builder-actions-top">
-            <label for="fileUpload" class="file-label secondary">Upload File</label>
-            <input
-              id="fileUpload"
-              type="file"
-              class="hidden"
-              accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
-            />
-
-            <button id="voiceBtn" class="secondary" type="button">Start Voice</button>
-            <button id="stopVoiceBtn" class="secondary" type="button">Stop Voice</button>
-            <button id="generateBtn" class="primary" type="button">Generate Document</button>
-          </div>
-
-          <div class="ff-action-buttons">
-            <button id="rewriteBtn" type="button">Rewrite More Professionally</button>
-            <button id="simpleBtn" type="button">Make It Clear &amp; Simple</button>
-            <button id="strongBtn" type="button">Make It Stronger</button>
-            <button id="addDetailsBtn" type="button">Add More Details</button>
-            <button id="clearBtn" type="button">Clear</button>
-          </div>
-
-          <div id="uploadStatus" class="status"></div>
-          <div id="voiceStatus" class="status"></div>
-
-          <div class="examples">
-            <strong>Examples:</strong><br>
-            Write a resignation letter for my job<br>
-            Create a professional email to my landlord<br>
-            Write a business complaint letter<br>
-            Draft a formal request letter
-          </div>
-        </div>
-
-        <div class="panel pricing-panel">
-          <div class="panel-title-row">
-            <h2 class="panel-title">Choose Your Plan</h2>
-          </div>
-
-          <div class="pricing-grid">
-            <div class="plan-card">
-              <h3>Single Document</h3>
-              <div class="price">$2.99</div>
-              <div class="price-sub">Per document</div>
-              <a href="#" class="plan-btn">Purchase</a>
-            </div>
-
-            <div class="plan-card">
-              <h3>Starter</h3>
-              <div class="price">$9.99</div>
-              <div class="price-sub">Per month</div>
-              <a href="#" class="plan-btn">Select</a>
-            </div>
-
-            <div class="plan-card">
-              <h3>Pro</h3>
-              <div class="price">$29.99</div>
-              <div class="price-sub">Per month</div>
-              <a href="#" class="plan-btn">Select</a>
-            </div>
-
-            <div class="plan-card">
-              <h3>Unlimited</h3>
-              <div class="price">$49.99</div>
-              <div class="price-sub">Per month</div>
-              <a href="#" class="plan-btn">Select</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="preview-column">
-        <div class="panel preview-panel">
-          <div class="panel-title-row">
-            <h2 class="panel-title">Document Preview</h2>
-          </div>
-
-          <div class="preview-shell">
-            <div class="preview-watermark">FormatFlow Preview</div>
-            <div id="outputPreview" class="output-preview template-classic">
-              <div class="preview-empty">Your generated document will appear here...</div>
-            </div>
-          </div>
-
-          <div class="unlock-bar" id="unlockBar">
-            <div class="unlock-bar-left">
-              <div class="unlock-pill unlock-pill-status locked" id="unlockStatus">Preview Protected</div>
-              <div class="unlock-pill" id="selectedTemplateLabel">Template: Classic</div>
-            </div>
-
-            <div class="unlock-bar-right">
-              <a
-                id="unlockDocumentBtn"
-                class="unlock-btn primary"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Unlock Document
-              </a>
-
-              <button id="downloadPdfBtn" class="unlock-btn secondary" type="button" disabled>
-                Download PDF
-              </button>
-
-              <button id="exportDocxBtn" class="unlock-btn secondary" type="button" disabled>
-                Export DOCX
-              </button>
-            </div>
-          </div>
-
-          <textarea
-            id="outputBox"
-            class="output-hidden"
-            placeholder="Your generated document will appear here..."
-          ></textarea>
-        </div>
-
-        <div class="export-float-card">
-          <div class="export-card-title">Ready to Export?</div>
-          <div class="export-card-sub">Download or export your document after unlocking.</div>
-
-          <div class="export-card-actions">
-            <button class="unlock-btn secondary" type="button" disabled>Download PDF</button>
-            <button class="unlock-btn secondary" type="button" disabled>Download Word</button>
-          </div>
-
-          <a href="#" class="export-pay-btn">Proceed to Payment</a>
-
-          <div class="export-powered">Powered by Stripe</div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">FAQ</a>
-        <a href="#">Contact</a>
-      </div>
-
-      <div class="footer-note">Secure &amp; Easy Document Creation</div>
-    </div>
-  </footer>
-</div>
-
-  <script>
-    const userInput = document.getElementById("userInput");
-    const outputBox = document.getElementById("outputBox");
-    const fileUpload = document.getElementById("fileUpload");
-    const uploadStatus = document.getElementById("uploadStatus");
-    const voiceStatus = document.getElementById("voiceStatus");
-    const generateBtn = document.getElementById("generateBtn");
-    const voiceBtn = document.getElementById("voiceBtn");
-    const stopVoiceBtn = document.getElementById("stopVoiceBtn");
-    
-const unlockStatus = document.getElementById("unlockStatus");
-const selectedTemplateLabel = document.getElementById("selectedTemplateLabel");
-const unlockDocumentBtn = document.getElementById("unlockDocumentBtn");
-const downloadPdfBtn = document.getElementById("downloadPdfBtn");
-const exportDocxBtn = document.getElementById("exportDocxBtn");
-    
-   const stripeLinks = {
-  classic: "#",
-  modern: "#",
-  ats: "#",
-  executive: "#",
-  simple: "#"
-}; 
-    let recognition = null;
-    let isListening = false;
-
-    fileUpload.addEventListener("change", async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      uploadStatus.textContent = "Uploading and reading file...";
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const res = await fetch("https://format-flow-backend.onrender.com/api/parse-upload", {
-          method: "POST",
-          body: formData
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || "Could not process file.");
-        }
-
-        userInput.value = data.extractedText || "";
-        uploadStatus.textContent = "File loaded successfully.";
-      } catch (error) {
-        uploadStatus.textContent = "Upload failed: " + error.message;
-      }
-    });
-
-    generateBtn.addEventListener("click", async () => {
-      const content = userInput.value.trim();
-
-      if (!content) {
-        outputBox.value = "Please enter or upload content first.";
-        return;
-      }
-
-      outputBox.value = "Generating document...";
-
-      try {
-       const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content })
-        });
-
-       const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Generation failed.");
-        }
-
-        outputBox.value = data.output || "No output returned.";
-document.getElementById("outputPreview").innerText = data.output || "";
-      } catch (error) {
-        outputBox.value = "Error: " + error.message;
-      }
-    });
-
-   function setupVoiceInput() {
-  const userInput = document.getElementById("userInput");
-  const voiceBtn = document.getElementById("voiceBtn");
-  const stopVoiceBtn = document.getElementById("stopVoiceBtn");
-  const voiceStatus = document.getElementById("voiceStatus");
-
-  if (!userInput || !voiceBtn || !stopVoiceBtn || !voiceStatus) {
-    console.error("Voice input elements not found.");
-    return;
-  }
-
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    voiceStatus.textContent = "Voice input is not supported in this browser.";
-    voiceBtn.disabled = true;
-    stopVoiceBtn.disabled = true;
-    return;
-  }
-
-  let recognition = new SpeechRecognition();
-  let isListening = false;
-
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = "en-US";
-
-  recognition.onstart = () => {
-    isListening = true;
-    voiceStatus.textContent = "Listening...";
-  };
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    userInput.value = transcript;
-    voiceStatus.textContent = "Voice captured successfully.";
-  };
-
-  recognition.onerror = (event) => {
-    isListening = false;
-    voiceStatus.textContent = "Voice input error: " + event.error;
-  };
-
-  recognition.onend = () => {
-    isListening = false;
-    if (voiceStatus.textContent === "Listening...") {
-      voiceStatus.textContent = "Voice input stopped.";
-    }
-  };
-
-  voiceBtn.onclick = () => {
-    if (!isListening) {
-      recognition.start();
-    }
-  };
-
-  stopVoiceBtn.onclick = () => {
-    if (isListening) {
-      recognition.stop();
-    }
-  };
-}
-
-  
-setupVoiceInput();
-document.getElementById("rewriteBtn").onclick = async () => {
-  const output = document.getElementById("outputBox").value;
-
- const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: "Rewrite this more professionally:\n\n" + output
-    })
-  });
-
-  const data = await res.json();
- document.getElementById("outputBox").value = data.output;
-document.getElementById("outputPreview").innerHTML = (data.output || "")
-  .replace(/\n\n/g, "</p><p>")
-  .replace(/\n/g, "<br>");
-document.getElementById("outputPreview").innerHTML =
-  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
-};
-
-document.getElementById("simpleBtn").onclick = async () => {
-  const output = document.getElementById("outputBox").value;
-
- const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: "Rewrite this to be clear and simple:\n\n" + output
-    })
-  });
-
-  const data = await res.json();
-document.getElementById("outputBox").value = data.output;
-document.getElementById("outputPreview").innerHTML = (data.output || "")
-  .replace(/\n\n/g, "</p><p>")
-  .replace(/\n/g, "<br>");
-document.getElementById("outputPreview").innerHTML =
-  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
-};
-
-document.getElementById("strongBtn").onclick = async () => {
-  const output = document.getElementById("outputBox").value;
-
-  const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: "Rewrite this to sound stronger and more confident:\n\n" + output
-    })
-  });
-
-  const data = await res.json();
- document.getElementById("outputBox").value = data.output;
-document.getElementById("outputPreview").innerHTML = (data.output || "")
-  .replace(/\n\n/g, "</p><p>")
-  .replace(/\n/g, "<br>");
-document.getElementById("outputPreview").innerHTML =
-  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
-};
-document.getElementById("addDetailsBtn").onclick = async () => {
-  const existingOutput = document.getElementById("outputBox").value;
-  const newInput = document.getElementById("userInput").value.trim();
-
-  if (!existingOutput.trim()) {
-    document.getElementById("outputPreview").innerHTML =
-      '<div class="preview-empty">Generate a document first before adding more details.</div>';
-    return;
-  }
-
-  if (!newInput) {
-    document.getElementById("outputPreview").innerHTML =
-      '<div class="preview-empty">Please enter additional details to add.</div>';
-    return;
-  }
-
-  const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content:
-        "Revise the existing document below by incorporating the new details directly into the document. " +
-        "Replace placeholders with the new details when appropriate. " +
-        "Do not restart from scratch unless necessary. " +
-        "Keep the document polished, professional, complete, and cohesive.\n\n" +
-        "CURRENT DOCUMENT:\n" +
-        existingOutput +
-        "\n\n" +
-        "NEW DETAILS TO INCORPORATE:\n" +
-        newInput
-    })
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || "Add details failed.");
-  }
-
-  document.getElementById("outputBox").value = data.output || "No output returned.";
-  document.getElementById("outputPreview").innerHTML = ((data.output || "")
-    .replace(/\n\n/g, "</p><p>")
-    .replace(/\n/g, "<br>"));
-  document.getElementById("outputPreview").innerHTML =
-    "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
-};
-
-document.getElementById("clearBtn").onclick = () => {
-  document.getElementById("userInput").value = "";
-  document.getElementById("outputBox").value = "";
-  document.getElementById("uploadStatus").textContent = "";
-  document.getElementById("voiceStatus").textContent = "";
-  document.getElementById("outputPreview").innerHTML =
-    '<div class="preview-empty">Your generated document will appear here...</div>';
-};
-setupVoiceInput();
-    // Disable right-click
-document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-// Disable copy (Ctrl+C / Cmd+C)
-document.addEventListener("copy", (e) => {
-  e.preventDefault();
-  alert("Copy is disabled in preview mode.");
-});
-   
-  let selectedTemplate = "classic";
-let isUnlocked = false;
-    
- function applyTemplateToPreview(templateName) {
-   updateUnlockUI();
-  const preview = document.querySelector(".output-preview");
-  if (!preview) return;
-
-  preview.classList.remove(
-    "template-classic",
-    "template-modern",
-    "template-ats",
-    "template-executive",
-    "template-simple"
-  );
-
-  preview.classList.add("template-" + templateName);
-  selectedTemplate = templateName;
-  updateUnlockUI();
-}
-  
-function updateUnlockUI() {
-  if (selectedTemplateLabel) {
-    const niceName =
-      selectedTemplate.charAt(0).toUpperCase() + selectedTemplate.slice(1);
-    selectedTemplateLabel.textContent = "Template: " + niceName;
-  }
-
-  if (unlockDocumentBtn) {
-    unlockDocumentBtn.href = stripeLinks[selectedTemplate] || "#";
-  }
-
-  if (isUnlocked) {
-    unlockStatus.textContent = "Unlocked";
-    unlockStatus.classList.remove("locked");
-    unlockStatus.classList.add("unlocked");
-
-    downloadPdfBtn.disabled = false;
-    exportDocxBtn.disabled = false;
-  } else {
-    unlockStatus.textContent = "Preview Protected";
-    unlockStatus.classList.remove("unlocked");
-    unlockStatus.classList.add("locked");
-
-    downloadPdfBtn.disabled = true;
-    exportDocxBtn.disabled = true;
-  }
-}
-  function initializeTemplateGallery() {
-    const cards = document.querySelectorAll(".template-card");
-    if (!cards.length) return;
-
-    cards.forEach((card) => {
-      card.addEventListener("click", function () {
-        cards.forEach((item) => item.classList.remove("active"));
-        this.classList.add("active");
-
-        const templateName = this.getAttribute("data-template") || "classic";
-        applyTemplateToPreview(templateName);
-      });
-    });
-
-    applyTemplateToPreview(selectedTemplate);
-  }
-
-  document.addEventListener("DOMContentLoaded", initializeTemplateGallery);
-    
-downloadPdfBtn.addEventListener("click", () => {
-  if (!isUnlocked) {
-    alert("Please unlock your document first.");
-    return;
-  }
-
-  alert("PDF download will be connected next.");
-});
-
-exportDocxBtn.addEventListener("click", () => {
-  if (!isUnlocked) {
-    alert("Please unlock your document first.");
-    return;
-  }
-
-  alert("DOCX export will be connected next.");
-});
-    body {
+     body {
   margin: 0;
   background: #eef2f8;
   color: #14233c;
@@ -1650,6 +1014,645 @@ exportDocxBtn.addEventListener("click", () => {
     padding: 42px 28px;
     min-height: 900px;
   }
+ </style>
+</head>
+<body>
+<div class="site-shell">
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-text">FormatFlow</div>
+      </div>
+
+      <nav class="top-nav">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">About</a>
+        <a href="#" class="nav-link">FAQ</a>
+        <a href="#" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="workspace-shell">
+    <div class="workspace-grid">
+      <section class="builder-column">
+        <div class="panel builder-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Build Your Document</h2>
+          </div>
+
+          <div class="template-gallery-slot">
+            <section class="template-gallery-section">
+              <div class="template-gallery-wrap">
+                <div class="template-gallery-heading">
+                  <span class="template-eyebrow">Choose a Format</span>
+                  <h2>Select Your Document Style</h2>
+                  <p>
+                    Choose the visual structure you want before generating or rewriting your document.
+                    Each template keeps your content professional while changing the presentation style.
+                  </p>
+                </div>
+
+                <div class="template-gallery-grid">
+                  <button class="template-card active" data-template="classic" type="button">
+                    <div class="template-thumb template-thumb-classic">
+                      <div class="mini-doc">
+                        <div class="mini-line w-60"></div>
+                        <div class="mini-line w-90"></div>
+                        <div class="mini-line w-85"></div>
+                        <div class="mini-line w-70"></div>
+                        <div class="mini-line w-80"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Classic</h3>
+                      <p>Traditional professional formatting with formal spacing and clean structure.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="modern" type="button">
+                    <div class="template-thumb template-thumb-modern">
+                      <div class="mini-doc">
+                        <div class="mini-bar"></div>
+                        <div class="mini-line w-55"></div>
+                        <div class="mini-line w-92"></div>
+                        <div class="mini-line w-88"></div>
+                        <div class="mini-line w-76"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Modern</h3>
+                      <p>Polished visual presentation with stronger spacing and a refined premium look.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="ats" type="button">
+                    <div class="template-thumb template-thumb-ats">
+                      <div class="mini-doc">
+                        <div class="mini-line w-50"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-75"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>ATS</h3>
+                      <p>Minimal, clean, scan-friendly formatting ideal for hiring systems and structured review.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="executive" type="button">
+                    <div class="template-thumb template-thumb-executive">
+                      <div class="mini-doc">
+                        <div class="mini-line w-40"></div>
+                        <div class="mini-line w-82"></div>
+                        <div class="mini-line w-86"></div>
+                        <div class="mini-line w-78"></div>
+                        <div class="mini-line w-66"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Executive</h3>
+                      <p>Elevated authority-based formatting with a more premium and leadership-style feel.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="simple" type="button">
+                    <div class="template-thumb template-thumb-simple">
+                      <div class="mini-doc">
+                        <div class="mini-line w-58"></div>
+                        <div class="mini-line w-84"></div>
+                        <div class="mini-line w-79"></div>
+                        <div class="mini-line w-72"></div>
+                        <div class="mini-line w-68"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Simple</h3>
+                      <p>Clean everyday format for straightforward, easy-to-read business and personal documents.</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <label class="label" for="userInput">Enter or upload your content</label>
+
+          <textarea
+            id="userInput"
+            class="textarea"
+            placeholder="Type, paste, upload, or speak what you need created..."
+          ></textarea>
+
+          <div class="builder-actions-top">
+            <label for="fileUpload" class="file-label secondary">Upload File</label>
+            <input
+              id="fileUpload"
+              type="file"
+              class="hidden"
+              accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
+            />
+
+            <button id="voiceBtn" class="secondary" type="button">Start Voice</button>
+            <button id="stopVoiceBtn" class="secondary" type="button">Stop Voice</button>
+            <button id="generateBtn" class="primary" type="button">Generate Document</button>
+          </div>
+
+          <div class="ff-action-buttons">
+            <button id="rewriteBtn" type="button">Rewrite More Professionally</button>
+            <button id="simpleBtn" type="button">Make It Clear &amp; Simple</button>
+            <button id="strongBtn" type="button">Make It Stronger</button>
+            <button id="addDetailsBtn" type="button">Add More Details</button>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+
+          <div id="uploadStatus" class="status"></div>
+          <div id="voiceStatus" class="status"></div>
+
+          <div class="examples">
+            <strong>Examples:</strong><br>
+            Write a resignation letter for my job<br>
+            Create a professional email to my landlord<br>
+            Write a business complaint letter<br>
+            Draft a formal request letter
+          </div>
+        </div>
+
+        <div class="panel pricing-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Choose Your Plan</h2>
+          </div>
+
+          <div class="pricing-grid">
+            <div class="plan-card">
+              <h3>Single Document</h3>
+              <div class="price">$2.99</div>
+              <div class="price-sub">Per document</div>
+              <a href="#" class="plan-btn">Purchase</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Starter</h3>
+              <div class="price">$9.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Pro</h3>
+              <div class="price">$29.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Unlimited</h3>
+              <div class="price">$49.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="preview-column">
+        <div class="panel preview-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Document Preview</h2>
+          </div>
+
+          <div class="preview-shell">
+            <div class="preview-watermark">FormatFlow Preview</div>
+            <div id="outputPreview" class="output-preview template-classic">
+              <div class="preview-empty">Your generated document will appear here...</div>
+            </div>
+          </div>
+
+          <div class="unlock-bar" id="unlockBar">
+            <div class="unlock-bar-left">
+              <div class="unlock-pill unlock-pill-status locked" id="unlockStatus">Preview Protected</div>
+              <div class="unlock-pill" id="selectedTemplateLabel">Template: Classic</div>
+            </div>
+
+            <div class="unlock-bar-right">
+              <a
+                id="unlockDocumentBtn"
+                class="unlock-btn primary"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Unlock Document
+              </a>
+
+              <button id="downloadPdfBtn" class="unlock-btn secondary" type="button" disabled>
+                Download PDF
+              </button>
+
+              <button id="exportDocxBtn" class="unlock-btn secondary" type="button" disabled>
+                Export DOCX
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="outputBox"
+            class="output-hidden"
+            placeholder="Your generated document will appear here..."
+          ></textarea>
+        </div>
+
+        <div class="export-float-card">
+          <div class="export-card-title">Ready to Export?</div>
+          <div class="export-card-sub">Download or export your document after unlocking.</div>
+
+          <div class="export-card-actions">
+            <button class="unlock-btn secondary" type="button" disabled>Download PDF</button>
+            <button class="unlock-btn secondary" type="button" disabled>Download Word</button>
+          </div>
+
+          <a href="#" class="export-pay-btn">Proceed to Payment</a>
+
+          <div class="export-powered">Powered by Stripe</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div class="footer-note">Secure &amp; Easy Document Creation</div>
+    </div>
+  </footer>
+</div>
+
+  <script>
+    const userInput = document.getElementById("userInput");
+    const outputBox = document.getElementById("outputBox");
+    const fileUpload = document.getElementById("fileUpload");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const voiceStatus = document.getElementById("voiceStatus");
+    const generateBtn = document.getElementById("generateBtn");
+    const voiceBtn = document.getElementById("voiceBtn");
+    const stopVoiceBtn = document.getElementById("stopVoiceBtn");
+    
+const unlockStatus = document.getElementById("unlockStatus");
+const selectedTemplateLabel = document.getElementById("selectedTemplateLabel");
+const unlockDocumentBtn = document.getElementById("unlockDocumentBtn");
+const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+const exportDocxBtn = document.getElementById("exportDocxBtn");
+    
+   const stripeLinks = {
+  classic: "#",
+  modern: "#",
+  ats: "#",
+  executive: "#",
+  simple: "#"
+}; 
+    let recognition = null;
+    let isListening = false;
+
+    fileUpload.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      uploadStatus.textContent = "Uploading and reading file...";
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("https://format-flow-backend.onrender.com/api/parse-upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Could not process file.");
+        }
+
+        userInput.value = data.extractedText || "";
+        uploadStatus.textContent = "File loaded successfully.";
+      } catch (error) {
+        uploadStatus.textContent = "Upload failed: " + error.message;
+      }
+    });
+
+    generateBtn.addEventListener("click", async () => {
+      const content = userInput.value.trim();
+
+      if (!content) {
+        outputBox.value = "Please enter or upload content first.";
+        return;
+      }
+
+      outputBox.value = "Generating document...";
+
+      try {
+       const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content })
+        });
+
+       const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Generation failed.");
+        }
+
+        outputBox.value = data.output || "No output returned.";
+document.getElementById("outputPreview").innerText = data.output || "";
+      } catch (error) {
+        outputBox.value = "Error: " + error.message;
+      }
+    });
+
+   function setupVoiceInput() {
+  const userInput = document.getElementById("userInput");
+  const voiceBtn = document.getElementById("voiceBtn");
+  const stopVoiceBtn = document.getElementById("stopVoiceBtn");
+  const voiceStatus = document.getElementById("voiceStatus");
+
+  if (!userInput || !voiceBtn || !stopVoiceBtn || !voiceStatus) {
+    console.error("Voice input elements not found.");
+    return;
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    voiceStatus.textContent = "Voice input is not supported in this browser.";
+    voiceBtn.disabled = true;
+    stopVoiceBtn.disabled = true;
+    return;
+  }
+
+  let recognition = new SpeechRecognition();
+  let isListening = false;
+
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = "en-US";
+
+  recognition.onstart = () => {
+    isListening = true;
+    voiceStatus.textContent = "Listening...";
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    userInput.value = transcript;
+    voiceStatus.textContent = "Voice captured successfully.";
+  };
+
+  recognition.onerror = (event) => {
+    isListening = false;
+    voiceStatus.textContent = "Voice input error: " + event.error;
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    if (voiceStatus.textContent === "Listening...") {
+      voiceStatus.textContent = "Voice input stopped.";
+    }
+  };
+
+  voiceBtn.onclick = () => {
+    if (!isListening) {
+      recognition.start();
+    }
+  };
+
+  stopVoiceBtn.onclick = () => {
+    if (isListening) {
+      recognition.stop();
+    }
+  };
+}
+
+  
+setupVoiceInput();
+document.getElementById("rewriteBtn").onclick = async () => {
+  const output = document.getElementById("outputBox").value;
+
+ const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: "Rewrite this more professionally:\n\n" + output
+    })
+  });
+
+  const data = await res.json();
+ document.getElementById("outputBox").value = data.output;
+document.getElementById("outputPreview").innerHTML = (data.output || "")
+  .replace(/\n\n/g, "</p><p>")
+  .replace(/\n/g, "<br>");
+document.getElementById("outputPreview").innerHTML =
+  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+};
+
+document.getElementById("simpleBtn").onclick = async () => {
+  const output = document.getElementById("outputBox").value;
+
+ const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: "Rewrite this to be clear and simple:\n\n" + output
+    })
+  });
+
+  const data = await res.json();
+document.getElementById("outputBox").value = data.output;
+document.getElementById("outputPreview").innerHTML = (data.output || "")
+  .replace(/\n\n/g, "</p><p>")
+  .replace(/\n/g, "<br>");
+document.getElementById("outputPreview").innerHTML =
+  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+};
+
+document.getElementById("strongBtn").onclick = async () => {
+  const output = document.getElementById("outputBox").value;
+
+  const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: "Rewrite this to sound stronger and more confident:\n\n" + output
+    })
+  });
+
+  const data = await res.json();
+ document.getElementById("outputBox").value = data.output;
+document.getElementById("outputPreview").innerHTML = (data.output || "")
+  .replace(/\n\n/g, "</p><p>")
+  .replace(/\n/g, "<br>");
+document.getElementById("outputPreview").innerHTML =
+  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+};
+document.getElementById("addDetailsBtn").onclick = async () => {
+  const existingOutput = document.getElementById("outputBox").value;
+  const newInput = document.getElementById("userInput").value.trim();
+
+  if (!existingOutput.trim()) {
+    document.getElementById("outputPreview").innerHTML =
+      '<div class="preview-empty">Generate a document first before adding more details.</div>';
+    return;
+  }
+
+  if (!newInput) {
+    document.getElementById("outputPreview").innerHTML =
+      '<div class="preview-empty">Please enter additional details to add.</div>';
+    return;
+  }
+
+  const res = await fetch("https://format-flow-backend.onrender.com/api/generate-document", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content:
+        "Revise the existing document below by incorporating the new details directly into the document. " +
+        "Replace placeholders with the new details when appropriate. " +
+        "Do not restart from scratch unless necessary. " +
+        "Keep the document polished, professional, complete, and cohesive.\n\n" +
+        "CURRENT DOCUMENT:\n" +
+        existingOutput +
+        "\n\n" +
+        "NEW DETAILS TO INCORPORATE:\n" +
+        newInput
+    })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Add details failed.");
+  }
+
+  document.getElementById("outputBox").value = data.output || "No output returned.";
+  document.getElementById("outputPreview").innerHTML = ((data.output || "")
+    .replace(/\n\n/g, "</p><p>")
+    .replace(/\n/g, "<br>"));
+  document.getElementById("outputPreview").innerHTML =
+    "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+};
+
+document.getElementById("clearBtn").onclick = () => {
+  document.getElementById("userInput").value = "";
+  document.getElementById("outputBox").value = "";
+  document.getElementById("uploadStatus").textContent = "";
+  document.getElementById("voiceStatus").textContent = "";
+  document.getElementById("outputPreview").innerHTML =
+    '<div class="preview-empty">Your generated document will appear here...</div>';
+};
+setupVoiceInput();
+    // Disable right-click
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// Disable copy (Ctrl+C / Cmd+C)
+document.addEventListener("copy", (e) => {
+  e.preventDefault();
+  alert("Copy is disabled in preview mode.");
+});
+   
+  let selectedTemplate = "classic";
+let isUnlocked = false;
+    
+ function applyTemplateToPreview(templateName) {
+   updateUnlockUI();
+  const preview = document.querySelector(".output-preview");
+  if (!preview) return;
+
+  preview.classList.remove(
+    "template-classic",
+    "template-modern",
+    "template-ats",
+    "template-executive",
+    "template-simple"
+  );
+
+  preview.classList.add("template-" + templateName);
+  selectedTemplate = templateName;
+  updateUnlockUI();
+}
+  
+function updateUnlockUI() {
+  if (selectedTemplateLabel) {
+    const niceName =
+      selectedTemplate.charAt(0).toUpperCase() + selectedTemplate.slice(1);
+    selectedTemplateLabel.textContent = "Template: " + niceName;
+  }
+
+  if (unlockDocumentBtn) {
+    unlockDocumentBtn.href = stripeLinks[selectedTemplate] || "#";
+  }
+
+  if (isUnlocked) {
+    unlockStatus.textContent = "Unlocked";
+    unlockStatus.classList.remove("locked");
+    unlockStatus.classList.add("unlocked");
+
+    downloadPdfBtn.disabled = false;
+    exportDocxBtn.disabled = false;
+  } else {
+    unlockStatus.textContent = "Preview Protected";
+    unlockStatus.classList.remove("unlocked");
+    unlockStatus.classList.add("locked");
+
+    downloadPdfBtn.disabled = true;
+    exportDocxBtn.disabled = true;
+  }
+}
+  function initializeTemplateGallery() {
+    const cards = document.querySelectorAll(".template-card");
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      card.addEventListener("click", function () {
+        cards.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
+
+        const templateName = this.getAttribute("data-template") || "classic";
+        applyTemplateToPreview(templateName);
+      });
+    });
+
+    applyTemplateToPreview(selectedTemplate);
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeTemplateGallery);
+    
+downloadPdfBtn.addEventListener("click", () => {
+  if (!isUnlocked) {
+    alert("Please unlock your document first.");
+    return;
+  }
+
+  alert("PDF download will be connected next.");
+});
+
+exportDocxBtn.addEventListener("click", () => {
+  if (!isUnlocked) {
+    alert("Please unlock your document first.");
+    return;
+  }
+
+  alert("DOCX export will be connected next.");
+});
+  
 }
   </script>
 </body>
