@@ -792,7 +792,24 @@ function updateUnlockUI() {
   }
 
   document.addEventListener("DOMContentLoaded", initializeTemplateGallery);
+    
+downloadPdfBtn.addEventListener("click", () => {
+  if (!isUnlocked) {
+    alert("Please unlock your document first.");
+    return;
+  }
 
+  alert("PDF download will be connected next.");
+});
+
+exportDocxBtn.addEventListener("click", () => {
+  if (!isUnlocked) {
+    alert("Please unlock your document first.");
+    return;
+  }
+
+  alert("DOCX export will be connected next.");
+});
   </script>
 </body>
 </html>
