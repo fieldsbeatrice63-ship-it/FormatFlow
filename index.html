@@ -324,7 +324,32 @@
     <div class="preview-empty">Your generated document will appear here...</div>
   </div>
 </div>
+<div class="unlock-bar" id="unlockBar">
+  <div class="unlock-bar-left">
+    <div class="unlock-pill unlock-pill-status locked" id="unlockStatus">Preview Protected</div>
+    <div class="unlock-pill" id="selectedTemplateLabel">Template: Classic</div>
+  </div>
 
+  <div class="unlock-bar-right">
+    <a
+      id="unlockDocumentBtn"
+      class="unlock-btn primary"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Unlock Document
+    </a>
+
+    <button id="downloadPdfBtn" class="unlock-btn secondary" type="button" disabled>
+      Download PDF
+    </button>
+
+    <button id="exportDocxBtn" class="unlock-btn secondary" type="button" disabled>
+      Export DOCX
+    </button>
+  </div>
+</div>
 <textarea
   id="outputBox"
   class="output-hidden"
