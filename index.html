@@ -591,6 +591,44 @@ document.addEventListener("copy", (e) => {
   e.preventDefault();
   alert("Copy is disabled in preview mode.");
 });
+    <script>
+  let selectedTemplate = "classic";
+
+  function applyTemplateToPreview(templateName) {
+    const preview = document.querySelector(".output-preview");
+    if (!preview) return;
+
+    preview.classList.remove(
+      "template-classic",
+      "template-modern",
+      "template-ats",
+      "template-executive",
+      "template-simple"
+    );
+
+    preview.classList.add("template-" + templateName);
+    selectedTemplate = templateName;
+  }
+
+  function initializeTemplateGallery() {
+    const cards = document.querySelectorAll(".template-card");
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      card.addEventListener("click", function () {
+        cards.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
+
+        const templateName = this.getAttribute("data-template") || "classic";
+        applyTemplateToPreview(templateName);
+      });
+    });
+
+    applyTemplateToPreview(selectedTemplate);
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeTemplateGallery);
+
   </script>
 </body>
 </html>
