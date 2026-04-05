@@ -29,6 +29,13 @@ MANDATORY LANGUAGE STANDARD:
 * Tone must reflect composure, authority, and self-possession — never passive or uncertain
 * Language should feel suitable for HR departments, executives, legal review, or official documentation
 
+REAL-WORLD USABILITY RULE:
+- The document must sound natural enough to be used in real workplace communication
+- Avoid overcomplicated or inflated language that feels unnatural in everyday use
+- Maintain professionalism without sounding overly legal, robotic, or exaggerated
+- The reader should immediately understand the message without needing to interpret it
+- Balance strong vocabulary with practical clarity
+
 STRUCTURAL EXPECTATIONS:
 
 * Output must always be clean, formatted, and ready to use immediately
