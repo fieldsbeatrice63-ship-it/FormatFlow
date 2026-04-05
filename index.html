@@ -544,6 +544,8 @@ document.getElementById("clearBtn").onclick = () => {
   document.getElementById("outputBox").value = "";
   document.getElementById("uploadStatus").textContent = "";
   document.getElementById("voiceStatus").textContent = "";
+  document.getElementById("outputPreview").innerHTML =
+    '<div class="preview-empty">Your generated document will appear here...</div>';
 };
 setupVoiceInput();
     // Disable right-click
