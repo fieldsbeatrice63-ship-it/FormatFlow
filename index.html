@@ -197,12 +197,20 @@
         Write an email asking for a payment extension
       </div>
 
-      <label class="label" for="outputBox">Generated document</label>
-      <textarea
-        id="outputBox"
-        class="output"
-        placeholder="Your generated document will appear here..."
-      ></textarea>
+     <label class="label" for="outputBox">Generated document</label>
+
+<div class="preview-shell">
+  <div class="preview-watermark">FormatFlow Preview</div>
+  <div id="outputPreview" class="output-preview">
+    <div class="preview-empty">Your generated document will appear here...</div>
+  </div>
+</div>
+
+<textarea
+  id="outputBox"
+  class="output-hidden"
+  placeholder="Your generated document will appear here..."
+></textarea>
     </div>
   </div>
 
