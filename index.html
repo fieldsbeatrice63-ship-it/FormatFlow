@@ -1,477 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FormatFlow™</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FormatFlow™</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-
-<style>
-body {
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#07110a;
-  color:white;
-}
-
-.container {
-  display:flex;
-  min-height:100vh;
-}
-
-.left, .middle, .right {
-  padding:24px;
-  overflow:auto;
-}
-
-.left {
-  width:30%;
-  border-right:1px solid rgba(255,255,255,0.12);
-}
-
-.middle {
-  width:35%;
-  border-right:1px solid rgba(255,255,255,0.12);
-}
-
-.right {
-  width:35%;
-}
-
-h1, h2, h3 {
-  margin-top:0;
-}
-
-label {
-  display:block;
-  margin:16px 0 8px;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.75);
-}
-
-.upload {
-  border:2px dashed #2fc66d;
-  padding:22px;
-  border-radius:16px;
-  cursor:pointer;
-  background:rgba(47,198,109,0.06);
-  line-height:1.5;
-}
-
-.upload:hover {
-  border-color:#d7b45a;
-}
-
-select, input, textarea {
-  width:100%;
-  margin-top:0;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.12);
-  background:rgba(255,255,255,0.06);
-  color:white;
-  font-size:16px;
-  box-sizing:border-box;
-}
-
-textarea {
-  min-height:220px;
-  resize:vertical;
-  line-height:1.6;
-}
-
-.viewer {
-  background:white;
-  color:black;
-  min-height:620px;
-  overflow:auto;
-  border-radius:16px;
-  padding:18px;
-  box-sizing:border-box;
-}
-
-.viewer iframe,
-.viewer img {
-  width:100%;
-  min-height:560px;
-  border:none;
-}
-
-.template-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin:12px 0 18px;
-}
-
-.template {
-  padding:12px;
-  border:1px solid rgba(255,255,255,0.16);
-  border-radius:14px;
-  cursor:pointer;
-  background:rgba(255,255,255,0.04);
-}
-
-.template:hover,
-.template.active {
-  border-color:#d7b45a;
-  background:rgba(215,180,90,0.10);
-}
-
-.template strong {
-  display:block;
-  margin-bottom:6px;
-}
-
-.template span {
-  font-size:13px;
-  color:rgba(255,255,255,0.72);
-  line-height:1.45;
-}
-
-button {
-  margin-top:10px;
-  padding:12px 16px;
-  border:none;
-  border-radius:12px;
-  background:#2fc66d;
-  color:black;
-  cursor:pointer;
-  font-size:15px;
-  font-weight:700;
-}
-
-.status {
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
-  line-height:1.5;
-  color:rgba(255,255,255,0.82);
-}
-
-.output-doc {
-  max-width:760px;
-  margin:0 auto;
-  line-height:1.7;
-  font-size:15px;
-}
-
-.output-doc h2 {
-  text-align:center;
-  margin:0 0 20px;
-}
-
-.output-doc hr {
-  margin:16px 0 20px;
-}
-
-.output-doc p {
-  margin:0 0 12px;
-}
-
-.line {
-  display:inline-block;
-  border-bottom:1px solid #111;
-  min-width:140px;
-  padding:0 4px 2px;
-}
-
-@media (max-width: 1200px) {
-  .container {
-    flex-direction:column;
-  }
-  .left, .middle, .right {
-    width:100%;
-    border-right:none;
-    border-bottom:1px solid rgba(255,255,255,0.12);
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<!-- LEFT -->
-<div class="left">
-
-<h2>Upload</h2>
-<p style="color:rgba(255,255,255,0.75);line-height:1.6;">Upload the file first so the system can show exactly what was uploaded before any template is chosen.</p>
-
-<div class="upload" onclick="document.getElementById('file').click()">
-  <strong>Click or Upload File</strong><br>
-  PDF, DOCX, TXT, JPG, PNG
-  <input id="file" type="file" style="display:none" onchange="handleUpload(event)">
-</div>
-
-<label for="fileName">Uploaded File</label>
-<input id="fileName" readonly placeholder="No file selected yet">
-
-<label for="action">What do you want done with this file?</label>
-<select id="action">
-  <option>Turn into professional document</option>
-  <option>Use info to update document</option>
-  <option>Extract text only</option>
-</select>
-
-<label for="text">Source Text / Notes</label>
-<textarea id="text" placeholder="Extracted text or extra notes will appear here."></textarea>
-
-<div class="status" id="status">Ready. Upload a file to continue.</div>
-
-</div>
-
-<!-- MIDDLE (FILE VIEWER) -->
-<div class="middle">
-
-<h2>Your File</h2>
-<p style="color:rgba(255,255,255,0.75);line-height:1.6;">This viewer shows the uploaded document first, so the customer can confirm the correct file is open.</p>
-<div class="viewer" id="viewer">
-  Upload file to see it here.
-</div>
-
-</div>
-
-<!-- RIGHT -->
-<div class="right">
-
-<h2>Templates</h2>
-<p style="color:rgba(255,255,255,0.75);line-height:1.6;">Choose a template, then generate a real preview structure instead of just a title.</p>
-
-<div class="template-grid">
-  <div class="template" onclick="selectTemplate('resume1',this)">
-    <strong>Resume Style 1</strong>
-    <span>Standard professional layout with summary, experience, education, and skills.</span>
-  </div>
-  <div class="template" onclick="selectTemplate('resume2',this)">
-    <strong>Resume Style 2</strong>
-    <span>Modern resume layout with profile, strengths, and experience sections.</span>
-  </div>
-  <div class="template" onclick="selectTemplate('resume3',this)">
-    <strong>Resume Style 3</strong>
-    <span>Executive-style layout for leadership and management roles.</span>
-  </div>
-  <div class="template" onclick="selectTemplate('lease',this)">
-    <strong>Lease Agreement</strong>
-    <span>Template structure for tenant / landlord document setup.</span>
-  </div>
-  <div class="template" onclick="selectTemplate('loan',this)">
-    <strong>Loan Agreement</strong>
-    <span>Template structure for lender, borrower, amount, and repayment.</span>
-  </div>
-  <div class="template" onclick="selectTemplate('business',this)">
-    <strong>Business Agreement</strong>
-    <span>General business agreement layout with parties, scope, and terms.</span>
-  </div>
-</div>
-
-<button onclick="generate()">Generate Preview</button>
-
-<div class="viewer" id="output">
-  Choose a template, then generate the preview here.
-</div>
-
-</div>
-
-</div>
-
-<script>
-let selectedTemplate = '';
-let extractedText = '';
-
-function setStatus(message){
-  document.getElementById('status').textContent = message;
-}
-
-function escapeHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-function handleUpload(e){
-  const file = e.target.files[0];
-  if(!file) return;
-
-  document.getElementById('fileName').value = file.name;
-  setStatus('File uploaded. You can now review it and choose a template.');
-
-  if(file.type.startsWith('image/')){
-    const url = URL.createObjectURL(file);
-    document.getElementById('viewer').innerHTML = `<img src="${url}" style="width:100%;object-fit:contain;">`;
-
-    Tesseract.recognize(file,'eng').then(({data:{text}})=>{
-      extractedText = text || '';
-      document.getElementById('text').value = extractedText;
-      setStatus('Image opened. Text was also extracted for template use.');
-    }).catch(()=>{
-      setStatus('Image opened. Text extraction was limited.');
-    });
-  }
-
-  else if(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')){
-    const url = URL.createObjectURL(file);
-    document.getElementById('viewer').innerHTML = `<iframe src="${url}" width="100%" height="560"></iframe>`;
-    setStatus('PDF opened in the file viewer.');
-  }
-
-  else if(file.name.toLowerCase().endsWith('.txt')){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      extractedText = e.target.result || '';
-      document.getElementById('text').value = extractedText;
-      document.getElementById('viewer').innerHTML = `<pre>${escapeHtml(extractedText)}</pre>`;
-      setStatus('Text file opened in the viewer.');
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f8;
+      color: #111827;
     }
-    reader.readAsText(file);
-  }
 
-  else if(file.name.toLowerCase().endsWith('.docx')){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      mammoth.convertToHtml({arrayBuffer:e.target.result}).then(function(result){
-        document.getElementById('viewer').innerHTML = result.value;
-        extractedText = result.value.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
-        document.getElementById('text').value = extractedText;
-        setStatus('DOCX opened in the viewer.');
-      }).catch(function(){
-        document.getElementById('viewer').innerHTML = `<div style="padding:20px;line-height:1.6;">This DOCX file was uploaded, but the browser could not fully render it here.</div>`;
-        setStatus('DOCX uploaded. Preview was limited.');
-      });
-    };
-    reader.readAsArrayBuffer(file);
-  }
+    .wrap {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 20px;
+    }
 
-  else {
-    document.getElementById('viewer').innerHTML = `<div style="padding:20px;line-height:1.6;">This file type was uploaded, but full browser preview is limited here.</div>`;
-    setStatus('File uploaded. Preview is limited for this file type.');
-  }
-}
+    .card {
+      background: #ffffff;
+      border-radius: 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      padding: 24px;
+    }
 
-function selectTemplate(type,el){
-  selectedTemplate = type;
-  document.querySelectorAll('.template').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  setStatus('Template selected. Generate the preview to see the structure.');
-}
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
 
-function buildResumeTemplate(styleName, text){
-  return `
-    <div class="output-doc">
-      <h2>${styleName}</h2>
-      <hr>
-      <p><strong>Full Name</strong></p>
-      <p class="line">Your Name Here</p>
-      <p><strong>Professional Summary</strong></p>
-      <p>${escapeHtml(text || 'Use the uploaded resume, notes, or OCR text here to create a stronger summary.')}</p>
-      <p><strong>Experience</strong></p>
-      <p>• Position Title — Company Name — Dates</p>
-      <p>• Achievement or responsibility line 1</p>
-      <p>• Achievement or responsibility line 2</p>
-      <p><strong>Education</strong></p>
-      <p>School / Degree / Certifications</p>
-      <p><strong>Skills</strong></p>
-      <p>Leadership, operations, customer support, logistics, communication</p>
+    .sub {
+      margin: 0 0 20px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    .textarea,
+    .output {
+      width: 100%;
+      min-height: 220px;
+      border: 1px solid #d1d5db;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 16px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+    }
+
+    .output {
+      background: #fcfcfc;
+      margin-top: 10px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    button,
+    .file-label {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 15px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .primary {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .secondary {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .file-label {
+      min-width: 140px;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #2563eb;
+      min-height: 20px;
+    }
+
+    .examples {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.8;
+    }
+
+    .label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .wrap {
+        margin: 10px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .textarea,
+      .output {
+        min-height: 180px;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      button,
+      .file-label {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>FormatFlow™</h1>
+      <p class="sub">
+        Create business letters, emails, resignation letters, complaint letters,
+        resumes, formal requests, and more. Type, paste, upload, or use voice.
+      </p>
+
+      <label class="label" for="userInput">Enter or upload your content</label>
+      <textarea
+        id="userInput"
+        class="textarea"
+        placeholder="Type, paste, upload, or speak what you need created..."
+      ></textarea>
+
+      <div class="row">
+        <label for="fileUpload" class="file-label secondary">Upload File</label>
+        <input
+          id="fileUpload"
+          type="file"
+          class="hidden"
+          accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
+        />
+
+        <button id="voiceBtn" class="secondary" type="button">Start Voice</button>
+        <button id="stopVoiceBtn" class="secondary" type="button">Stop Voice</button>
+        <button id="generateBtn" class="primary" type="button">Generate Document</button>
+      </div>
+
+      <div id="uploadStatus" class="status"></div>
+      <div id="voiceStatus" class="status"></div>
+
+      <div class="examples">
+        <strong>Examples:</strong><br>
+        Write a resignation letter for my job<br>
+        Create a professional email to my landlord<br>
+        Turn this into a business letter<br>
+        Fix and format my resume<br>
+        Write an email asking for a payment extension
+      </div>
+
+      <label class="label" for="outputBox">Generated document</label>
+      <textarea
+        id="outputBox"
+        class="output"
+        placeholder="Your generated document will appear here..."
+      ></textarea>
     </div>
-  `;
-}
+  </div>
 
-function buildLeaseTemplate(text){
-  return `
-    <div class="output-doc">
-      <h2>Lease Agreement</h2>
-      <hr>
-      <p>This Lease Agreement is entered into between <span class="line">Tenant / Landlord</span> and <span class="line">Other Party</span>.</p>
-      <p>Property Address: <span class="line">Address Here</span></p>
-      <p>Monthly Rent: <span class="line">Amount Here</span></p>
-      <p>Lease Start Date: <span class="line">Start Date</span></p>
-      <p>Lease End Date: <span class="line">End Date</span></p>
-      <p>Deposit: <span class="line">Deposit Amount</span></p>
-      <p><strong>Source Information</strong></p>
-      <p>${escapeHtml(text || 'Uploaded notes or source information will help fill this template.')}</p>
-    </div>
-  `;
-}
+  <script>
+    const userInput = document.getElementById("userInput");
+    const outputBox = document.getElementById("outputBox");
+    const fileUpload = document.getElementById("fileUpload");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const voiceStatus = document.getElementById("voiceStatus");
+    const generateBtn = document.getElementById("generateBtn");
+    const voiceBtn = document.getElementById("voiceBtn");
+    const stopVoiceBtn = document.getElementById("stopVoiceBtn");
 
-function buildLoanTemplate(text){
-  return `
-    <div class="output-doc">
-      <h2>Loan Agreement</h2>
-      <hr>
-      <p>Lender: <span class="line">Lender Name</span></p>
-      <p>Borrower: <span class="line">Borrower Name</span></p>
-      <p>Loan Amount: <span class="line">Amount</span></p>
-      <p>Repayment Terms: <span class="line">Terms</span></p>
-      <p>Due Date: <span class="line">Date</span></p>
-      <p><strong>Source Information</strong></p>
-      <p>${escapeHtml(text || 'Uploaded notes or source information will help fill this template.')}</p>
-    </div>
-  `;
-}
+    let recognition = null;
+    let isListening = false;
 
-function buildBusinessTemplate(text){
-  return `
-    <div class="output-doc">
-      <h2>Business Agreement</h2>
-      <hr>
-      <p>Party One: <span class="line">Party One</span></p>
-      <p>Party Two: <span class="line">Party Two</span></p>
-      <p>Scope of Work: <span class="line">Scope</span></p>
-      <p>Terms: <span class="line">Terms</span></p>
-      <p>Effective Date: <span class="line">Date</span></p>
-      <p><strong>Source Information</strong></p>
-      <p>${escapeHtml(text || 'Uploaded notes or source information will help fill this template.')}</p>
-    </div>
-  `;
-}
+    fileUpload.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
 
-function generate(){
-  const text = document.getElementById('text').value || extractedText;
-  const output = document.getElementById('output');
+      uploadStatus.textContent = "Uploading and reading file...";
 
-  if(!selectedTemplate){
-    output.innerHTML = `<div style="padding:20px;line-height:1.6;">Choose a template first.</div>`;
-    setStatus('Choose a template first.');
-    return;
-  }
+      const formData = new FormData();
+      formData.append("file", file);
 
-  if(selectedTemplate === 'resume1'){
-    output.innerHTML = buildResumeTemplate('Resume Style 1', text);
-  }
-  else if(selectedTemplate === 'resume2'){
-    output.innerHTML = buildResumeTemplate('Resume Style 2', text);
-  }
-  else if(selectedTemplate === 'resume3'){
-    output.innerHTML = buildResumeTemplate('Resume Style 3', text);
-  }
-  else if(selectedTemplate === 'lease'){
-    output.innerHTML = buildLeaseTemplate(text);
-  }
-  else if(selectedTemplate === 'loan'){
-    output.innerHTML = buildLoanTemplate(text);
-  }
-  else if(selectedTemplate === 'business'){
-    output.innerHTML = buildBusinessTemplate(text);
-  }
+      try {
+        const response = await fetch("/api/parse-upload", {
+          method: "POST",
+          body: formData
+        });
 
-  setStatus('Preview generated. The right side now shows a real template structure.');
-}
-</script>
+        const data = await response.json();
 
+        if (!response.ok) {
+          throw new Error(data.error || "Could not process file.");
+        }
+
+        userInput.value = data.extractedText || "";
+        uploadStatus.textContent = "File loaded successfully.";
+      } catch (error) {
+        uploadStatus.textContent = "Upload failed: " + error.message;
+      }
+    });
+
+    generateBtn.addEventListener("click", async () => {
+      const content = userInput.value.trim();
+
+      if (!content) {
+        outputBox.value = "Please enter or upload content first.";
+        return;
+      }
+
+      outputBox.value = "Generating document...";
+
+      try {
+        const response = await fetch("/api/generate-document", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Generation failed.");
+        }
+
+        outputBox.value = data.output || "No output returned.";
+      } catch (error) {
+        outputBox.value = "Error: " + error.message;
+      }
+    });
+
+    function setupVoiceInput() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        voiceStatus.textContent = "Voice input is not supported in this browser.";
+        voiceBtn.disabled = true;
+        stopVoiceBtn.disabled = true;
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onstart = () => {
+        isListening = true;
+        voiceStatus.textContent = "Voice input is listening...";
+      };
+
+      recognition.onresult = (event) => {
+        let finalText = "";
+        let interimText = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalText += transcript + " ";
+          } else {
+            interimText += transcript;
+          }
+        }
+
+        if (finalText) {
+          userInput.value = (userInput.value + " " + finalText).trim();
+        }
+
+        voiceStatus.textContent = interimText
+          ? "Listening: " + interimText
+          : "Voice input is listening...";
+      };
+
+      recognition.onerror = (event) => {
+        voiceStatus.textContent = "Voice error: " + event.error;
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        voiceStatus.textContent = "Voice input stopped.";
+      };
+    }
+
+    voiceBtn.addEventListener("click", () => {
+      if (!recognition) setupVoiceInput();
+      if (recognition && !isListening) recognition.start();
+    });
+
+    stopVoiceBtn.addEventListener("click", () => {
+      if (recognition && isListening) recognition.stop();
+    });
+
+    setupVoiceInput();
+  </script>
 </body>
 </html>
-```
-
----
-
