@@ -141,6 +141,11 @@
       .file-label {
         width: 100%;
       }
+      #outputBox {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
     }
   </style>
 </head>
@@ -417,6 +422,14 @@ document.getElementById("clearBtn").onclick = () => {
   document.getElementById("voiceStatus").textContent = "";
 };
 setupVoiceInput();
+    // Disable right-click
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// Disable copy (Ctrl+C / Cmd+C)
+document.addEventListener("copy", (e) => {
+  e.preventDefault();
+  alert("Copy is disabled in preview mode.");
+});
   </script>
 </body>
 </html>
