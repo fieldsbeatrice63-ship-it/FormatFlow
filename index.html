@@ -252,7 +252,7 @@
           body: JSON.stringify({ content })
         });
 
-        const data = await response.json();
+       const data = await res.json();
 
         if (!response.ok) {
           throw new Error(data.error || "Generation failed.");
