@@ -729,21 +729,23 @@ document.addEventListener("copy", (e) => {
   let selectedTemplate = "classic";
 let isUnlocked = false;
     
-  function applyTemplateToPreview(templateName) {
-    const preview = document.querySelector(".output-preview");
-    if (!preview) return;
+ function applyTemplateToPreview(templateName) {
+  const preview = document.querySelector(".output-preview");
+  if (!preview) return;
 
-    preview.classList.remove(
-      "template-classic",
-      "template-modern",
-      "template-ats",
-      "template-executive",
-      "template-simple"
-    );
+  preview.classList.remove(
+    "template-classic",
+    "template-modern",
+    "template-ats",
+    "template-executive",
+    "template-simple"
+  );
 
-    preview.classList.add("template-" + templateName);
-    selectedTemplate = templateName;
-  }
+  preview.classList.add("template-" + templateName);
+  selectedTemplate = templateName;
+  updateUnlockUI();
+}
+  
 function updateUnlockUI() {
   if (selectedTemplateLabel) {
     const niceName =
