@@ -363,96 +363,284 @@
   }
 }
   </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <h1>FormatFlow™</h1>
-      <p class="sub">
-        Create business letters, emails, resignation letters, complaint letters,
-        resumes, formal requests, and more. Type, paste, upload, or use voice.
-      </p>
-
-      <label class="label" for="userInput">Enter or upload your content</label>
-      <textarea
-        id="userInput"
-        class="textarea"
-        placeholder="Type, paste, upload, or speak what you need created..."
-      ></textarea>
-
-      <div class="row">
-        <label for="fileUpload" class="file-label secondary">Upload File</label>
-        <input
-          id="fileUpload"
-          type="file"
-          class="hidden"
-          accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
-        />
-
-        <button id="voiceBtn" class="secondary" type="button">Start Voice</button>
-        <button id="stopVoiceBtn" class="secondary" type="button">Stop Voice</button>
-        <button id="generateBtn" class="primary" type="button">Generate Document</button>
-      </div>
-<div class="ff-action-buttons">
-  <button id="rewriteBtn" type="button">Rewrite More Professionally</button>
-  <button id="simpleBtn" type="button">Make It Clear &amp; Simple</button>
-  <button id="strongBtn" type="button">Make It Stronger</button>
-  <button id="addDetailsBtn" type="button">Add More Details</button>
-  <button id="clearBtn" type="button">Clear</button>
-</div>
-      <div id="uploadStatus" class="status"></div>
-      <div id="voiceStatus" class="status"></div>
-
-      <div class="examples">
-        <strong>Examples:</strong><br>
-        Write a resignation letter for my job<br>
-        Create a professional email to my landlord<br>
-        Turn this into a business letter<br>
-        Fix and format my resume<br>
-        Write an email asking for a payment extension
+<div class="site-shell">
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-text">FormatFlow</div>
       </div>
 
-     <label class="label" for="outputBox">Generated document</label>
-
-<div class="preview-shell">
-  <div class="preview-watermark">FormatFlow Preview</div>
-  <div id="outputPreview" class="output-preview">
-    <div class="preview-empty">Your generated document will appear here...</div>
-  </div>
-</div>
-<div class="unlock-bar" id="unlockBar">
-  <div class="unlock-bar-left">
-    <div class="unlock-pill unlock-pill-status locked" id="unlockStatus">Preview Protected</div>
-    <div class="unlock-pill" id="selectedTemplateLabel">Template: Classic</div>
-  </div>
-
-  <div class="unlock-bar-right">
-    <a
-      id="unlockDocumentBtn"
-      class="unlock-btn primary"
-      href="#"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Unlock Document
-    </a>
-
-    <button id="downloadPdfBtn" class="unlock-btn secondary" type="button" disabled>
-      Download PDF
-    </button>
-
-    <button id="exportDocxBtn" class="unlock-btn secondary" type="button" disabled>
-      Export DOCX
-    </button>
-  </div>
-</div>
-<textarea
-  id="outputBox"
-  class="output-hidden"
-  placeholder="Your generated document will appear here..."
-></textarea>
+      <nav class="top-nav">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">About</a>
+        <a href="#" class="nav-link">FAQ</a>
+        <a href="#" class="nav-link">Contact</a>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <main class="workspace-shell">
+    <div class="workspace-grid">
+      <section class="builder-column">
+        <div class="panel builder-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Build Your Document</h2>
+          </div>
+
+          <div class="template-gallery-slot">
+            <section class="template-gallery-section">
+              <div class="template-gallery-wrap">
+                <div class="template-gallery-heading">
+                  <span class="template-eyebrow">Choose a Format</span>
+                  <h2>Select Your Document Style</h2>
+                  <p>
+                    Choose the visual structure you want before generating or rewriting your document.
+                    Each template keeps your content professional while changing the presentation style.
+                  </p>
+                </div>
+
+                <div class="template-gallery-grid">
+                  <button class="template-card active" data-template="classic" type="button">
+                    <div class="template-thumb template-thumb-classic">
+                      <div class="mini-doc">
+                        <div class="mini-line w-60"></div>
+                        <div class="mini-line w-90"></div>
+                        <div class="mini-line w-85"></div>
+                        <div class="mini-line w-70"></div>
+                        <div class="mini-line w-80"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Classic</h3>
+                      <p>Traditional professional formatting with formal spacing and clean structure.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="modern" type="button">
+                    <div class="template-thumb template-thumb-modern">
+                      <div class="mini-doc">
+                        <div class="mini-bar"></div>
+                        <div class="mini-line w-55"></div>
+                        <div class="mini-line w-92"></div>
+                        <div class="mini-line w-88"></div>
+                        <div class="mini-line w-76"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Modern</h3>
+                      <p>Polished visual presentation with stronger spacing and a refined premium look.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="ats" type="button">
+                    <div class="template-thumb template-thumb-ats">
+                      <div class="mini-doc">
+                        <div class="mini-line w-50"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-95"></div>
+                        <div class="mini-line w-75"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>ATS</h3>
+                      <p>Minimal, clean, scan-friendly formatting ideal for hiring systems and structured review.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="executive" type="button">
+                    <div class="template-thumb template-thumb-executive">
+                      <div class="mini-doc">
+                        <div class="mini-line w-40"></div>
+                        <div class="mini-line w-82"></div>
+                        <div class="mini-line w-86"></div>
+                        <div class="mini-line w-78"></div>
+                        <div class="mini-line w-66"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Executive</h3>
+                      <p>Elevated authority-based formatting with a more premium and leadership-style feel.</p>
+                    </div>
+                  </button>
+
+                  <button class="template-card" data-template="simple" type="button">
+                    <div class="template-thumb template-thumb-simple">
+                      <div class="mini-doc">
+                        <div class="mini-line w-58"></div>
+                        <div class="mini-line w-84"></div>
+                        <div class="mini-line w-79"></div>
+                        <div class="mini-line w-72"></div>
+                        <div class="mini-line w-68"></div>
+                      </div>
+                    </div>
+                    <div class="template-card-body">
+                      <h3>Simple</h3>
+                      <p>Clean everyday format for straightforward, easy-to-read business and personal documents.</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <label class="label" for="userInput">Enter or upload your content</label>
+
+          <textarea
+            id="userInput"
+            class="textarea"
+            placeholder="Type, paste, upload, or speak what you need created..."
+          ></textarea>
+
+          <div class="builder-actions-top">
+            <label for="fileUpload" class="file-label secondary">Upload File</label>
+            <input
+              id="fileUpload"
+              type="file"
+              class="hidden"
+              accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
+            />
+
+            <button id="voiceBtn" class="secondary" type="button">Start Voice</button>
+            <button id="stopVoiceBtn" class="secondary" type="button">Stop Voice</button>
+            <button id="generateBtn" class="primary" type="button">Generate Document</button>
+          </div>
+
+          <div class="ff-action-buttons">
+            <button id="rewriteBtn" type="button">Rewrite More Professionally</button>
+            <button id="simpleBtn" type="button">Make It Clear &amp; Simple</button>
+            <button id="strongBtn" type="button">Make It Stronger</button>
+            <button id="addDetailsBtn" type="button">Add More Details</button>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+
+          <div id="uploadStatus" class="status"></div>
+          <div id="voiceStatus" class="status"></div>
+
+          <div class="examples">
+            <strong>Examples:</strong><br>
+            Write a resignation letter for my job<br>
+            Create a professional email to my landlord<br>
+            Write a business complaint letter<br>
+            Draft a formal request letter
+          </div>
+        </div>
+
+        <div class="panel pricing-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Choose Your Plan</h2>
+          </div>
+
+          <div class="pricing-grid">
+            <div class="plan-card">
+              <h3>Single Document</h3>
+              <div class="price">$2.99</div>
+              <div class="price-sub">Per document</div>
+              <a href="#" class="plan-btn">Purchase</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Starter</h3>
+              <div class="price">$9.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Pro</h3>
+              <div class="price">$29.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+
+            <div class="plan-card">
+              <h3>Unlimited</h3>
+              <div class="price">$49.99</div>
+              <div class="price-sub">Per month</div>
+              <a href="#" class="plan-btn">Select</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="preview-column">
+        <div class="panel preview-panel">
+          <div class="panel-title-row">
+            <h2 class="panel-title">Document Preview</h2>
+          </div>
+
+          <div class="preview-shell">
+            <div class="preview-watermark">FormatFlow Preview</div>
+            <div id="outputPreview" class="output-preview template-classic">
+              <div class="preview-empty">Your generated document will appear here...</div>
+            </div>
+          </div>
+
+          <div class="unlock-bar" id="unlockBar">
+            <div class="unlock-bar-left">
+              <div class="unlock-pill unlock-pill-status locked" id="unlockStatus">Preview Protected</div>
+              <div class="unlock-pill" id="selectedTemplateLabel">Template: Classic</div>
+            </div>
+
+            <div class="unlock-bar-right">
+              <a
+                id="unlockDocumentBtn"
+                class="unlock-btn primary"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Unlock Document
+              </a>
+
+              <button id="downloadPdfBtn" class="unlock-btn secondary" type="button" disabled>
+                Download PDF
+              </button>
+
+              <button id="exportDocxBtn" class="unlock-btn secondary" type="button" disabled>
+                Export DOCX
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="outputBox"
+            class="output-hidden"
+            placeholder="Your generated document will appear here..."
+          ></textarea>
+        </div>
+
+        <div class="export-float-card">
+          <div class="export-card-title">Ready to Export?</div>
+          <div class="export-card-sub">Download or export your document after unlocking.</div>
+
+          <div class="export-card-actions">
+            <button class="unlock-btn secondary" type="button" disabled>Download PDF</button>
+            <button class="unlock-btn secondary" type="button" disabled>Download Word</button>
+          </div>
+
+          <a href="#" class="export-pay-btn">Proceed to Payment</a>
+
+          <div class="export-powered">Powered by Stripe</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div class="footer-note">Secure &amp; Easy Document Creation</div>
+    </div>
+  </footer>
+</div>
 
   <script>
     const userInput = document.getElementById("userInput");
