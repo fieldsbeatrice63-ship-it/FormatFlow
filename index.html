@@ -494,15 +494,17 @@ document.getElementById("outputPreview").innerHTML =
 };
 document.getElementById("addDetailsBtn").onclick = async () => {
   const existingOutput = document.getElementById("outputBox").value;
-  const newInput = document.getElementById("userInput").value;
+  const newInput = document.getElementById("userInput").value.trim();
 
-  if (!existingOutput) {
-    document.getElementById("outputBox").value = "Generate a document first before adding more details.";
+  if (!existingOutput.trim()) {
+    document.getElementById("outputPreview").innerHTML =
+      '<div class="preview-empty">Generate a document first before adding more details.</div>';
     return;
   }
 
-  if (!newInput.trim()) {
-    document.getElementById("outputBox").value = "Please enter additional details to add.";
+  if (!newInput) {
+    document.getElementById("outputPreview").innerHTML =
+      '<div class="preview-empty">Please enter additional details to add.</div>';
     return;
   }
 
@@ -511,23 +513,32 @@ document.getElementById("addDetailsBtn").onclick = async () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       content:
-        "You are continuing and improving an existing professional document.\n\n" +
+        "Revise the existing document below by incorporating the new details directly into the document. " +
+        "Replace placeholders with the new details when appropriate. " +
+        "Do not restart from scratch unless necessary. " +
+        "Keep the document polished, professional, complete, and cohesive.\n\n" +
         "CURRENT DOCUMENT:\n" +
         existingOutput +
-        "\n\nNEW DETAILS TO ADD:\n" +
-        newInput +
-        "\n\nUpdate and refine the document so it remains professional, cohesive, and complete."
+        "\n\n" +
+        "NEW DETAILS TO INCORPORATE:\n" +
+        newInput
     })
   });
 
   const data = await res.json();
- ddocument.getElementById("outputBox").value = data.output;
-document.getElementById("outputPreview").innerHTML = (data.output || "")
-  .replace(/\n\n/g, "</p><p>")
-  .replace(/\n/g, "<br>");
-document.getElementById("outputPreview").innerHTML =
-  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+
+  if (!res.ok) {
+    throw new Error(data.error || "Add details failed.");
+  }
+
+  document.getElementById("outputBox").value = data.output || "No output returned.";
+  document.getElementById("outputPreview").innerHTML = ((data.output || "")
+    .replace(/\n\n/g, "</p><p>")
+    .replace(/\n/g, "<br>"));
+  document.getElementById("outputPreview").innerHTML =
+    "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
 };
+
 document.getElementById("clearBtn").onclick = () => {
   document.getElementById("userInput").value = "";
   document.getElementById("outputBox").value = "";
