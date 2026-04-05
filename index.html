@@ -324,6 +324,7 @@
         }
 
         outputBox.value = data.output || "No output returned.";
+document.getElementById("outputPreview").innerText = data.output || "";
       } catch (error) {
         outputBox.value = "Error: " + error.message;
       }
