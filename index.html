@@ -1082,6 +1082,34 @@
     padding: 40px 24px;
   }
 }
+  /* ===== Force right preview column to stay contained ===== */
+.preview-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: calc(100vh - 120px);
+}
+
+.panel.preview-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel.preview-panel .panel-title-row {
+  flex: 0 0 auto;
+}
+
+.preview-shell {
+  flex: 1;
+  min-height: 0;
+}
+
+.unlock-bar {
+  flex: 0 0 auto;
+}
  </style>
 </head>
 <body>
