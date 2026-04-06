@@ -1678,11 +1678,7 @@ document.getElementById("rewriteBtn").onclick = async () => {
 
   const data = await res.json();
  document.getElementById("outputBox").value = data.output;
-document.getElementById("outputPreview").innerHTML = (data.output || "")
-  .replace(/\n\n/g, "</p><p>")
-  .replace(/\n/g, "<br>");
-document.getElementById("outputPreview").innerHTML =
-  "<p>" + document.getElementById("outputPreview").innerHTML + "</p>";
+setPagedPreview(data.output || "");
 };
 
 document.getElementById("simpleBtn").onclick = async () => {
