@@ -1449,7 +1449,10 @@ const exportDocxBtn = document.getElementById("exportDocxBtn");
 }; 
     let recognition = null;
     let isListening = false;
-
+let previewPages = [];
+let currentPreviewPage = 0;
+let fullGeneratedDocument = "";
+    
     fileUpload.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       if (!file) return;
