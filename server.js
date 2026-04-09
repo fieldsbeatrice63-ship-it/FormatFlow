@@ -133,7 +133,49 @@ app.post("/api/generate-document", async (req, res) => {
         }
       ]
     });
+app.post("/api/rewrite-document", async (req, res) => {
+  try {
+    const { content, type } = req.body;
 
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: "Content is required." });
+    }
+
+    let instruction = "";
+
+    if (type === "professional") {
+      instruction = "Rewrite this document with stronger, more sophisticated, and highly professional language.";
+    } else if (type === "grammar") {
+      instruction = "Correct all grammar, spelling, and sentence structure while maintaining a professional tone.";
+    } else if (type === "expand") {
+      instruction = "Expand this document with more detail, clarity, and professional depth.";
+    } else if (type === "shorten") {
+      instruction = "Condense this document while keeping it clear, professional, and impactful.";
+    }
+
+    const response = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: FORMATFLOW_SYSTEM_PROMPT
+        },
+        {
+          role: "user",
+          content: `${instruction}\n\n${content}`
+        }
+      ]
+    });
+
+    const output = response.output_text || "";
+
+    res.json({ output });
+
+  } catch (error) {
+    console.error("Rewrite error:", error);
+    res.status(500).json({ error: "Rewrite failed." });
+  }
+});
     let output = response.output_text || "";
 
     // 🛡️ HALO SHIELD — REFINED ANTI-HALLUCINATION FILTER
