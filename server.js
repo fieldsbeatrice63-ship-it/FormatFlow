@@ -111,7 +111,107 @@ app.use(cors());
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), "public")));
+function getDocumentFormattingInstruction(docType, template) {
+  const type = (docType || "").toLowerCase();
+  const selectedTemplate = (template || "").toLowerCase();
 
+  if (type === "resume") {
+    return `
+Format this as a professional resume.
+- Place the candidate name at the top if provided
+- Include contact information directly under the name if provided
+- Structure the document with clear sections such as Professional Summary, Experience, Skills, and Education
+- Use concise, achievement-oriented bullet points where appropriate
+- Do not format this like an essay, letter, or paragraph-only document
+- Ensure the structure is resume-specific and professionally organized
+- Apply the selected template style: ${selectedTemplate || "resume-classic"}
+`;
+  }
+
+  if (type === "cover-letter") {
+    return `
+Format this as a professional cover letter.
+- Use a formal business-letter structure
+- Include an opening, body, and closing
+- Maintain a refined, persuasive, and professional tone
+- Do not format this like a resume or essay
+- Apply the selected template style: ${selectedTemplate || "general-professional"}
+`;
+  }
+
+  if (type === "resignation-letter") {
+    return `
+Format this as a formal resignation letter.
+- Use a clean business-letter structure
+- State the resignation clearly and professionally
+- Keep the tone composed, firm, and respectful
+- Do not format this like a resume or essay
+- Apply the selected template style: ${selectedTemplate || "business-formal"}
+`;
+  }
+
+  if (type === "legal") {
+    return `
+Format this as a legal-style professional document.
+- Use a formal heading and clean paragraph structure
+- Maintain precise, controlled, professional language
+- Present terms, dates, parties, and purpose clearly if provided
+- Do not format this like a resume or essay
+- Apply the selected template style: ${selectedTemplate || "legal-standard"}
+`;
+  }
+
+  if (type === "business") {
+    return `
+Format this as a professional business document.
+- Use strong headings where appropriate
+- Maintain executive-level clarity and structure
+- Present the message in a polished, business-ready form
+- Do not format this like a resume or essay
+- Apply the selected template style: ${selectedTemplate || "business-formal"}
+`;
+  }
+
+  if (type === "essay") {
+    return `
+Format this as a professional essay.
+- Do NOT format it like a resume
+- Do NOT place resume headings such as Skills, Experience, or Education
+- Begin with a proper essay title if appropriate
+- Use clean paragraph structure and natural academic flow
+- Maintain a polished, intelligent, professional tone
+- Ensure the body begins like an essay, not like a resume or business letter
+- Apply the selected template style: ${selectedTemplate || "essay-standard"}
+`;
+  }
+
+  if (type === "ebook") {
+    return `
+Format this as a professional eBook or written content document.
+- Do NOT format it like a resume
+- Use a clear title and organized section headings or chapters where appropriate
+- Maintain clean paragraph spacing and polished long-form structure
+- Use refined, engaging, intelligent wording
+- Apply the selected template style: ${selectedTemplate || "ebook-clean"}
+`;
+  }
+
+  if (type === "other") {
+    return `
+Format this as a general professional document.
+- Determine the most appropriate professional structure based on the provided content
+- Maintain a polished, organized, professional format
+- Do not default to resume formatting unless the content clearly indicates a resume
+- Apply the selected template style: ${selectedTemplate || "general-professional"}
+`;
+  }
+
+  return `
+Format this as a professional document using the most appropriate structure for the content provided.
+Do not default to resume formatting unless the content clearly requires it.
+Apply the selected template style: ${selectedTemplate || "general-professional"}
+`;
+}
 app.post("/api/generate-document", async (req, res) => {
   try {
     const { content } = req.body;
