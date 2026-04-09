@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FormatFlow App</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="brand">FormatFlow</div>
+    <div class="nav-links">
+      <a href="index-new.html">Back Home</a>
+    </div>
+  </nav>
+
+  <main class="app-container">
+    <section class="input-panel">
+      <h2>Build Your Document</h2>
+
+      <label for="docType">Select Document Type</label>
+      <select id="docType">
+        <option>Resume</option>
+        <option>Legal</option>
+        <option>Business</option>
+        <option>eBook</option>
+      </select>
+
+      <label>Choose Template</label>
+      <div class="templates">
+        <button type="button" onclick="selectTemplate('template1')">Template 1</button>
+        <button type="button" onclick="selectTemplate('template2')">Template 2</button>
+        <button type="button" onclick="selectTemplate('template3')">Template 3</button>
+      </div>
+
+      <label for="userInput">Paste or type your content</label>
+      <textarea id="userInput" placeholder="Paste or type your content here..."></textarea>
+
+      <div class="actions">
+        <button type="button" onclick="rewrite('professional')">Make Professional</button>
+        <button type="button" onclick="rewrite('shorten')">Shorten</button>
+        <button type="button" onclick="rewrite('expand')">Expand</button>
+        <button type="button" onclick="rewrite('fix')">Fix Grammar</button>
+      </div>
+
+      <div class="export">
+        <button type="button" onclick="exportPDF()">Download PDF</button>
+        <button type="button" onclick="exportDOCX()">Download DOCX</button>
+      </div>
+    </section>
+
+    <section class="preview-panel">
+      <div class="page" id="preview">
+        <div class="preview-content">
+          Your document preview will appear here...
+        </div>
+        <div class="watermark">FormatFlow Preview</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
