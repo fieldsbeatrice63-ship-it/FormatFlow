@@ -113,7 +113,7 @@ app.post("/api/generate-document", async (req, res) => {
       return res.status(400).json({ error: "Content is required." });
     }
 
-    const response = await client.responses.create({
+   const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
         {
@@ -127,14 +127,13 @@ app.post("/api/generate-document", async (req, res) => {
       ]
     });
 
-  let output = response.output_text || "";
+    let output = response.output_text || "";
 
-// 🛡️ HALO SHIELD — REFINED ANTI-HALLUCINATION FILTER
+    // 🛡️ HALO SHIELD — REFINED ANTI-HALLUCINATION FILTER
+    output = output.replace(/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/g, "[Phone Number]");
+    output = output.replace(/\b\d{1,5}\s[A-Za-z0-9.#'-]+\s(?:[A-Za-z0-9.#'-]+\s)?(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Way)\b/gi, "[Address]");
+    output = output.replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[Email Address]");
 
-output = output.replace(/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/g, "[Phone Number]");
-output = output.replace(/\b\d{1,5}\s[A-Za-z0-9.#'-]+\s(?:[A-Za-z0-9.#'-]+\s)?(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Way)\b/gi, "[Address]");
-output = output.replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[Email Address]");
-});
     res.json({ output });
   } catch (error) {
     console.error("Generate error:", error);
