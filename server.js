@@ -262,17 +262,48 @@ app.post("/api/rewrite-document", async (req, res) => {
       return res.status(400).json({ error: "Content is required." });
     }
 
-    let instruction = "";
+   let instruction = "";
 
-    if (type === "professional") {
-      instruction = "Rewrite this document with stronger, more sophisticated, and highly professional language.";
-    } else if (type === "grammar") {
-      instruction = "Correct all grammar, spelling, and sentence structure while maintaining a professional tone.";
-    } else if (type === "expand") {
-      instruction = "Expand this document with more detail, clarity, and professional depth.";
-    } else if (type === "shorten") {
-      instruction = "Condense this document while keeping it clear, professional, and impactful.";
-    }
+if (type === "professional") {
+  instruction = `Rewrite this document with stronger, more sophisticated, and highly professional language.
+
+Correct all grammar, spelling, and sentence structure while maintaining a polished, authoritative, and professional tone.
+
+Enhance clarity, improve flow, and refine sentence structure to ensure the document reads smoothly and confidently.
+
+Expand the document where appropriate to add depth, precision, and professional strength.
+
+Condense any unnecessary wording while keeping the message clear, impactful, and direct.
+
+IMPORTANT STRUCTURE RULES:
+- Preserve ALL header and identifying lines exactly as written.
+- Do NOT remove or alter the sender name, sender address, city/state/zip, date, recipient name, recipient address, subject line, reference line, account number, or signature name.
+- Maintain the original document formatting, spacing, and line structure.
+- Only improve the wording of the body paragraphs.
+- Return the FULL document, not just the rewritten portion.
+- Do not omit, replace, or relocate any personal or reference information.`;
+
+} else if (type === "grammar") {
+  instruction = `Correct all grammar, spelling, and sentence structure errors while maintaining a professional tone.
+
+Do not change the meaning of the content.
+
+Preserve all names, addresses, and formatting exactly as written.`;
+
+} else if (type === "expand") {
+  instruction = `Expand this document with more detail, clarity, and professional depth.
+
+Add supporting language where needed to strengthen the message.
+
+Preserve all names, addresses, and formatting exactly as written.`;
+
+} else if (type === "shorten") {
+  instruction = `Condense this document while keeping it clear, professional, and impactful.
+
+Remove unnecessary or repetitive wording while preserving the core message.
+
+Preserve all names, addresses, and formatting exactly as written.`;
+}
 
     const response = await client.responses.create({
       model: "gpt-4.1",
