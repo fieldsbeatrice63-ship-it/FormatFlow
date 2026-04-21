@@ -283,7 +283,10 @@ IMPORTANT STRUCTURE RULES:
 - Maintain the original document formatting, spacing, and line structure.
 - Only improve the wording of the body paragraphs.
 - Return the FULL document, not just the rewritten portion.
-- Do not omit, replace, or relocate any personal or reference information.`;
+- Do not omit, replace, or relocate any personal or reference information.
+- If a specific recipient name, company, bureau, landlord, lender, employer, or department is provided, replace generic salutations such as "To Whom It May Concern" with a more specific and professional salutation when appropriate.
+- Avoid generic openings when the document already contains enough recipient information to support a more direct greeting.
+`;
 
   
 } else if (type === "grammar") {
