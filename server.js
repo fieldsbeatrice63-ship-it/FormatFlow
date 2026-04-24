@@ -415,7 +415,53 @@ app.post("/api/parse-upload", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: "Failed to parse uploaded file." });
   }
 });
+app.post("/api/send-verify", async (req, res) => {
+  try {
+    const {
+      document,
+      docType,
+      senderName,
+      senderEmail,
+      recipientName,
+      recipientEmail,
+      deliveryNote
+    } = req.body;
 
+    if (!document || !document.trim()) {
+      return res.status(400).json({ error: "Document is required." });
+    }
+
+    if (!recipientEmail || !recipientEmail.trim()) {
+      return res.status(400).json({ error: "Recipient email is required." });
+    }
+
+    // 🔐 Generate Verification ID
+    const verificationId = "VFY-" + Date.now();
+
+    // 🧾 Build receipt object
+    const receipt = {
+      verificationId,
+      timestamp: new Date().toISOString(),
+      docType: docType || "general document",
+      senderName: senderName || "",
+      senderEmail: senderEmail || "",
+      recipientName: recipientName || "",
+      recipientEmail: recipientEmail || "",
+      deliveryNote: deliveryNote || ""
+    };
+
+    // 🔁 FOR NOW: Just return receipt (no email yet)
+    res.json({
+      success: true,
+      message: "Verified delivery initiated.",
+      receipt
+    });
+
+  } catch (error) {
+    console.error("Send Verify error:", error);
+    res.status(500).json({ error: "Server error sending verified document." });
+  }
+});
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
