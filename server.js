@@ -586,18 +586,31 @@ app.post("/api/send-verify", async (req, res) => {
         };
 
         const lobLetter = await lob.letters.create({
-          description: `FormatFlow Send Verify - ${verificationId}`,
-          to: {
-            name: resolvedRecipient,
-            ...recipientAddressForLob
-          },
-          from: senderAddressForLob,
-          file: buildLobLetterHTML(document, docType),
-          color: false,
-          double_sided: false,
-          mail_type: "usps_first_class"
-          use_type: "operational"
-        });
+  description: `FormatFlow Send Verify - ${verificationId}`,
+
+  to: {
+    name: resolvedRecipient,
+    ...recipientAddressForLob
+  },
+
+  from: {
+    name: "FormatFlow",
+    address_line1: process.env.FORMATFLOW_RETURN_ADDRESS_LINE1 || "",
+    address_line2: process.env.FORMATFLOW_RETURN_ADDRESS_LINE2 || "",
+    address_city: process.env.FORMATFLOW_RETURN_ADDRESS_CITY || "",
+    address_state: process.env.FORMATFLOW_RETURN_ADDRESS_STATE || "",
+    address_zip: process.env.FORMATFLOW_RETURN_ADDRESS_ZIP || "",
+    address_country: "US"
+  },
+
+  file: buildLobLetterHTML(document, docType),
+
+  color: false,
+  double_sided: false,
+  mail_type: "usps_first_class",
+  use_type: "operational"
+});
+
 
         receipt.deliveryId = lobLetter.id || deliveryJob.deliveryId;
         receipt.trackingLink = lobLetter.tracking_url || lobLetter.url || "";
