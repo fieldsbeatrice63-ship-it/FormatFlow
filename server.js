@@ -573,7 +573,8 @@ app.post("/api/send-verify", async (req, res) => {
       status: "Delivery queued"
     };
 
-        if (lob) {
+    try {
+  if (lob) {
       const recipientAddressForLob = parseSingleLineAddress(resolvedAddress);
 
       const senderAddressForLob = {
@@ -611,6 +612,17 @@ app.post("/api/send-verify", async (req, res) => {
       deliveryJob.status = receipt.deliveryStatus;
       deliveryJob.trackingLink = receipt.trackingLink;
     }
+
+        }
+} catch (lobError) {
+  console.error("LOB ERROR:", lobError);
+
+  receipt.deliveryStatus = "queued_without_lob";
+  receipt.trackingLink = "";
+  receipt.status = "Delivery queued - Lob pending";
+
+  deliveryJob.status = "queued_without_lob";
+}
     return res.json({
       success: true,
       receipt,
