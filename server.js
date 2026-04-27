@@ -442,7 +442,6 @@ function parseSingleLineAddress(addressText) {
   const line1 = parts[0] || "";
   const city = parts[1] || "";
   const stateZip = parts[2] || "";
-
   const stateZipMatch = stateZip.match(/^([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$/i);
 
   return {
@@ -468,19 +467,16 @@ function buildLobLetterHTML(document, docType) {
             padding: 40px;
             color: #111;
           }
-
           .title {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 20px;
           }
-
           .content {
             white-space: pre-wrap;
           }
         </style>
       </head>
-
       <body>
         <div class="title">${docType || "FormatFlow Document"}</div>
         <div class="content">${String(document || "")
@@ -491,7 +487,6 @@ function buildLobLetterHTML(document, docType) {
     </html>
   `;
 }
-
 
 const DESTINATION_MAP = {
   experian: {
@@ -507,6 +502,7 @@ const DESTINATION_MAP = {
     address: "P.O. Box 2000, Chester, PA 19016"
   }
 };
+
 app.post("/api/send-verify", async (req, res) => {
   try {
     const {
@@ -539,7 +535,7 @@ app.post("/api/send-verify", async (req, res) => {
       resolvedAddress = customAddress || "";
     } else {
       resolvedRecipient = recipientName || "Unknown Recipient";
-      resolvedAddress = "";
+      resolvedAddress = customAddress || "";
     }
 
     let deliveryMethod = "standard";
@@ -570,66 +566,68 @@ app.post("/api/send-verify", async (req, res) => {
       recipientAddress: resolvedAddress,
       deliveryType: deliveryMethod,
       deliveryNote: deliveryNote || "",
+      trackingLink: "",
+      deliveryStatus: "queued",
       status: "Delivery queued"
     };
-try {
-  if (lob) {
-    const recipientAddressForLob = parseSingleLineAddress(resolvedAddress);
 
-    const senderAddressForLob = {
-      name: senderName || "FormatFlow",
-      address_line1: process.env.FORMATFLOW_RETURN_ADDRESS_LINE1 || "",
-      address_line2: process.env.FORMATFLOW_RETURN_ADDRESS_LINE2 || "",
-      address_city: process.env.FORMATFLOW_RETURN_ADDRESS_CITY || "",
-      address_state: process.env.FORMATFLOW_RETURN_ADDRESS_STATE || "",
-      address_zip: process.env.FORMATFLOW_RETURN_ADDRESS_ZIP || "",
-      address_country: "US"
-    };
+    try {
+      if (lob) {
+        const recipientAddressForLob = parseSingleLineAddress(resolvedAddress);
 
-    const lobLetter = await lob.letters.create({
-      description: `FormatFlow Send Verify - ${verificationId}`,
-      to: {
-        name: resolvedRecipient,
-        ...recipientAddressForLob
-      },
-      from: senderAddressForLob,
-      file: buildLobLetterHTML(document, docType),
-      color: false,
-      double_sided: false,
-      mail_type: "usps_first_class",
-      ...(deliveryMethod === "certified"
-        ? { extra_services: "certified" }
-        : {})
-    });
+        const senderAddressForLob = {
+          name: "FormatFlow",
+          address_line1: process.env.FORMATFLOW_RETURN_ADDRESS_LINE1 || "",
+          address_line2: process.env.FORMATFLOW_RETURN_ADDRESS_LINE2 || "",
+          address_city: process.env.FORMATFLOW_RETURN_ADDRESS_CITY || "",
+          address_state: process.env.FORMATFLOW_RETURN_ADDRESS_STATE || "",
+          address_zip: process.env.FORMATFLOW_RETURN_ADDRESS_ZIP || "",
+          address_country: "US"
+        };
 
-    receipt.deliveryId = lobLetter.id || deliveryJob.deliveryId;
-    receipt.trackingLink = lobLetter.tracking_url || lobLetter.url || "";
-    receipt.deliveryStatus = lobLetter.status || "queued";
-    receipt.status = lobLetter.status || "Delivery queued";
+        const lobLetter = await lob.letters.create({
+          description: `FormatFlow Send Verify - ${verificationId}`,
+          to: {
+            name: resolvedRecipient,
+            ...recipientAddressForLob
+          },
+          from: senderAddressForLob,
+          file: buildLobLetterHTML(document, docType),
+          color: false,
+          double_sided: false,
+          mail_type: "usps_first_class"
+        });
 
-    deliveryJob.deliveryId = receipt.deliveryId;
-    deliveryJob.status = receipt.deliveryStatus;
-    deliveryJob.trackingLink = receipt.trackingLink;
-  }
-} catch (lobError) {
-  const lobMessage =
-    lobError?.message ||
-    lobError?._response?.body?.error?.message ||
-    lobError?.response?.body?.error?.message ||
-    "Unknown Lob error";
+        receipt.deliveryId = lobLetter.id || deliveryJob.deliveryId;
+        receipt.trackingLink = lobLetter.tracking_url || lobLetter.url || "";
+        receipt.deliveryStatus = lobLetter.status || "queued";
+        receipt.status = lobLetter.status || "Delivery queued";
 
-  console.error("LOB ERROR MESSAGE:", lobMessage);
-  console.error("LOB ERROR FULL:", lobError);
+        deliveryJob.deliveryId = receipt.deliveryId;
+        deliveryJob.status = receipt.deliveryStatus;
+        deliveryJob.trackingLink = receipt.trackingLink;
+      } else {
+        receipt.lobError = "LOB_API_KEY missing or not loaded.";
+      }
+    } catch (lobError) {
+      const lobMessage =
+        lobError?.message ||
+        lobError?._response?.body?.error?.message ||
+        lobError?.response?.body?.error?.message ||
+        "Unknown Lob error";
 
-  receipt.deliveryStatus = "queued_without_lob";
-  receipt.trackingLink = "";
-  receipt.status = "Delivery queued - Lob pending";
-  receipt.lobError = lobMessage;
+      console.error("LOB ERROR MESSAGE:", lobMessage);
+      console.error("LOB ERROR FULL:", lobError);
 
-  deliveryJob.status = "queued_without_lob";
-  deliveryJob.trackingLink = "";
-}
-     
+      receipt.deliveryStatus = "queued_without_lob";
+      receipt.trackingLink = "";
+      receipt.status = "Delivery queued - Lob pending";
+      receipt.lobError = lobMessage;
+
+      deliveryJob.status = "queued_without_lob";
+      deliveryJob.trackingLink = "";
+    }
+
     return res.json({
       success: true,
       receipt,
@@ -641,10 +639,11 @@ try {
 
     return res.status(500).json({
       error: "Send Verify failed",
-      message: "An error occurred while processing delivery"
+      message: error.message || "An error occurred while processing delivery"
     });
   }
 });
+
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
