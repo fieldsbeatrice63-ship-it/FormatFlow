@@ -6,7 +6,7 @@ import path from "path";
 import pdf from "pdf-parse";
 import mammoth from "mammoth";
 import OpenAI from "openai";
-
+import Lob from "lob";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +15,9 @@ const upload = multer({ dest: "uploads/" });
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+const lob = process.env.LOB_API_KEY
+  ? new Lob(process.env.LOB_API_KEY)
+  : null;
 
 const FORMATFLOW_SYSTEM_PROMPT = `
 You are an advanced professional document generation system operating at an executive, corporate, and legal-adjacent level.
@@ -416,6 +419,79 @@ app.post("/api/parse-upload", upload.single("file"), async (req, res) => {
   }
 });
 
+function parseSingleLineAddress(addressText) {
+  const fallback = {
+    address_line1: addressText || "",
+    address_line2: "",
+    address_city: "",
+    address_state: "",
+    address_zip: "",
+    address_country: "US"
+  };
+
+  if (!addressText || typeof addressText !== "string") {
+    return fallback;
+  }
+
+  const parts = addressText.split(",").map(part => part.trim());
+
+  if (parts.length < 3) {
+    return fallback;
+  }
+
+  const line1 = parts[0] || "";
+  const city = parts[1] || "";
+  const stateZip = parts[2] || "";
+
+  const stateZipMatch = stateZip.match(/^([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$/i);
+
+  return {
+    address_line1: line1,
+    address_line2: "",
+    address_city: city,
+    address_state: stateZipMatch ? stateZipMatch[1].toUpperCase() : "",
+    address_zip: stateZipMatch ? stateZipMatch[2] : "",
+    address_country: "US"
+  };
+}
+
+function buildLobLetterHTML(document, docType) {
+  return `
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 40px;
+            color: #111;
+          }
+
+          .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+          }
+
+          .content {
+            white-space: pre-wrap;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div class="title">${docType || "FormatFlow Document"}</div>
+        <div class="content">${String(document || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")}</div>
+      </body>
+    </html>
+  `;
+}
+
 
 const DESTINATION_MAP = {
   experian: {
@@ -497,6 +573,44 @@ app.post("/api/send-verify", async (req, res) => {
       status: "Delivery queued"
     };
 
+        if (lob) {
+      const recipientAddressForLob = parseSingleLineAddress(resolvedAddress);
+
+      const senderAddressForLob = {
+        name: senderName || "FormatFlow",
+        address_line1: process.env.FORMATFLOW_RETURN_ADDRESS_LINE1 || "",
+        address_line2: process.env.FORMATFLOW_RETURN_ADDRESS_LINE2 || "",
+        address_city: process.env.FORMATFLOW_RETURN_ADDRESS_CITY || "",
+        address_state: process.env.FORMATFLOW_RETURN_ADDRESS_STATE || "",
+        address_zip: process.env.FORMATFLOW_RETURN_ADDRESS_ZIP || "",
+        address_country: "US"
+      };
+
+      const lobLetter = await lob.letters.create({
+        description: `FormatFlow Send Verify - ${verificationId}`,
+        to: {
+          name: resolvedRecipient,
+          ...recipientAddressForLob
+        },
+        from: senderAddressForLob,
+        file: buildLobLetterHTML(document, docType),
+        color: false,
+        double_sided: false,
+        mail_type: "usps_first_class",
+        ...(deliveryMethod === "certified"
+          ? { extra_services: "certified" }
+          : {})
+      });
+
+      receipt.deliveryId = lobLetter.id || deliveryJob.deliveryId;
+      receipt.trackingLink = lobLetter.tracking_url || lobLetter.url || "";
+      receipt.deliveryStatus = lobLetter.status || "queued";
+      receipt.status = lobLetter.status || "Delivery queued";
+
+      deliveryJob.deliveryId = receipt.deliveryId;
+      deliveryJob.status = receipt.deliveryStatus;
+      deliveryJob.trackingLink = receipt.trackingLink;
+    }
     return res.json({
       success: true,
       receipt,
