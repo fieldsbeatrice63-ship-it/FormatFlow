@@ -296,6 +296,16 @@ IMPORTANT STRUCTURE RULES:
 - Every document should reflect strong, confident, and well-structured communication appropriate for official, legal, financial, or professional use.
 - If a specific recipient name, company, bureau, landlord, lender, employer, or department is provided, use a direct and professional salutation instead of "To Whom It May Concern" when appropriate.
 - Use "To Whom It May Concern" only when no specific recipient information is available.
+FINAL OUTPUT CLEANUP RULE:
+- Do NOT include placeholders such as [Name], [Address], [Phone], [Email], [Department], or similar.
+- Do NOT include instructions like "if applicable", "if known", or "insert here".
+- If information is missing, OMIT the line entirely.
+- The document must be fully clean and ready to send immediately without editing.
+SALUTATION RULE:
+- Do NOT use "To Whom It May Concern" under any circumstance.
+- If a recipient name or company is provided, use it directly (e.g., "Equifax", "Experian", "TransUnion").
+- If no recipient is provided, use a strong neutral opener such as:
+  "RE: [Subject]" or begin directly with the statement.
 `;
 
   
