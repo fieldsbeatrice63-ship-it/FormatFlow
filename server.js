@@ -596,6 +596,7 @@ app.post("/api/send-verify", async (req, res) => {
           color: false,
           double_sided: false,
           mail_type: "usps_first_class"
+          use_type: "operational"
         });
 
         receipt.deliveryId = lobLetter.id || deliveryJob.deliveryId;
